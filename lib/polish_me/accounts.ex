@@ -4,8 +4,8 @@ defmodule PolishMe.Accounts do
   """
 
   import Ecto.Query, warn: false
-  alias PolishMe.Repo
 
+  alias PolishMe.Repo
   alias PolishMe.Accounts.{User, UserToken, UserNotifier}
 
   ## Database getters
@@ -302,5 +302,21 @@ defmodule PolishMe.Accounts do
            |> Repo.transaction() do
       {:ok, user, expired_tokens}
     end
+  end
+
+  ## Admin Management
+
+  def promote_user(user) do
+    update_user_is_admin(user, true)
+  end
+
+  def demote_admin(user) do
+    update_user_is_admin(user, false)
+  end
+
+  defp update_user_is_admin(user, is_admin) do
+    user
+    |> Ecto.Changeset.change(is_admin: is_admin)
+    |> Repo.update()
   end
 end

@@ -9,3 +9,9 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+alias PolishMe.Repo
+alias PolishMe.Accounts.User
+
+_alpha = %User{email: "alpha@test.com", is_admin: true} |> Repo.insert!()
+_beta = %User{email: "beta@test.com"} |> Repo.insert!()
