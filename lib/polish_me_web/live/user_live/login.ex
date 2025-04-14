@@ -98,7 +98,7 @@ defmodule PolishMeWeb.UserLive.Login do
 
     form = to_form(%{"email" => email}, as: "user")
 
-    {:ok, assign(socket, form: form, trigger_submit: false)}
+    {:ok, assign(socket, page_title: "Confirm User", form: form, trigger_submit: false)}
   end
 
   def handle_event("submit_password", _params, socket) do
