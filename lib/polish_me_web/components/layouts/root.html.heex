@@ -11,41 +11,71 @@
     <script defer phx-track-static type="text/javascript" src={~p"/assets/js/app.js"}></script>
   </head>
   <body>
-    <ul class="menu menu-horizontal w-full relative z-10 flex items-center gap-4 px-4 sm:px-6 lg:px-8 justify-end">
-      <%= if @current_scope do %>
-        <li>
-          <label class="swap swap-rotate">
-            <input type="checkbox" class="theme-controller" value="light" />
-            <input type="checkbox" class="theme-controller" value="dark" />
-            <.icon name="hero-sun-micro" class="swap-on opacity-75 hover:opacity-100" />
-            <.icon name="hero-moon-micro" class="swap-off opacity-75 hover:opacity-100" />
-          </label>
-        </li>
-        <li>
-          {@current_scope.user.email}
-        </li>
-        <li>
-          <button style="anchor-name:--user-menu" popovertarget="user-menu">
-            <.icon name="hero-user" />
-          </button>
-          <ul
-            popover
-            id="user-menu"
-            style="position-anchor:--user-menu"
-            class="dropdown menu bg-base-100 rounded-box w-52 shadow"
-          >
-            <li><.link href={~p"/users/settings"}>Settings</.link></li>
-            <li><.link href={~p"/users/log-out"} method="delete">Log out</.link></li>
-          </ul>
-        </li>
-      <% else %>
-        <li>
-          <.link href={~p"/users/log-in"}>
-            <.icon name="hero-user" />
-          </.link>
-        </li>
-      <% end %>
-    </ul>
-    {@inner_content}
+
+
+    <div class="navbar sticky top-0 z-50 bg-base-100 shadow-md px-4 sm:px-6 lg:px-8">
+      <div class="navbar-start">
+        <label for="left-drawer-trigger" class="btn btn-square btn-ghost lg:hidden">
+          <.icon name="hero-bars-3" />
+        </label>
+        <a href={~p"/"} class="btn btn-ghost text-xl">polish.me</a>
+      </div>
+      <div class="navbar-end">
+        <ul class="menu menu-horizontal w-full relative z-10 flex items-center gap-4 justify-end">
+          <%= if @current_scope do %>
+            <li>
+              <label class="swap swap-rotate">
+                <input type="checkbox" class="theme-controller" value="light" />
+                <input type="checkbox" class="theme-controller" value="dark" />
+                <.icon name="hero-sun-micro" class="swap-on opacity-75 hover:opacity-100" />
+                <.icon name="hero-moon-micro" class="swap-off opacity-75 hover:opacity-100" />
+              </label>
+            </li>
+            <li>
+              {@current_scope.user.email}
+            </li>
+            <li>
+              <button style="anchor-name:--user-menu" popovertarget="user-menu">
+                <.icon name="hero-user" />
+              </button>
+              <ul
+                popover
+                id="user-menu"
+                style="position-anchor:--user-menu"
+                class="dropdown menu bg-base-100 rounded-box w-52 shadow"
+              >
+                <li><.link href={~p"/users/settings"}>Settings</.link></li>
+                <li><.link href={~p"/users/log-out"} method="delete">Log out</.link></li>
+              </ul>
+            </li>
+          <% else %>
+            <li>
+              <.link href={~p"/users/log-in"}>
+                <.icon name="hero-user" />
+              </.link>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+
+    <div class="drawer lg:drawer-open">
+      <input id="left-drawer-trigger" type="checkbox" class="drawer-toggle" />
+      <div class="drawer-content flex">
+        <div class="min-w-xs flex w-full flex-col p-4 lg:basis-2/3">
+          {@inner_content}
+        </div>
+      </div>
+      <div class="drawer-side top-16 z-20 h-[calc(100vh-4rem)]">
+        <label for="left-drawer-trigger" class="drawer-overlay"></label>
+        <ul class="menu menu-md min-h-full w-80 px-4 sm:px-6 lg:px-8 bg-base-200 text-base-content">
+          <li class="menu-title text-lg">Navigation</li>
+          <!-- Sidebar content here -->
+          <li><a href={~p"/"} class="active">Home</a></li>
+        </ul>
+      </div>
+    </div>
+
+    
   </body>
 </html>
