@@ -45,7 +45,18 @@ defmodule PolishMeWeb.Router do
     end
   end
 
-  ## Authentication routes
+  scope "/", PolishMeWeb do
+    pipe_through [:browser, :require_authenticated_user, :require_admin_user]
+
+    live_session :require_admin_user,
+      on_mount: [
+        {PolishMeWeb.UserAuth, :require_authenticated},
+        {PolishMeWeb.UserAuth, :require_admin}
+      ] do
+      live "/brands/new", BrandLive.Form, :new
+      live "/brands/:slug/edit", BrandLive.Form, :edit
+    end
+  end
 
   scope "/", PolishMeWeb do
     pipe_through [:browser, :require_authenticated_user]
@@ -54,6 +65,9 @@ defmodule PolishMeWeb.Router do
       on_mount: [{PolishMeWeb.UserAuth, :require_authenticated}] do
       live "/users/settings", UserLive.Settings, :edit
       live "/users/settings/confirm-email/:token", UserLive.Settings, :confirm_email
+
+      live "/brands", BrandLive.Index, :index
+      live "/brands/:slug", BrandLive.Show, :show
     end
 
     post "/users/update-password", UserSessionController, :update_password

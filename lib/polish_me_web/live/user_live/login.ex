@@ -5,7 +5,7 @@ defmodule PolishMeWeb.UserLive.Login do
 
   def render(assigns) do
     ~H"""
-    <Layouts.app flash={@flash} current_scope={@current_scope}>
+    <Layouts.app flash={@flash} title={@page_title}>
       <div class="mx-auto max-w-sm">
         <.header class="text-center">
           <p>Log in</p>

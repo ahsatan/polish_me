@@ -40,6 +40,11 @@ defmodule PolishMe.AccountsFixtures do
     user
   end
 
+  def admin_fixture(attrs \\ %{}) do
+    user = user_fixture(attrs)
+    Accounts.promote_user(user)
+  end
+
   def user_scope_fixture do
     user = user_fixture()
     user_scope_fixture(user)

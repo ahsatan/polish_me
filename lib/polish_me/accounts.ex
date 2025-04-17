@@ -317,6 +317,6 @@ defmodule PolishMe.Accounts do
   defp update_user_is_admin(user, is_admin) do
     user
     |> Ecto.Changeset.change(is_admin: is_admin)
-    |> Repo.update()
+    |> Repo.update!()
   end
 end

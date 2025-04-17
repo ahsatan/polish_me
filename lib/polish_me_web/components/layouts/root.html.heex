@@ -8,11 +8,10 @@
       {assigns[:page_title]}
     </.live_title>
     <link phx-track-static rel="stylesheet" href={~p"/assets/css/app.css"} />
-    <script defer phx-track-static type="text/javascript" src={~p"/assets/js/app.js"}></script>
+    <script defer phx-track-static type="text/javascript" src={~p"/assets/js/app.js"}>
+    </script>
   </head>
   <body>
-
-
     <div class="navbar sticky top-0 z-50 bg-base-100 shadow-md px-4 sm:px-6 lg:px-8">
       <div class="navbar-start">
         <label for="left-drawer-trigger" class="btn btn-square btn-ghost lg:hidden">
@@ -62,7 +61,7 @@
     <div class="drawer lg:drawer-open">
       <input id="left-drawer-trigger" type="checkbox" class="drawer-toggle" />
       <div class="drawer-content flex">
-        <div class="min-w-xs flex w-full flex-col p-4 lg:basis-2/3">
+        <div class="min-w-xs flex w-full flex-col p-4">
           {@inner_content}
         </div>
       </div>
@@ -71,11 +70,20 @@
         <ul class="menu menu-md min-h-full w-80 px-4 sm:px-6 lg:px-8 bg-base-200 text-base-content">
           <li class="menu-title text-lg">Navigation</li>
           <!-- Sidebar content here -->
-          <li><a href={~p"/"} class="active">Home</a></li>
+          <li>
+            <a href={~p"/"} class="active">
+              <.icon name="hero-home" /> Home
+            </a>
+          </li>
+          <%= if @current_scope do %>
+            <li>
+              <a href={~p"/brands"} class="active">
+                <.icon name="hero-building-storefront" /> Brands
+              </a>
+            </li>
+          <% end %>
         </ul>
       </div>
     </div>
-
-    
   </body>
 </html>

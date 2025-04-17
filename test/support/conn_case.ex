@@ -44,8 +44,12 @@ defmodule PolishMeWeb.ConnCase do
   It stores an updated connection and a registered user in the
   test context.
   """
-  def register_and_log_in_user(%{conn: conn} = context) do
-    user = PolishMe.AccountsFixtures.user_fixture()
+  def register_and_log_in_user(%{conn: conn} = context, is_admin \\ false) do
+    user =
+      if is_admin,
+        do: PolishMe.AccountsFixtures.admin_fixture(),
+        else: PolishMe.AccountsFixtures.user_fixture()
+
     scope = PolishMe.Accounts.Scope.for_user(user)
 
     opts =
@@ -54,6 +58,10 @@ defmodule PolishMeWeb.ConnCase do
       |> Enum.into([])
 
     %{conn: log_in_user(conn, user, opts), user: user, scope: scope}
+  end
+
+  def register_and_log_in_admin(context) do
+    register_and_log_in_user(context, true)
   end
 
   @doc """

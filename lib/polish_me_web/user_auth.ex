@@ -187,6 +187,20 @@ defmodule PolishMeWeb.UserAuth do
     end
   end
 
+  # User must be loaded first (typically with :require_authenticated on mount).
+  def on_mount(:require_admin, _params, _session, socket) do
+    if socket.assigns.current_scope.user.is_admin do
+      {:cont, socket}
+    else
+      socket =
+        socket
+        |> Phoenix.LiveView.put_flash(:error, "You are not authorized to view this page.")
+        |> Phoenix.LiveView.redirect(to: ~p"/")
+
+      {:halt, socket}
+    end
+  end
+
   defp mount_current_scope(socket, session) do
     Phoenix.Component.assign_new(socket, :current_scope, fn ->
       user =
@@ -212,6 +226,18 @@ defmodule PolishMeWeb.UserAuth do
       |> put_flash(:error, "You must log in to access this page.")
       |> maybe_store_return_to()
       |> redirect(to: ~p"/users/log-in")
+      |> halt()
+    end
+  end
+
+  # User must be loaded first (typically with require_authenticated_user pipe).
+  def require_admin_user(conn, _opts) do
+    if conn.assigns.current_scope.user.is_admin do
+      conn
+    else
+      conn
+      |> put_flash(:error, "You are not authorized to view this page.")
+      |> redirect(to: ~p"/")
       |> halt()
     end
   end
