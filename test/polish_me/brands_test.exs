@@ -102,6 +102,17 @@ defmodule PolishMe.BrandsTest do
                Brands.create_brand(invalid_attrs)
     end
 
+    test "with too long name returns error changeset" do
+      invalid_attrs = %{
+        @valid_attrs
+        | name: "thissuperlyamazinglytremendouslystupendouslyextremelylongname"
+      }
+
+      assert {:error,
+              %Ecto.Changeset{errors: [name: {"should be at most %{count} character(s)", _}]}} =
+               Brands.create_brand(invalid_attrs)
+    end
+
     test "without slug returns error changeset" do
       invalid_attrs = Map.delete(@valid_attrs, :slug)
 
@@ -114,6 +125,17 @@ defmodule PolishMe.BrandsTest do
 
       assert {:error,
               %Ecto.Changeset{errors: [slug: {"must use only letters, numbers, and dash", _}]}} =
+               Brands.create_brand(invalid_attrs)
+    end
+
+    test "with too long slug returns error changeset" do
+      invalid_attrs = %{
+        @valid_attrs
+        | slug: "thissuperlyamazinglytremendouslystupendouslyextremelylongslug"
+      }
+
+      assert {:error,
+              %Ecto.Changeset{errors: [slug: {"should be at most %{count} character(s)", _}]}} =
                Brands.create_brand(invalid_attrs)
     end
 
@@ -161,6 +183,18 @@ defmodule PolishMe.BrandsTest do
                Brands.create_brand(invalid_attrs)
     end
 
+    test "with too long website returns error changeset" do
+      invalid_attrs = %{
+        @valid_attrs
+        | website:
+            "https://some.com/thissuperlyamazinglytremendouslystupendouslyextremelylongwebsite"
+      }
+
+      assert {:error,
+              %Ecto.Changeset{errors: [website: {"should be at most %{count} character(s)", _}]}} =
+               Brands.create_brand(invalid_attrs)
+    end
+
     test "with invalid contact email returns error changeset" do
       invalid_attrs = %{@valid_attrs | contact_email: "some.email.com"}
 
@@ -169,7 +203,7 @@ defmodule PolishMe.BrandsTest do
                Brands.create_brand(invalid_attrs)
     end
 
-    test "with overly long contact email returns error changeset" do
+    test "with too long contact email returns error changeset" do
       invalid_attrs = %{
         @valid_attrs
         | contact_email:

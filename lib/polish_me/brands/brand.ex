@@ -17,11 +17,16 @@ defmodule PolishMe.Brands.Brand do
     brand
     |> cast(attrs, [:name, :slug, :description, :website, :contact_email])
     |> validate_required([:name, :slug])
+    |> validate_name()
     |> validate_slug()
     |> validate_website()
     |> validate_email()
     |> unsafe_validate_unique(:slug, PolishMe.Repo)
     |> unique_constraint(:slug)
+  end
+
+  defp validate_name(changeset) do
+    changeset |> validate_length(:name, max: 60)
   end
 
   defp validate_slug(changeset) do
@@ -52,6 +57,7 @@ defmodule PolishMe.Brands.Brand do
           [website: "invalid format"]
       end
     end)
+    |> validate_length(:website, max: 80)
   end
 
   defp validate_email(changeset) do

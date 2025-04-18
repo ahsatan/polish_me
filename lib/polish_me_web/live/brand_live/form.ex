@@ -9,11 +9,11 @@ defmodule PolishMeWeb.BrandLive.Form do
     ~H"""
     <Layouts.app flash={@flash} title={@page_title}>
       <.form for={@form} id="brand-form" phx-change="validate" phx-submit="save">
-        <.input field={@form[:name]} type="text" label="Name" />
-        <.input field={@form[:slug]} type="text" label="Slug" />
+        <.input field={@form[:name]} type="text" label="Name" maxlength="60" required />
+        <.input field={@form[:slug]} type="text" label="Slug" maxlength="60" required />
         <.input field={@form[:description]} type="textarea" label="Description" />
-        <.input field={@form[:website]} type="text" label="Website" />
-        <.input field={@form[:contact_email]} type="text" label="Contact Email" />
+        <.input field={@form[:website]} type="text" label="Website" maxlength="80" />
+        <.input field={@form[:contact_email]} type="text" label="Contact Email" maxlength="80" />
         <footer>
           <.button phx-disable-with="Saving..." variant="primary">Save</.button>
           <.button navigate={return_path(@return_to, @brand)}>Cancel</.button>
