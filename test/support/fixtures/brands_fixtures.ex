@@ -20,11 +20,11 @@ defmodule PolishMe.BrandsFixtures do
   def brand_fixture(attrs \\ %{}) do
     attrs =
       Enum.into(attrs, %{
-        contact_email: "some contact_email",
-        description: "some description",
         name: unique_brand_name(),
+        description: "some description",
         slug: unique_brand_slug(),
-        website: "https://some.com"
+        website: "https://some.com",
+        contact_email: "some@email.com"
       })
 
     {:ok, brand} = PolishMe.Brands.create_brand(attrs)

@@ -9,15 +9,15 @@ defmodule PolishMeWeb.BrandLiveTest do
     description: "some description",
     slug: "some-slug",
     website: "https://some.com",
-    contact_email: "some contact_email"
+    contact_email: "some@email.com"
   }
 
   @update_attrs %{
     name: "some updated name",
     description: "some updated description",
-    slug: "some-updated-slug",
+    slug: "updated-slug",
     website: "https://updated.com",
-    contact_email: "some updated contact_email"
+    contact_email: "updated@email.com"
   }
 
   @invalid_attrs %{name: nil, description: nil, slug: nil, website: nil, contact_email: nil}
