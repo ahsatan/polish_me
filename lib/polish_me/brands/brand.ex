@@ -17,10 +17,19 @@ defmodule PolishMe.Brands.Brand do
     brand
     |> cast(attrs, [:name, :slug, :description, :website, :contact_email])
     |> validate_required([:name, :slug])
+    |> validate_slug()
     |> validate_website()
     |> validate_email()
     |> unsafe_validate_unique(:slug, PolishMe.Repo)
     |> unique_constraint(:slug)
+  end
+
+  defp validate_slug(changeset) do
+    changeset
+    |> validate_format(:slug, ~r/\A[[:alnum:]-]+\z/,
+      message: "must use only letters, numbers, and dash"
+    )
+    |> validate_length(:slug, max: 60)
   end
 
   defp validate_website(changeset) do

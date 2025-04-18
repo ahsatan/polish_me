@@ -6,6 +6,13 @@ defmodule PolishMe.BrandsTest do
   alias PolishMe.Brands
   alias PolishMe.Brands.Brand
 
+  @valid_attrs %{
+    name: "some name",
+    description: "some description",
+    slug: "some-slug",
+    website: "https://some.com",
+    contact_email: "some@email.com"
+  }
   @invalid_attrs %{name: nil, description: nil, slug: nil, website: nil, contact_email: nil}
 
   test "list_brands/0 returns all brands" do
@@ -22,15 +29,7 @@ defmodule PolishMe.BrandsTest do
 
   describe "create_brand/1" do
     test "with valid data creates a brand" do
-      valid_attrs = %{
-        name: "some name",
-        description: "some description",
-        slug: "some-slug",
-        website: "https://some.com",
-        contact_email: "some@email.com"
-      }
-
-      assert {:ok, %Brand{} = brand} = Brands.create_brand(valid_attrs)
+      assert {:ok, %Brand{} = brand} = Brands.create_brand(@valid_attrs)
       assert brand.name == "some name"
       assert brand.description == "some description"
       assert brand.slug == "some-slug"
@@ -39,52 +38,36 @@ defmodule PolishMe.BrandsTest do
     end
 
     test "without name returns error changeset" do
-      invalid_attrs = %{
-        description: "some description",
-        slug: "some-slug",
-        website: "https://some.com",
-        contact_email: "some@email.com"
-      }
+      invalid_attrs = Map.delete(@valid_attrs, :name)
 
       assert {:error, %Ecto.Changeset{errors: [name: {"can't be blank", _}]}} =
                Brands.create_brand(invalid_attrs)
     end
 
     test "without slug returns error changeset" do
-      invalid_attrs = %{
-        name: "some name",
-        description: "some description",
-        website: "https://some.com",
-        contact_email: "some@email.com"
-      }
+      invalid_attrs = Map.delete(@valid_attrs, :slug)
 
       assert {:error, %Ecto.Changeset{errors: [slug: {"can't be blank", _}]}} =
                Brands.create_brand(invalid_attrs)
     end
 
-    test "with existing slug is invalid" do
-      valid_attrs = %{
-        name: "some name",
-        description: "some description",
-        slug: "some-slug",
-        website: "https://some.com",
-        contact_email: "some@email.com"
-      }
+    test "with invalid slug returns error changeset" do
+      invalid_attrs = %{@valid_attrs | slug: "some slug"}
 
-      Brands.create_brand(valid_attrs)
+      assert {:error,
+              %Ecto.Changeset{errors: [slug: {"must use only letters, numbers, and dash", _}]}} =
+               Brands.create_brand(invalid_attrs)
+    end
+
+    test "with existing slug returns error changeset" do
+      Brands.create_brand(@valid_attrs)
 
       assert {:error, %Ecto.Changeset{errors: [slug: {"has already been taken", _}]}} =
-               Brands.create_brand(valid_attrs)
+               Brands.create_brand(@valid_attrs)
     end
 
     test "with website without scheme returns error changeset" do
-      invalid_attrs = %{
-        name: "some name",
-        description: "some description",
-        slug: "some-slug",
-        website: "//some.com",
-        contact_email: "some@email.com"
-      }
+      invalid_attrs = %{@valid_attrs | website: "//some.com"}
 
       assert {:error,
               %Ecto.Changeset{errors: [website: {"must include a scheme (e.g. https)", _}]}} =
@@ -92,52 +75,28 @@ defmodule PolishMe.BrandsTest do
     end
 
     test "with website without host returns error changeset" do
-      invalid_attrs = %{
-        name: "some name",
-        description: "some description",
-        slug: "some-slug",
-        website: "https:",
-        contact_email: "some@email.com"
-      }
+      invalid_attrs = %{@valid_attrs | website: "https:"}
 
       assert {:error, %Ecto.Changeset{errors: [website: {"must include a host", _}]}} =
                Brands.create_brand(invalid_attrs)
     end
 
     test "with website with invalid host returns error changeset" do
-      invalid_attrs = %{
-        name: "some name",
-        description: "some description",
-        slug: "some-slug",
-        website: "https://a",
-        contact_email: "some@email.com"
-      }
+      invalid_attrs = %{@valid_attrs | website: "https://a"}
 
       assert {:error, %Ecto.Changeset{errors: [website: {"invalid host", _}]}} =
                Brands.create_brand(invalid_attrs)
     end
 
     test "with website with an invalid format returns error changeset" do
-      invalid_attrs = %{
-        name: "some name",
-        description: "some description",
-        slug: "some-slug",
-        website: "https://some.com/>",
-        contact_email: "some@email.com"
-      }
+      invalid_attrs = %{@valid_attrs | website: "https://some.com/>"}
 
       assert {:error, %Ecto.Changeset{errors: [website: {"invalid format", _}]}} =
                Brands.create_brand(invalid_attrs)
     end
 
     test "with invalid website returns error changeset" do
-      invalid_attrs = %{
-        name: "some name",
-        description: "some description",
-        slug: "some-slug",
-        website: "some",
-        contact_email: "some@email.com"
-      }
+      invalid_attrs = %{@valid_attrs | website: "some"}
 
       assert {:error,
               %Ecto.Changeset{errors: [website: {"must include a scheme (e.g. https)", _}]}} =
@@ -145,13 +104,7 @@ defmodule PolishMe.BrandsTest do
     end
 
     test "with invalid contact email returns error changeset" do
-      invalid_attrs = %{
-        name: "some name",
-        description: "some description",
-        slug: "some-slug",
-        website: "https://some.com",
-        contact_email: "some.email.com"
-      }
+      invalid_attrs = %{@valid_attrs | contact_email: "some.email.com"}
 
       assert {:error,
               %Ecto.Changeset{errors: [contact_email: {"must have the @ sign and no spaces", _}]}} =
@@ -160,12 +113,9 @@ defmodule PolishMe.BrandsTest do
 
     test "with overly long contact email returns error changeset" do
       invalid_attrs = %{
-        name: "some name",
-        description: "some description",
-        slug: "some-slug",
-        website: "https://some.com",
-        contact_email:
-          "thisisaverysuperincrediblytremendouslystupendouslyamazinglyextremelylong@email.com"
+        @valid_attrs
+        | contact_email:
+            "thisverysuperlyincrediblytremendouslystupendouslyamazinglyextremelylong@email.com"
       }
 
       assert {:error,
