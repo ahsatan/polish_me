@@ -49,6 +49,12 @@ defmodule PolishMe.BrandsTest do
       assert Brands.filter_brands(%{"q" => "match"}) == [matching_brand, other_matching_brand]
     end
 
+    test "with query returns no matching results" do
+      brand_fixture()
+      brand_fixture()
+      assert Brands.filter_brands(%{"q" => "match"}) == []
+    end
+
     test "with sort name_desc returns ordered brands" do
       brand = brand_fixture(%{name: "abc"})
       other_brand = brand_fixture(%{name: "def"})
