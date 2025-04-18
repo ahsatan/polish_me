@@ -47,6 +47,37 @@ defmodule PolishMe.Brands do
   end
 
   @doc """
+  Filters the list of brands.
+
+  ## Examples
+
+      iex> filter_brands(%{"q" => "query"})
+      [%Brand{}, ...]
+
+  """
+  def filter_brands(filters) do
+    Brand
+    |> query_search(filters["q"])
+    |> sort(filters["sort"])
+    |> Repo.all()
+  end
+
+  defp query_search(query, q) when q in [nil, ""], do: query
+
+  defp query_search(query, q) do
+    query
+    |> where([b], ilike(b.name, ^"%#{q}%") or ilike(b.description, ^"%#{q}%"))
+  end
+
+  defp sort(query, "name_desc") do
+    query |> order_by(desc: :name)
+  end
+
+  defp sort(query, _name_asc) do
+    query |> order_by(:name)
+  end
+
+  @doc """
   Gets a single brand.
 
   Raises `Ecto.NoResultsError` if the Brand does not exist.

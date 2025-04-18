@@ -21,6 +21,58 @@ defmodule PolishMe.BrandsTest do
     assert Brands.list_brands() == [brand, other_brand]
   end
 
+  describe "filter_brands/1" do
+    test "with no filters returns all brands with default sorting (name_asc)" do
+      brand = brand_fixture(%{name: "abc"})
+      other_brand = brand_fixture(%{name: "def"})
+      assert Brands.filter_brands(%{}) == [brand, other_brand]
+    end
+
+    test "with query returns brands with matching names" do
+      matching_brand = brand_fixture(%{name: "1match1"})
+      brand_fixture()
+      other_matching_brand = brand_fixture(%{name: "2match2"})
+      assert Brands.filter_brands(%{"q" => "match"}) == [matching_brand, other_matching_brand]
+    end
+
+    test "with query returns brands with matching descriptions" do
+      matching_brand = brand_fixture(%{name: "abc", description: "1match1"})
+      brand_fixture()
+      other_matching_brand = brand_fixture(%{name: "def", description: "2match2"})
+      assert Brands.filter_brands(%{"q" => "match"}) == [matching_brand, other_matching_brand]
+    end
+
+    test "with query returns brands matching either name or description" do
+      matching_brand = brand_fixture(%{name: "1match1"})
+      brand_fixture()
+      other_matching_brand = brand_fixture(%{description: "2match2"})
+      assert Brands.filter_brands(%{"q" => "match"}) == [matching_brand, other_matching_brand]
+    end
+
+    test "with sort name_desc returns ordered brands" do
+      brand = brand_fixture(%{name: "abc"})
+      other_brand = brand_fixture(%{name: "def"})
+      assert Brands.filter_brands(%{"sort" => "name_desc"}) == [other_brand, brand]
+    end
+
+    test "with sort name_asc returns ordered brands" do
+      brand = brand_fixture(%{name: "def"})
+      other_brand = brand_fixture(%{name: "abc"})
+      assert Brands.filter_brands(%{"sort" => "name_asc"}) == [other_brand, brand]
+    end
+
+    test "with query and sort returns brands matching both" do
+      matching_brand = brand_fixture(%{name: "1match1"})
+      brand_fixture()
+      other_matching_brand = brand_fixture(%{name: "2match2"})
+
+      assert Brands.filter_brands(%{"q" => "match", "sort" => "name_desc"}) == [
+               other_matching_brand,
+               matching_brand
+             ]
+    end
+  end
+
   test "get_brand!/1 returns the brand with given slug" do
     brand = brand_fixture()
     assert Brands.get_brand!(brand.slug) == brand
