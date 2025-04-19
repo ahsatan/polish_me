@@ -24,6 +24,7 @@ defmodule PolishMeWeb.BrandLive.Form do
           id="description-input"
           type="textarea"
           label="Description"
+          phx-debounce="blur"
         />
         <.input
           field={@form[:website]}
