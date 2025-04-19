@@ -52,7 +52,7 @@ defmodule PolishMeWeb.BrandLiveTest do
     test "saves new brand", %{conn: conn} do
       {:ok, index_live, _html} = live(conn, ~p"/brands")
 
-      assert {:ok, form_live, _} =
+      assert {:ok, form_live, _html} =
                index_live
                |> element(".btn", "New Brand")
                |> render_click()
@@ -129,7 +129,7 @@ defmodule PolishMeWeb.BrandLiveTest do
     test "updates brand and returns to show", %{conn: conn, brand: brand} do
       {:ok, show_live, _html} = live(conn, ~p"/brands/#{brand.slug}")
 
-      assert {:ok, form_live, _} =
+      assert {:ok, form_live, _html} =
                show_live
                |> element(".btn", "Edit")
                |> render_click()
@@ -161,6 +161,61 @@ defmodule PolishMeWeb.BrandLiveTest do
 
     test "redirects when attempting to edit brand", %{conn: conn, brand: brand} do
       assert {:error, {:redirect, %{to: "/"}}} = live(conn, ~p"/brands/#{brand.slug}/edit")
+    end
+  end
+
+  describe "Form as Admin" do
+    setup [:register_and_log_in_admin]
+
+    test "trims whitespace from inputs on save", %{conn: conn} do
+      {:ok, form_live, _html} = live(conn, ~p"/brands/new")
+
+      whitespace_attrs = %{
+        name: "  some name  ",
+        description: "  some description  ",
+        slug: "  some-slug  ",
+        website: "  https://some.com  ",
+        contact_email: "  some@email.com  "
+      }
+
+      form = form_live |> form("#brand-form", brand: whitespace_attrs)
+      html = form |> render_change()
+
+      assert html =~ "value=\"  some name  \""
+      assert html =~ ">\n  some description  <"
+      assert html =~ "value=\"  some-slug  \""
+      assert html =~ "value=\"  https://some.com  \""
+      assert html =~ "value=\"  some@email.com  \""
+
+      assert {:ok, index_live, _html} =
+               form
+               |> render_submit()
+               |> follow_redirect(conn, ~p"/brands")
+
+      assert {:ok, form_live, _html} =
+               index_live
+               |> element("#edit-brand-some-slug")
+               |> render_click()
+               |> follow_redirect(conn, ~p"/brands/some-slug/edit")
+
+      html = render(form_live)
+
+      assert html =~ "value=\"some name\""
+      assert html =~ ">\nsome description<"
+      assert html =~ "value=\"some-slug\""
+      assert html =~ "value=\"https://some.com\""
+      assert html =~ "value=\"some@email.com\""
+    end
+
+    test "displays live slug recommendation as placeholder", %{conn: conn} do
+      {:ok, form_live, _html} = live(conn, ~p"/brands/new")
+
+      attrs = %{name: " Someone's N;=;me-- &Co"}
+
+      form = form_live |> form("#brand-form", brand: attrs)
+      html = form |> render_change()
+
+      assert html =~ "placeholder=\"someones-n-me-n-co\""
     end
   end
 end

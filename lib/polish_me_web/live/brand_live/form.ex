@@ -9,11 +9,38 @@ defmodule PolishMeWeb.BrandLive.Form do
     ~H"""
     <Layouts.app flash={@flash} title={@page_title}>
       <.form for={@form} id="brand-form" phx-change="validate" phx-submit="save">
-        <.input field={@form[:name]} type="text" label="Name" maxlength="60" required />
-        <.input field={@form[:slug]} type="text" label="Slug" maxlength="60" required />
-        <.input field={@form[:description]} type="textarea" label="Description" />
-        <.input field={@form[:website]} type="text" label="Website" maxlength="80" />
-        <.input field={@form[:contact_email]} type="text" label="Contact Email" maxlength="80" />
+        <.input field={@form[:name]} id="name-input" type="text" label="Name" maxlength="60" required />
+        <.input
+          field={@form[:slug]}
+          id="slug-input"
+          type="text"
+          label="Slug"
+          maxlength="60"
+          placeholder={name_to_slug(@form[:name].value)}
+          required
+        />
+        <.input
+          field={@form[:description]}
+          id="description-input"
+          type="textarea"
+          label="Description"
+        />
+        <.input
+          field={@form[:website]}
+          id="website-input"
+          type="text"
+          label="Website"
+          placeholder="https://"
+          maxlength="80"
+        />
+        <.input
+          field={@form[:contact_email]}
+          id="email-input"
+          type="text"
+          label="Contact Email"
+          placeholder="support@brand.com"
+          maxlength="80"
+        />
         <footer>
           <.button phx-disable-with="Saving..." variant="primary">Save</.button>
           <.button navigate={return_path(@return_to, @brand)}>Cancel</.button>
@@ -21,6 +48,17 @@ defmodule PolishMeWeb.BrandLive.Form do
       </.form>
     </Layouts.app>
     """
+  end
+
+  defp name_to_slug(name) when name in [nil, ""], do: nil
+
+  defp name_to_slug(name) do
+    name
+    |> String.downcase()
+    |> String.replace("'", "")
+    |> String.replace("&", "-n-")
+    |> String.replace(~r/[^[:alnum:]]+/, "-")
+    |> String.trim("-")
   end
 
   @impl true
@@ -60,6 +98,7 @@ defmodule PolishMeWeb.BrandLive.Form do
   end
 
   def handle_event("save", %{"brand" => brand_params}, socket) do
+    brand_params = brand_params |> Enum.map(fn {k, v} -> {k, String.trim(v)} end) |> Map.new()
     save_brand(socket, socket.assigns.live_action, brand_params)
   end
 
