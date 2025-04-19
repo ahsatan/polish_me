@@ -23,7 +23,9 @@ defmodule PolishMeWeb.BrandLive.Show do
       <.list>
         <:item title="Name">{@brand.name}</:item>
         <:item :if={@current_scope.user.is_admin} title="Slug">{@brand.slug}</:item>
-        <:item title="Description">{@brand.description}</:item>
+        <:item title="Description">
+          <span class="whitespace-pre-line">{@brand.description}</span>
+        </:item>
         <:item title="Website">{@brand.website}</:item>
         <:item title="Contact Email">{@brand.contact_email}</:item>
       </.list>
