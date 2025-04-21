@@ -21,8 +21,8 @@ defmodule PolishMe.BrandsFixtures do
     attrs =
       Enum.into(attrs, %{
         name: unique_brand_name(),
-        description: "some description",
         slug: unique_brand_slug(),
+        description: "some description",
         website: "https://some.com",
         contact_email: "some@email.com"
       })

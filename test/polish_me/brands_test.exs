@@ -8,8 +8,8 @@ defmodule PolishMe.BrandsTest do
 
   @valid_attrs %{
     name: "some name",
-    description: "some description",
     slug: "some-slug",
+    description: "some description",
     website: "https://some.com",
     contact_email: "some@email.com"
   }
@@ -82,15 +82,15 @@ defmodule PolishMe.BrandsTest do
   test "get_brand!/1 returns the brand with given slug" do
     brand = brand_fixture()
     assert Brands.get_brand!(brand.slug) == brand
-    assert_raise Ecto.NoResultsError, fn -> Brands.get_brand!("x" <> brand.slug) end
+    assert_raise Ecto.NoResultsError, fn -> Brands.get_brand!("!" <> brand.slug) end
   end
 
   describe "create_brand/1" do
     test "with valid data creates a brand" do
       assert {:ok, %Brand{} = brand} = Brands.create_brand(@valid_attrs)
       assert brand.name == "some name"
-      assert brand.description == "some description"
       assert brand.slug == "some-slug"
+      assert brand.description == "some description"
       assert brand.website == "https://some.com"
       assert brand.contact_email == "some@email.com"
     end
@@ -223,16 +223,16 @@ defmodule PolishMe.BrandsTest do
 
       update_attrs = %{
         name: "some updated name",
-        description: "some updated description",
         slug: "updated-slug",
+        description: "some updated description",
         website: "https://updated.com",
         contact_email: "updated@email.com"
       }
 
       assert {:ok, %Brand{} = brand} = Brands.update_brand(brand, update_attrs)
       assert brand.name == "some updated name"
-      assert brand.description == "some updated description"
       assert brand.slug == "updated-slug"
+      assert brand.description == "some updated description"
       assert brand.website == "https://updated.com"
       assert brand.contact_email == "updated@email.com"
     end
