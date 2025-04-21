@@ -222,19 +222,19 @@ defmodule PolishMe.BrandsTest do
       brand = brand_fixture()
 
       update_attrs = %{
-        name: "some updated name",
-        slug: "updated-slug",
-        description: "some updated description",
-        website: "https://updated.com",
-        contact_email: "updated@email.com"
+        name: "some update name",
+        slug: "update-slug",
+        description: "some update description",
+        website: "https://update.com",
+        contact_email: "update@email.com"
       }
 
       assert {:ok, %Brand{} = brand} = Brands.update_brand(brand, update_attrs)
-      assert brand.name == "some updated name"
-      assert brand.slug == "updated-slug"
-      assert brand.description == "some updated description"
-      assert brand.website == "https://updated.com"
-      assert brand.contact_email == "updated@email.com"
+      assert brand.name == "some update name"
+      assert brand.slug == "update-slug"
+      assert brand.description == "some update description"
+      assert brand.website == "https://update.com"
+      assert brand.contact_email == "update@email.com"
     end
 
     test "with invalid data returns error changeset" do
