@@ -218,7 +218,7 @@ defmodule PolishMe.BrandsTest do
   end
 
   describe "update_brand/2" do
-    test "update_brand/2 with valid data updates the brand" do
+    test "with valid data updates the brand" do
       brand = brand_fixture()
 
       update_attrs = %{
@@ -237,7 +237,7 @@ defmodule PolishMe.BrandsTest do
       assert brand.contact_email == "updated@email.com"
     end
 
-    test "update_brand/2 with invalid data returns error changeset" do
+    test "with invalid data returns error changeset" do
       brand = brand_fixture()
       assert {:error, %Ecto.Changeset{}} = Brands.update_brand(brand, @invalid_attrs)
       assert brand == Brands.get_brand!(brand.slug)
