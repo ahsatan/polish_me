@@ -3,6 +3,7 @@ defmodule PolishMeWeb.BrandLive.Form do
 
   alias PolishMe.Brands
   alias PolishMe.Brands.Brand
+  alias PolishMeWeb.Helpers.TextHelpers
 
   @impl true
   def render(assigns) do
@@ -16,7 +17,7 @@ defmodule PolishMeWeb.BrandLive.Form do
           type="text"
           label="Slug"
           maxlength="60"
-          placeholder={name_to_slug(@form[:name].value)}
+          placeholder={TextHelpers.name_to_slug(@form[:name].value)}
           required
         />
         <.input
@@ -49,17 +50,6 @@ defmodule PolishMeWeb.BrandLive.Form do
       </.form>
     </Layouts.app>
     """
-  end
-
-  defp name_to_slug(name) when name in [nil, ""], do: nil
-
-  defp name_to_slug(name) do
-    name
-    |> String.downcase()
-    |> String.replace("'", "")
-    |> String.replace("&", "-n-")
-    |> String.replace(~r/[^[:alnum:]]+/, "-")
-    |> String.trim("-")
   end
 
   @impl true
@@ -99,7 +89,6 @@ defmodule PolishMeWeb.BrandLive.Form do
   end
 
   def handle_event("save", %{"brand" => brand_params}, socket) do
-    brand_params = brand_params |> Enum.map(fn {k, v} -> {k, String.trim(v)} end) |> Map.new()
     save_brand(socket, socket.assigns.live_action, brand_params)
   end
 

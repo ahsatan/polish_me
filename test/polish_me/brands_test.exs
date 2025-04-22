@@ -103,14 +103,18 @@ defmodule PolishMe.BrandsTest do
     end
 
     test "with too long name returns error changeset" do
-      invalid_attrs = %{
-        @valid_attrs
-        | name: "thissuperlyamazinglytremendouslystupendouslyextremelylongname"
-      }
+      invalid_attrs = %{@valid_attrs | name: String.duplicate("a", 61)}
 
       assert {:error,
               %Ecto.Changeset{errors: [name: {"should be at most %{count} character(s)", _}]}} =
                Brands.create_brand(invalid_attrs)
+    end
+
+    test "trims whitespace from name" do
+      attrs = %{@valid_attrs | name: "  whitespace name  "}
+
+      assert {:ok, %Brand{} = brand} = Brands.create_brand(attrs)
+      assert brand.name == "whitespace name"
     end
 
     test "without slug returns error changeset" do
@@ -129,10 +133,7 @@ defmodule PolishMe.BrandsTest do
     end
 
     test "with too long slug returns error changeset" do
-      invalid_attrs = %{
-        @valid_attrs
-        | slug: "thissuperlyamazinglytremendouslystupendouslyextremelylongslug"
-      }
+      invalid_attrs = %{@valid_attrs | slug: String.duplicate("a", 61)}
 
       assert {:error,
               %Ecto.Changeset{errors: [slug: {"should be at most %{count} character(s)", _}]}} =
@@ -144,6 +145,23 @@ defmodule PolishMe.BrandsTest do
 
       assert {:error, %Ecto.Changeset{errors: [slug: {"has already been taken", _}]}} =
                Brands.create_brand(@valid_attrs)
+    end
+
+    test "with too long description returns error changeset" do
+      invalid_attrs = %{@valid_attrs | description: String.duplicate("a", 1025)}
+
+      assert {:error,
+              %Ecto.Changeset{
+                errors: [description: {"should be at most %{count} character(s)", _}]
+              }} =
+               Brands.create_brand(invalid_attrs)
+    end
+
+    test "trims whitespace from description" do
+      attrs = %{@valid_attrs | description: "  whitespace description \n this too  "}
+
+      assert {:ok, %Brand{} = brand} = Brands.create_brand(attrs)
+      assert brand.description == "whitespace description \n this too"
     end
 
     test "with website without scheme returns error changeset" do
@@ -184,11 +202,7 @@ defmodule PolishMe.BrandsTest do
     end
 
     test "with too long website returns error changeset" do
-      invalid_attrs = %{
-        @valid_attrs
-        | website:
-            "https://some.com/thissuperlyamazinglytremendouslystupendouslyextremelylongwebsite"
-      }
+      invalid_attrs = %{@valid_attrs | website: "https://some.com/" <> String.duplicate("a", 64)}
 
       assert {:error,
               %Ecto.Changeset{errors: [website: {"should be at most %{count} character(s)", _}]}} =
@@ -204,11 +218,7 @@ defmodule PolishMe.BrandsTest do
     end
 
     test "with too long contact email returns error changeset" do
-      invalid_attrs = %{
-        @valid_attrs
-        | contact_email:
-            "thisverysuperlyincrediblytremendouslystupendouslyamazinglyextremelylong@email.com"
-      }
+      invalid_attrs = %{@valid_attrs | contact_email: String.duplicate("a", 71) <> "@email.com"}
 
       assert {:error,
               %Ecto.Changeset{

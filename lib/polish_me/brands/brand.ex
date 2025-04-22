@@ -19,6 +19,7 @@ defmodule PolishMe.Brands.Brand do
     |> validate_required([:name, :slug])
     |> validate_name()
     |> validate_slug()
+    |> validate_description()
     |> validate_website()
     |> validate_email()
     |> unsafe_validate_unique(:slug, PolishMe.Repo)
@@ -26,15 +27,23 @@ defmodule PolishMe.Brands.Brand do
   end
 
   defp validate_name(changeset) do
-    changeset |> validate_length(:name, max: 60)
+    changeset
+    |> validate_length(:name, max: 60)
+    |> update_change(:name, &String.trim/1)
   end
 
   defp validate_slug(changeset) do
     changeset
-    |> validate_format(:slug, ~r/\A[[:alnum:]-]+\z/,
+    |> validate_format(:slug, ~r/^[[:alnum:]-]+$/,
       message: "must use only letters, numbers, and dash"
     )
     |> validate_length(:slug, max: 60)
+  end
+
+  defp validate_description(changeset) do
+    changeset
+    |> validate_length(:description, max: 1024)
+    |> update_change(:description, &if(&1, do: String.trim(&1), else: &1))
   end
 
   defp validate_website(changeset) do
