@@ -95,6 +95,13 @@ defmodule PolishMe.BrandsTest do
       assert brand.contact_email == "some@email.com"
     end
 
+    test "trims whitespace from name" do
+      attrs = %{@valid_attrs | name: "  whitespace name  "}
+
+      assert {:ok, %Brand{} = brand} = Brands.create_brand(attrs)
+      assert brand.name == "whitespace name"
+    end
+
     test "without name returns error changeset" do
       invalid_attrs = Map.delete(@valid_attrs, :name)
 
@@ -108,13 +115,6 @@ defmodule PolishMe.BrandsTest do
       assert {:error,
               %Ecto.Changeset{errors: [name: {"should be at most %{count} character(s)", _}]}} =
                Brands.create_brand(invalid_attrs)
-    end
-
-    test "trims whitespace from name" do
-      attrs = %{@valid_attrs | name: "  whitespace name  "}
-
-      assert {:ok, %Brand{} = brand} = Brands.create_brand(attrs)
-      assert brand.name == "whitespace name"
     end
 
     test "without slug returns error changeset" do
@@ -147,6 +147,13 @@ defmodule PolishMe.BrandsTest do
                Brands.create_brand(@valid_attrs)
     end
 
+    test "trims whitespace from description" do
+      attrs = %{@valid_attrs | description: "  whitespace description \n this too  "}
+
+      assert {:ok, %Brand{} = brand} = Brands.create_brand(attrs)
+      assert brand.description == "whitespace description \n this too"
+    end
+
     test "with too long description returns error changeset" do
       invalid_attrs = %{@valid_attrs | description: String.duplicate("a", 1025)}
 
@@ -155,13 +162,6 @@ defmodule PolishMe.BrandsTest do
                 errors: [description: {"should be at most %{count} character(s)", _}]
               }} =
                Brands.create_brand(invalid_attrs)
-    end
-
-    test "trims whitespace from description" do
-      attrs = %{@valid_attrs | description: "  whitespace description \n this too  "}
-
-      assert {:ok, %Brand{} = brand} = Brands.create_brand(attrs)
-      assert brand.description == "whitespace description \n this too"
     end
 
     test "with website without scheme returns error changeset" do
