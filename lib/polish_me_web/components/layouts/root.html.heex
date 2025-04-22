@@ -21,15 +21,15 @@
       </div>
       <div class="navbar-end">
         <ul class="menu menu-horizontal w-full relative z-10 flex items-center gap-4 justify-end">
+          <li>
+            <label class="swap swap-rotate">
+              <input type="checkbox" class="theme-controller" value="light" />
+              <input type="checkbox" class="theme-controller" value="dark" />
+              <.icon name="hero-sun-micro" class="swap-on opacity-75 hover:opacity-100" />
+              <.icon name="hero-moon-micro" class="swap-off opacity-75 hover:opacity-100" />
+            </label>
+          </li>
           <%= if @current_scope do %>
-            <li>
-              <label class="swap swap-rotate">
-                <input type="checkbox" class="theme-controller" value="light" />
-                <input type="checkbox" class="theme-controller" value="dark" />
-                <.icon name="hero-sun-micro" class="swap-on opacity-75 hover:opacity-100" />
-                <.icon name="hero-moon-micro" class="swap-off opacity-75 hover:opacity-100" />
-              </label>
-            </li>
             <li>
               {@current_scope.user.email}
             </li>
