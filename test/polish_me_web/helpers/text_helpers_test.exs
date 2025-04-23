@@ -1,4 +1,4 @@
-defmodule PolishMe.BrandsTest do
+defmodule PolishMe.TextHelpersTest do
   use PolishMe.DataCase
 
   alias PolishMeWeb.Helpers.TextHelpers
