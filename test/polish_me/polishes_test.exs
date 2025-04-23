@@ -22,8 +22,7 @@ defmodule PolishMe.PolishesTest do
     description: nil,
     topper: nil,
     colors: nil,
-    finishes: nil,
-    brand_id: nil
+    finishes: nil
   }
 
   defp add_brand(attrs) do
@@ -167,7 +166,17 @@ defmodule PolishMe.PolishesTest do
       assert polish.finishes == [:shimmer]
     end
 
-    test "update_polish/2 with invalid data returns error changeset" do
+    test "with brand update does not update polish" do
+      polish = polish_fixture()
+      brand = brand_fixture()
+      invalid_attrs = %{brand_id: brand.id}
+
+      # Elixir intentionally doesn't error when trying to update :insert only :writable field
+      Polishes.update_polish(polish, invalid_attrs)
+      assert polish == Polishes.get_polish!(polish.brand.slug, polish.slug)
+    end
+
+    test "with invalid data returns error changeset" do
       polish = polish_fixture()
       assert {:error, %Ecto.Changeset{}} = Polishes.update_polish(polish, @invalid_attrs)
       assert polish == Polishes.get_polish!(polish.brand.slug, polish.slug)
