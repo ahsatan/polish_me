@@ -9,6 +9,8 @@ defmodule PolishMe.Brands.Brand do
     field :website, :string
     field :contact_email, :string
 
+    has_many :polishes, PolishMe.Polishes.Polish
+
     timestamps(type: :utc_datetime)
   end
 
