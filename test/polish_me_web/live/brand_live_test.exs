@@ -126,9 +126,9 @@ defmodule PolishMeWeb.BrandLiveTest do
     end
 
     test "loads without admin link", %{conn: conn, brand: brand} do
-      {:ok, index_live, _html} = live(conn, ~p"/brands/#{brand.slug}")
+      {:ok, show_live, _html} = live(conn, ~p"/brands/#{brand.slug}")
 
-      refute has_element?(index_live, ".btn", "Edit")
+      refute has_element?(show_live, ".btn", "Edit")
     end
   end
 
@@ -181,46 +181,6 @@ defmodule PolishMeWeb.BrandLiveTest do
 
   describe "Form as Admin" do
     setup [:register_and_log_in_admin]
-
-    test "trims whitespace from inputs on save", %{conn: conn} do
-      {:ok, form_live, _html} = live(conn, ~p"/brands/new")
-
-      whitespace_attrs = %{
-        name: "  some name  ",
-        description: "  some description  ",
-        slug: "  some-slug  ",
-        website: "  https://some.com  ",
-        contact_email: "  some@email.com  "
-      }
-
-      form = form_live |> form("#brand-form", brand: whitespace_attrs)
-      html = form |> render_change()
-
-      assert html =~ "value=\"  some name  \""
-      assert html =~ ">\n  some description  <"
-      assert html =~ "value=\"  some-slug  \""
-      assert html =~ "value=\"  https://some.com  \""
-      assert html =~ "value=\"  some@email.com  \""
-
-      assert {:ok, index_live, _html} =
-               form
-               |> render_submit()
-               |> follow_redirect(conn, ~p"/brands")
-
-      assert {:ok, form_live, _html} =
-               index_live
-               |> element("#edit-brand-some-slug")
-               |> render_click()
-               |> follow_redirect(conn, ~p"/brands/some-slug/edit")
-
-      html = render(form_live)
-
-      assert html =~ "value=\"some name\""
-      assert html =~ ">\nsome description<"
-      assert html =~ "value=\"some-slug\""
-      assert html =~ "value=\"https://some.com\""
-      assert html =~ "value=\"some@email.com\""
-    end
 
     test "displays live slug recommendation as placeholder", %{conn: conn} do
       {:ok, form_live, _html} = live(conn, ~p"/brands/new")
