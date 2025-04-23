@@ -148,7 +148,6 @@ defmodule PolishMe.PolishesTest do
   describe "update_polish/2" do
     test "with valid data updates the polish" do
       polish = polish_fixture()
-      brand = brand_fixture(%{name: "Update Brand", slug: "update-brand"})
 
       update_attrs = %{
         name: "update name",
@@ -156,9 +155,7 @@ defmodule PolishMe.PolishesTest do
         description: "update description",
         topper: false,
         colors: [:yellow],
-        finishes: [:shimmer],
-        brand_id: brand.id,
-        brand: brand
+        finishes: [:shimmer]
       }
 
       assert {:ok, %Polish{} = polish} = Polishes.update_polish(polish, update_attrs)
@@ -168,7 +165,6 @@ defmodule PolishMe.PolishesTest do
       refute polish.topper
       assert polish.colors == [:yellow]
       assert polish.finishes == [:shimmer]
-      assert polish.brand_id == update_attrs.brand_id
     end
 
     test "update_polish/2 with invalid data returns error changeset" do

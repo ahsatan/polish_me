@@ -48,7 +48,8 @@ defmodule PolishMe.Polishes.Polish do
         :thermal
       ]
 
-    belongs_to :brand, PolishMe.Brands.Brand
+    field :brand_id, :integer, writable: :insert
+    belongs_to :brand, PolishMe.Brands.Brand, define_field: false
 
     timestamps(type: :utc_datetime)
   end
