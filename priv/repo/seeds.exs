@@ -13,6 +13,7 @@
 alias PolishMe.Repo
 alias PolishMe.Accounts.User
 alias PolishMe.Brands.Brand
+alias PolishMe.Polishes.Polish
 
 _alpha = %User{email: "alpha@test.com", is_admin: true} |> Repo.insert!()
 _beta = %User{email: "beta@test.com"} |> Repo.insert!()
@@ -124,3 +125,36 @@ starrily =
     contact_email: "support@starrily.com"
   }
   |> Repo.insert!()
+
+%Polish{
+  name: "Shattered Remnants",
+  slug: "shattered-remnants",
+  description:
+    "Shattered Remnants has a blueish-green jelly base with gold flakes and gold reflective glitter.",
+  colors: [:green, :yellow],
+  finishes: [:jelly, :flake, :glitter],
+  brand: arcana
+}
+|> Repo.insert!()
+
+%Polish{
+  name: "Emissary of Inari",
+  slug: "emissary-of-inari",
+  description:
+    "Emissary of Inari is a thermal polish that goes from red (cold) to light pink (warm) with a strong red to orange shimmer!",
+  colors: [:purple, :pink, :red],
+  finishes: [:thermal, :shimmer],
+  brand: arcana
+}
+|> Repo.insert!()
+
+%Polish{
+  name: "Mushroom-Lit Cavern",
+  slug: "mushroom-lit-cavern",
+  description:
+    "Mushroom-Lit Cavern is a thermal polish that goes from dark blue(cold) to light blue(warm) with a strong violet-blue shimmer. The shimmer alters the cold state to read more royal blue than pure black!",
+  colors: [:blue],
+  finishes: [:thermal, :shimmer],
+  brand: arcana
+}
+|> Repo.insert!()
