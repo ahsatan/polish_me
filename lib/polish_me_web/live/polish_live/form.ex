@@ -54,6 +54,7 @@ defmodule PolishMeWeb.PolishLive.Form do
           type="select"
           multiple
           label="Colors"
+          class="h-22"
           options={Polishes.get_colors() |> TextHelpers.enums_to_string_map()}
         />
         <.input
@@ -62,6 +63,7 @@ defmodule PolishMeWeb.PolishLive.Form do
           type="select"
           multiple
           label="Finishes"
+          class="h-22"
           options={Polishes.get_finishes() |> TextHelpers.enums_to_string_map()}
         />
         <.input field={@form[:topper]} id="topper-input" type="checkbox" label="Topper" />
