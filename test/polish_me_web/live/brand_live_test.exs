@@ -165,6 +165,29 @@ defmodule PolishMeWeb.BrandLiveTest do
       html = render(show_live)
       assert html =~ "Brand #{@update_attrs.name} updated successfully"
     end
+
+    test "creates brand's polish and returns to show", %{conn: conn, brand: brand} do
+      {:ok, show_live, _html} = live(conn, ~p"/brands/#{brand.slug}")
+
+      assert {:ok, form_live, _html} =
+               show_live
+               |> element(".btn", "New Polish")
+               |> render_click()
+               |> follow_redirect(conn, ~p"/polishes/#{brand.slug}/new")
+
+      assert render(form_live) =~ "New #{brand.name} Polish"
+
+      attrs = %{name: "polish name", slug: "polish-slug"}
+
+      assert {:ok, show_live, _html} =
+               form_live
+               |> form("#polish-form", polish: attrs)
+               |> render_submit()
+               |> follow_redirect(conn, ~p"/brands/#{brand.slug}")
+
+      html = render(show_live)
+      assert html =~ "Polish #{attrs.name} created successfully"
+    end
   end
 
   describe "Form as User" do

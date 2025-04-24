@@ -18,6 +18,13 @@ defmodule PolishMeWeb.BrandLive.Show do
         >
           <.icon name="hero-pencil-square" /> Edit
         </.button>
+        <.button
+          :if={@current_scope.user.is_admin}
+          variant="primary"
+          navigate={~p"/polishes/#{@brand.slug}/new"}
+        >
+          <.icon name="hero-plus" /> New Polish
+        </.button>
       </:actions>
 
       <.list>

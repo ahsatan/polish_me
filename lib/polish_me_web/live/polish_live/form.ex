@@ -78,28 +78,14 @@ defmodule PolishMeWeb.PolishLive.Form do
 
   @impl true
   def mount(params, _session, socket) do
-    {:ok,
-     socket
-     |> assign(:return_to, return_to(params["return_to"]))
-     |> apply_action(socket.assigns.live_action, params)}
-  end
-
-  defp return_to("show"), do: "show"
-  defp return_to(_), do: "index"
-
-  defp apply_action(socket, :edit, %{"brand_slug" => brand_slug, "polish_slug" => polish_slug}) do
-    polish = Polishes.get_polish!(brand_slug, polish_slug)
-
-    socket
-    |> assign(:page_title, "Edit Polish")
-    |> assign(:polish, polish)
-    |> assign(:form, to_form(Polishes.change_polish(polish)))
+    {:ok, socket |> apply_action(socket.assigns.live_action, params)}
   end
 
   defp apply_action(socket, :new, _params) do
     polish = %Polish{}
 
     socket
+    |> assign(:return_to, "index")
     |> assign(:page_title, "New Polish")
     |> assign(:brand_options, Brands.list_brands() |> Enum.map(&{&1.name, &1.id}))
     |> assign(:polish, polish)
@@ -111,10 +97,28 @@ defmodule PolishMeWeb.PolishLive.Form do
     polish = %Polish{brand_id: brand.id, brand: brand}
 
     socket
+    |> assign(:return_to, "brand")
     |> assign(:page_title, "New #{brand.name} Polish")
     |> assign(:polish, polish)
     |> assign(:form, to_form(Polishes.change_polish(polish)))
   end
+
+  defp apply_action(
+         socket,
+         :edit,
+         %{"brand_slug" => brand_slug, "polish_slug" => polish_slug} = params
+       ) do
+    polish = Polishes.get_polish!(brand_slug, polish_slug)
+
+    socket
+    |> assign(:return_to, return_to(params["return_to"]))
+    |> assign(:page_title, "Edit Polish")
+    |> assign(:polish, polish)
+    |> assign(:form, to_form(Polishes.change_polish(polish)))
+  end
+
+  defp return_to("show"), do: "show"
+  defp return_to(_), do: "index"
 
   @impl true
   def handle_event("validate", %{"polish" => polish_params}, socket) do
@@ -141,7 +145,15 @@ defmodule PolishMeWeb.PolishLive.Form do
     end
   end
 
-  defp save_polish(socket, action, polish_params) when action in [:new, :new_by_brand] do
+  defp save_polish(socket, :new, polish_params) do
+    save_new_polish(socket, polish_params)
+  end
+
+  defp save_polish(socket, :new_by_brand, polish_params) do
+    save_new_polish(socket, polish_params |> Map.put("brand_id", socket.assigns.polish.brand_id))
+  end
+
+  defp save_new_polish(socket, polish_params) do
     case Polishes.create_polish(polish_params) do
       {:ok, polish} ->
         {:noreply,
@@ -156,4 +168,5 @@ defmodule PolishMeWeb.PolishLive.Form do
 
   defp return_path("index", _polish), do: ~p"/polishes"
   defp return_path("show", polish), do: ~p"/polishes/#{polish.brand.slug}/#{polish.slug}"
+  defp return_path("brand", polish), do: ~p"/brands/#{polish.brand.slug}"
 end
