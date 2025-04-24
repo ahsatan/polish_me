@@ -171,9 +171,8 @@ defmodule PolishMe.PolishesTest do
       brand = brand_fixture()
       invalid_attrs = %{brand_id: brand.id}
 
-      # Elixir intentionally doesn't error when trying to update :insert only :writable field
-      Polishes.update_polish(polish, invalid_attrs)
-      assert polish == Polishes.get_polish!(polish.brand.slug, polish.slug)
+      # Ecto intentionally doesn't error when updating :insert only :writable field, instead discards change
+      assert {:ok, %Polish{} = ^polish} = Polishes.update_polish(polish, invalid_attrs)
     end
 
     test "with invalid data returns error changeset" do

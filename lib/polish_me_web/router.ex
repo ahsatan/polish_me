@@ -55,6 +55,9 @@ defmodule PolishMeWeb.Router do
       ] do
       live "/brands/new", BrandLive.Form, :new
       live "/brands/:slug/edit", BrandLive.Form, :edit
+      live "/polishes/new", PolishLive.Form, :new
+      live "/polishes/:brand_slug/new", PolishLive.Form, :new_by_brand
+      live "/polishes/:brand_slug/:polish_slug/edit", PolishLive.Form, :edit
     end
   end
 
@@ -68,6 +71,9 @@ defmodule PolishMeWeb.Router do
 
       live "/brands", BrandLive.Index, :index
       live "/brands/:slug", BrandLive.Show, :show
+      live "/polishes", PolishLive.Index, :index
+      live "/polishes/:brand_slug/", PolishLive.Index, :index_by_brand
+      live "/polishes/:brand_slug/:polish_slug", PolishLive.Show, :show
     end
 
     post "/users/update-password", UserSessionController, :update_password
