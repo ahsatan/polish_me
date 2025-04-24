@@ -25,6 +25,7 @@ defmodule PolishMeWeb.BrandLive.Form do
           id="description-input"
           type="textarea"
           label="Description"
+          maxlength="1024"
           phx-debounce="blur"
         />
         <.input
