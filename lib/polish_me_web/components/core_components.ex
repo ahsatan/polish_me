@@ -247,7 +247,7 @@ defmodule PolishMeWeb.CoreComponents do
           name={@name}
           id={@id}
           value={Phoenix.HTML.Form.normalize_value(@type, @value)}
-          class={["w-full input", @errors != [] && "input-error"]}
+          class={["w-full input #{@rest[:class]}", @errors != [] && "input-error"]}
           {@rest}
         />
       </label>

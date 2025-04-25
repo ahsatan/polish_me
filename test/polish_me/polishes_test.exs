@@ -98,10 +98,7 @@ defmodule PolishMe.PolishesTest do
 
       assert {:error,
               %Ecto.Changeset{
-                errors: [
-                  slug: {"has already been taken", _},
-                  name: {"has already been taken", _}
-                ]
+                errors: [slug: {"has already been taken", _}, name: {"has already been taken", _}]
               }} =
                Polishes.create_polish(@valid_attrs |> Map.put(:brand_id, brand.id))
     end

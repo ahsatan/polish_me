@@ -117,6 +117,16 @@ defmodule PolishMe.BrandsTest do
                Brands.create_brand(invalid_attrs)
     end
 
+    test "with same name and slug returns error changeset" do
+      Brands.create_brand(@valid_attrs)
+
+      assert {:error,
+              %Ecto.Changeset{
+                errors: [slug: {"has already been taken", _}, name: {"has already been taken", _}]
+              }} =
+               Brands.create_brand(@valid_attrs)
+    end
+
     test "without slug returns error changeset" do
       invalid_attrs = Map.delete(@valid_attrs, :slug)
 
@@ -138,13 +148,6 @@ defmodule PolishMe.BrandsTest do
       assert {:error,
               %Ecto.Changeset{errors: [slug: {"should be at most %{count} character(s)", _}]}} =
                Brands.create_brand(invalid_attrs)
-    end
-
-    test "with existing slug returns error changeset" do
-      Brands.create_brand(@valid_attrs)
-
-      assert {:error, %Ecto.Changeset{errors: [slug: {"has already been taken", _}]}} =
-               Brands.create_brand(@valid_attrs)
     end
 
     test "trims whitespace from description" do

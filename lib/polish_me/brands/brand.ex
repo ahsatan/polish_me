@@ -24,7 +24,9 @@ defmodule PolishMe.Brands.Brand do
     |> validate_description()
     |> validate_website()
     |> validate_email()
+    |> unsafe_validate_unique(:name, PolishMe.Repo)
     |> unsafe_validate_unique(:slug, PolishMe.Repo)
+    |> unique_constraint(:name)
     |> unique_constraint(:slug)
   end
 

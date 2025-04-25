@@ -17,8 +17,8 @@ defmodule PolishMeWeb.BrandLive.Form do
           type="text"
           label="Slug"
           maxlength="60"
-          placeholder={TextHelpers.name_to_slug(@form[:name].value)}
-          required
+          value={TextHelpers.name_to_slug(@form[:name].value)}
+          disabled
         />
         <.input
           field={@form[:description]}
@@ -90,7 +90,11 @@ defmodule PolishMeWeb.BrandLive.Form do
   end
 
   def handle_event("save", %{"brand" => brand_params}, socket) do
-    save_brand(socket, socket.assigns.live_action, brand_params)
+    save_brand(
+      socket,
+      socket.assigns.live_action,
+      brand_params |> Map.put("slug", TextHelpers.name_to_slug(brand_params["name"]))
+    )
   end
 
   defp save_brand(socket, :edit, brand_params) do

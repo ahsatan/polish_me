@@ -7,7 +7,6 @@ defmodule PolishMeWeb.BrandLiveTest do
   @create_attrs %{
     name: "some name",
     description: "some description",
-    slug: "some-slug",
     website: "https://some.com",
     contact_email: "some@email.com"
   }
@@ -15,12 +14,11 @@ defmodule PolishMeWeb.BrandLiveTest do
   @update_attrs %{
     name: "update name",
     description: "update description",
-    slug: "update-slug",
     website: "https://update.com",
     contact_email: "update@email.com"
   }
 
-  @invalid_attrs %{name: nil, description: nil, slug: nil, website: nil, contact_email: nil}
+  @invalid_attrs %{name: nil, description: nil, website: nil, contact_email: nil}
 
   defp create_brand(_context) do
     brand = brand_fixture()
@@ -67,50 +65,48 @@ defmodule PolishMeWeb.BrandLiveTest do
     test "saves new brand", %{conn: conn} do
       {:ok, index_live, _html} = live(conn, ~p"/brands")
 
-      assert {:ok, form_live, _html} =
+      assert {:ok, form_live, html} =
                index_live
                |> element(".btn", "New Brand")
                |> render_click()
                |> follow_redirect(conn, ~p"/brands/new")
 
-      assert render(form_live) =~ "New Brand"
+      assert html =~ "New Brand"
 
       assert form_live
              |> form("#brand-form", brand: @invalid_attrs)
              |> render_change() =~ "can&#39;t be blank"
 
-      assert {:ok, index_live, _html} =
+      assert {:ok, _index_live, html} =
                form_live
                |> form("#brand-form", brand: @create_attrs)
                |> render_submit()
                |> follow_redirect(conn, ~p"/brands")
 
-      html = render(index_live)
       assert html =~ "Brand #{@create_attrs.name} created successfully"
     end
 
     test "updates brand in listing", %{conn: conn, brand: brand} do
       {:ok, index_live, _html} = live(conn, ~p"/brands")
 
-      assert {:ok, form_live, _html} =
+      assert {:ok, form_live, html} =
                index_live
                |> element("#edit-brand-#{brand.slug}")
                |> render_click()
                |> follow_redirect(conn, ~p"/brands/#{brand.slug}/edit")
 
-      assert render(form_live) =~ "Edit Brand"
+      assert html =~ "Edit Brand"
 
       assert form_live
              |> form("#brand-form", brand: @invalid_attrs)
              |> render_change() =~ "can&#39;t be blank"
 
-      assert {:ok, index_live, _html} =
+      assert {:ok, _index_live, html} =
                form_live
                |> form("#brand-form", brand: @update_attrs)
                |> render_submit()
                |> follow_redirect(conn, ~p"/brands")
 
-      html = render(index_live)
       assert html =~ "Brand #{@update_attrs.name} updated successfully"
     end
   end
@@ -144,48 +140,46 @@ defmodule PolishMeWeb.BrandLiveTest do
     test "updates brand and returns to show", %{conn: conn, brand: brand} do
       {:ok, show_live, _html} = live(conn, ~p"/brands/#{brand.slug}")
 
-      assert {:ok, form_live, _html} =
+      assert {:ok, form_live, html} =
                show_live
                |> element(".btn", "Edit")
                |> render_click()
                |> follow_redirect(conn, ~p"/brands/#{brand.slug}/edit?return_to=show")
 
-      assert render(form_live) =~ "Edit Brand"
+      assert html =~ "Edit Brand"
 
       assert form_live
              |> form("#brand-form", brand: @invalid_attrs)
              |> render_change() =~ "can&#39;t be blank"
 
-      assert {:ok, show_live, _html} =
+      assert {:ok, _show_live, html} =
                form_live
                |> form("#brand-form", brand: @update_attrs)
                |> render_submit()
-               |> follow_redirect(conn, ~p"/brands/#{@update_attrs.slug}")
+               |> follow_redirect(conn, ~p"/brands/update-name")
 
-      html = render(show_live)
       assert html =~ "Brand #{@update_attrs.name} updated successfully"
     end
 
     test "creates brand's polish and returns to show", %{conn: conn, brand: brand} do
       {:ok, show_live, _html} = live(conn, ~p"/brands/#{brand.slug}")
 
-      assert {:ok, form_live, _html} =
+      assert {:ok, form_live, html} =
                show_live
                |> element(".btn", "New Polish")
                |> render_click()
                |> follow_redirect(conn, ~p"/polishes/#{brand.slug}/new")
 
-      assert render(form_live) =~ "New #{brand.name} Polish"
+      assert html =~ "New #{brand.name} Polish"
 
-      attrs = %{name: "polish name", slug: "polish-slug"}
+      attrs = %{name: "polish name"}
 
-      assert {:ok, show_live, _html} =
+      assert {:ok, _show_live, html} =
                form_live
                |> form("#polish-form", polish: attrs)
                |> render_submit()
                |> follow_redirect(conn, ~p"/brands/#{brand.slug}")
 
-      html = render(show_live)
       assert html =~ "Polish #{attrs.name} created successfully"
     end
   end
@@ -205,15 +199,16 @@ defmodule PolishMeWeb.BrandLiveTest do
   describe "Form as Admin" do
     setup [:register_and_log_in_admin]
 
-    test "displays live slug recommendation as placeholder", %{conn: conn} do
+    test "displays live slug recommendation as a disabled field", %{conn: conn} do
       {:ok, form_live, _html} = live(conn, ~p"/brands/new")
 
       attrs = %{name: " Someone's N;=;me-- &Co"}
 
-      form = form_live |> form("#brand-form", brand: attrs)
-      html = form |> render_change()
+      assert form_live |> element("#slug-input") |> render() =~ "disabled"
 
-      assert html =~ "placeholder=\"someones-n-me-n-co\""
+      html = form_live |> form("#brand-form", brand: attrs) |> render_change()
+
+      assert html =~ "value=\"someones-n-me-n-co\""
     end
   end
 end
