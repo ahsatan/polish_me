@@ -33,8 +33,16 @@ defmodule PolishMeWeb.BrandLive.Show do
         <:item title="Description">
           <span class="whitespace-pre-line">{@brand.description}</span>
         </:item>
-        <:item title="Website">{@brand.website}</:item>
-        <:item title="Contact Email">{@brand.contact_email}</:item>
+        <:item title="Website">
+          <.link href={@brand.website} class="text-info">
+            {@brand.website}
+          </.link>
+        </:item>
+        <:item title="Contact Email">
+          <.link href={"mailto:#{@brand.contact_email}"} class="text-info">
+            {@brand.contact_email}
+          </.link>
+        </:item>
       </.list>
     </Layouts.app>
     """
