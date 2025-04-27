@@ -16,8 +16,8 @@ defmodule PolishMe.BrandsTest do
   @invalid_attrs %{name: nil, description: nil, slug: nil, website: nil, contact_email: nil}
 
   test "list_brands/0 returns all brands" do
-    brand = brand_fixture()
-    other_brand = brand_fixture()
+    brand = brand_fixture(%{name: "First name"})
+    other_brand = brand_fixture(%{name: "Second name"})
     assert Brands.list_brands() == [brand, other_brand]
   end
 
