@@ -46,7 +46,7 @@ defmodule PolishMe.Brands do
 
   """
   def list_brands() do
-    Brand |> Repo.all()
+    Brand |> order_by(:name) |> Repo.all()
   end
 
   @doc """
