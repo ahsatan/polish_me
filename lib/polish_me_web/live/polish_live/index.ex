@@ -1,7 +1,9 @@
 defmodule PolishMeWeb.PolishLive.Index do
   use PolishMeWeb, :live_view
 
+  alias Phoenix.HTML.Form
   alias PolishMe.Brands
+  alias PolishMe.Brands.Brand
   alias PolishMe.Polishes
   alias PolishMe.Polishes.Polish
   alias PolishMeWeb.Helpers.TextHelpers
@@ -21,6 +23,8 @@ defmodule PolishMeWeb.PolishLive.Index do
           </.button>
         <% end %>
       </:actions>
+
+      <.filter_form form={@form} brand={@brand} />
 
       <.table
         id="polishes"
@@ -59,6 +63,60 @@ defmodule PolishMeWeb.PolishLive.Index do
     """
   end
 
+  attr :form, Form, required: true
+  attr :brand, Brand, default: nil
+
+  def filter_form(assigns) do
+    ~H"""
+    <.form
+      for={@form}
+      id="filter-form"
+      phx-change="filter"
+      phx-submit="filter"
+      class="sm:flex scale-90 justify-center gap-4 items-center"
+    >
+      <.input field={@form[:q]} id="q-input" placeholder="Search..." autocomplete="off" phx-debounce />
+      <.input
+        field={@form[:colors]}
+        id="colors-input"
+        type="select"
+        multiple
+        label="Colors"
+        class="h-18"
+        options={Polishes.get_colors() |> TextHelpers.enums_to_string_map()}
+      />
+      <.input
+        field={@form[:finishes]}
+        id="finishes-input"
+        type="select"
+        multiple
+        label="Finishes"
+        class="h-18"
+        options={Polishes.get_finishes() |> TextHelpers.enums_to_string_map()}
+      />
+      <.input
+        field={@form[:sort]}
+        id="sort-input"
+        type="select"
+        prompt="Sort"
+        options={
+          [
+            "Name: A-Z": "name_asc",
+            "Name: Z-A": "name_desc"
+          ] ++
+            if @brand, do: [], else: ["Brand: A-Z": "brand_asc", "Brand: Z-A": "brand_desc"]
+        }
+      />
+      <.link
+        patch={if @brand, do: ~p"/polishes/#{@brand.slug}", else: ~p"/polishes"}
+        class="text-sm underline"
+      >
+        Reset
+      </.link>
+    </.form>
+    """
+  end
+
   @impl true
   def mount(params, _session, socket) do
     {:ok, socket |> apply_action(socket.assigns.live_action, params)}
@@ -70,7 +128,6 @@ defmodule PolishMeWeb.PolishLive.Index do
     socket
     |> assign(:page_title, "Polishes")
     |> assign(:brand, nil)
-    |> stream(:polishes, Polishes.list_polishes())
   end
 
   defp apply_action(socket, :index_by_brand, %{"brand_slug" => brand_slug}) do
@@ -80,20 +137,40 @@ defmodule PolishMeWeb.PolishLive.Index do
     socket
     |> assign(:page_title, "#{brand.name} Polishes")
     |> assign(:brand, brand)
-    |> stream(:polishes, Polishes.list_polishes(brand.id))
   end
 
   @impl true
-  def handle_info({type, %Polish{}}, socket)
-      when type in [:created, :updated] do
-    update_polishes(socket, socket.assigns.brand)
+  def handle_params(params, _uri, socket) do
+    params = params |> filter_params() |> update_params(socket.assigns.brand)
+
+    {:noreply,
+     socket
+     |> assign(:form, to_form(params))
+     |> stream(:polishes, Polishes.filter_polishes(params), reset: true)}
   end
 
-  defp update_polishes(socket, nil) do
-    {:noreply, stream(socket, :polishes, Polishes.list_polishes(), reset: true)}
+  @impl true
+  def handle_event("filter", params, socket) do
+    {:noreply,
+     socket |> push_patch(to: patch_to(params |> filter_params(), socket.assigns.brand))}
   end
 
-  defp update_polishes(socket, brand) do
-    {:noreply, stream(socket, :polishes, Polishes.list_polishes(brand.id), reset: true)}
+  defp patch_to(params, nil), do: ~p"/polishes?#{params}"
+  defp patch_to(params, brand), do: ~p"/polishes/#{brand.slug}?#{params}"
+
+  @impl true
+  def handle_info({type, %Polish{}}, socket) when type in [:created, :updated] do
+    params = socket.assigns.form.params |> filter_params() |> update_params(socket.assigns.brand)
+
+    {:noreply, socket |> stream(:polishes, Polishes.filter_polishes(params), reset: true)}
   end
+
+  defp filter_params(params) do
+    params
+    |> Map.take(~w(q colors finishes sort))
+    |> Map.reject(fn {_k, v} -> v == "" end)
+  end
+
+  defp update_params(params, nil), do: params
+  defp update_params(params, brand), do: params |> Map.put("brand_id", brand.id)
 end

@@ -44,6 +44,7 @@ defmodule PolishMeWeb.PolishLiveTest do
 
       {:ok, _index_live, html} = live(conn, ~p"/polishes/#{polish.brand.slug}")
 
+      refute html =~ "Brand: A-Z"
       assert html =~ "#{polish.brand.name} Polishes"
       assert html =~ polish.name
       refute html =~ other_polish.name
@@ -54,6 +55,22 @@ defmodule PolishMeWeb.PolishLiveTest do
 
       refute has_element?(index_live, ".btn", "New Polish")
       refute has_element?(index_live, "#edit-polish-#{polish.brand.slug}--#{polish.slug}")
+    end
+
+    test "filters polishes on multiple values", %{conn: conn, polish: polish} do
+      other_polish = polish_fixture(%{name: "First name", colors: [:yellow, :black]})
+      another_polish = polish_fixture(%{name: "Second name", colors: [:yellow]})
+
+      {:ok, index_live, _html} = live(conn, ~p"/polishes")
+
+      html =
+        index_live
+        |> form("#filter-form", %{colors: [:yellow], sort: "name_desc"})
+        |> render_change()
+
+      assert html =~ "Brand: A-Z"
+      refute html =~ polish.name
+      assert html =~ ~r/#{another_polish.name}.*#{other_polish.name}/s
     end
   end
 
