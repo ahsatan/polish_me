@@ -31,18 +31,97 @@ defmodule PolishMe.PolishesTest do
   end
 
   test "list_polishes/0 returns all polishes" do
-    polish = polish_fixture()
-    other_polish = polish_fixture()
+    polish = polish_fixture(%{name: "first name"})
+    other_polish = polish_fixture(%{name: "second name"})
     assert Polishes.list_polishes() == [polish, other_polish]
   end
 
-  test "list_polishes/1 returns brand's polishes only" do
-    brand = brand_fixture()
-    polish = polish_fixture(%{brand_id: brand.id})
-    other_polish = polish_fixture(%{brand_id: brand.id})
-    polish_fixture()
+  describe "filter_polishes/1" do
+    test "returns only brand's polishes" do
+      brand = brand_fixture()
+      polish_fixture()
+      polish = polish_fixture(%{name: "First name", brand_id: brand.id})
+      other_polish = polish_fixture(%{name: "Second name", brand_id: brand.id})
 
-    assert Polishes.list_polishes(brand.id) == [polish, other_polish]
+      assert Polishes.filter_polishes(%{"brand_id" => brand.id}) == [polish, other_polish]
+    end
+
+    test "returns polishes with name and descriptions that match query" do
+      polish_fixture(%{name: "Not name", description: "Not description"})
+      polish = polish_fixture(%{name: "Match name"})
+      other_polish = polish_fixture(%{description: "Description match"})
+
+      assert Polishes.filter_polishes(%{"q" => "match"}) == [polish, other_polish]
+    end
+
+    test "returns polishes filtered by color" do
+      polish_fixture(%{colors: [:blue]})
+      polish = polish_fixture(%{name: "First name", colors: [:red, :gold]})
+      other_polish = polish_fixture(%{name: "Second name", colors: [:gold, :green]})
+
+      assert Polishes.filter_polishes(%{"colors" => ["gold"]}) == [polish, other_polish]
+      assert Polishes.filter_polishes(%{"colors" => ["gold", "green"]}) == [other_polish]
+    end
+
+    test "returns polishes filtered by finish" do
+      polish_fixture(%{finishes: [:creme]})
+      polish = polish_fixture(%{name: "First name", finishes: [:jelly, :flake]})
+      other_polish = polish_fixture(%{name: "Second name", finishes: [:shimmer, :flake]})
+
+      assert Polishes.filter_polishes(%{"finishes" => ["flake"]}) == [polish, other_polish]
+      assert Polishes.filter_polishes(%{"finishes" => ["shimmer", "flake"]}) == [other_polish]
+    end
+
+    test "returns polishes sorted by brand name" do
+      first_brand = brand_fixture(%{name: "First brand"})
+      second_brand = brand_fixture(%{name: "Second brand"})
+      fb_polish = polish_fixture(%{name: "First name", brand_id: first_brand.id})
+      fb_other_polish = polish_fixture(%{name: "Second name", brand_id: first_brand.id})
+      sb_polish = polish_fixture(%{brand_id: second_brand.id})
+
+      assert Polishes.filter_polishes(%{"sort" => "brand_asc"}) == [
+               fb_polish,
+               fb_other_polish,
+               sb_polish
+             ]
+
+      assert Polishes.filter_polishes(%{"sort" => "brand_desc"}) == [
+               sb_polish,
+               fb_polish,
+               fb_other_polish
+             ]
+    end
+
+    test "returns polishes sorted by name" do
+      polish = polish_fixture(%{name: "First name"})
+      other_polish = polish_fixture(%{name: "Second name"})
+      another_polish = polish_fixture(%{name: "Middle name"})
+
+      assert Polishes.filter_polishes(%{"sort" => "name_asc"}) == [
+               polish,
+               another_polish,
+               other_polish
+             ]
+
+      assert Polishes.filter_polishes(%{"sort" => "name_desc"}) == [
+               other_polish,
+               another_polish,
+               polish
+             ]
+    end
+
+    test "filters on multiple inputs" do
+      first_brand = brand_fixture(%{name: "First brand"})
+      second_brand = brand_fixture(%{name: "Second brand"})
+      fb_polish = polish_fixture(%{name: "First name", brand_id: first_brand.id})
+      sb_polish = polish_fixture(%{name: "First name", brand_id: second_brand.id})
+      polish_fixture(%{name: "Second name", brand_id: second_brand.id})
+
+      assert Polishes.filter_polishes(%{"q" => "first", "sort" => "brand_asc"}) == [
+               fb_polish,
+               sb_polish
+             ]
+    end
   end
 
   test "get_polish!/2 returns the polish with given slugs" do

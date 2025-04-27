@@ -62,19 +62,62 @@ defmodule PolishMe.Polishes do
   end
 
   @doc """
-  Returns a brand's list of polishes.
+  Filters the list of polishes.
 
   ## Examples
 
-      iex> list_polishes(1)
+      iex> filter_polishes(%{"q" => "query"})
       [%Polish{}, ...]
   """
-  def list_polishes(brand_id) do
+  def filter_polishes(filters) do
     Polish
-    |> where(brand_id: ^brand_id)
+    |> filter_brand(filters["brand_id"])
+    |> query_search(filters["q"])
+    |> has_colors(filters["colors"])
+    |> has_finishes(filters["finishes"])
+    |> sort(filters["sort"])
     |> Repo.all()
     |> preload_brand()
   end
+
+  defp filter_brand(query, nil), do: query
+
+  defp filter_brand(query, brand_id) do
+    query |> where(brand_id: ^brand_id)
+  end
+
+  defp query_search(query, q) when q in [nil, ""], do: query
+
+  defp query_search(query, q) do
+    query |> where([p], ilike(p.name, ^"%#{q}%") or ilike(p.description, ^"%#{q}%"))
+  end
+
+  defp has_colors(query, cs) when cs in [[], nil], do: query
+
+  defp has_colors(query, [c | cs]) do
+    query |> where([p], ^c in p.colors) |> has_colors(cs)
+  end
+
+  defp has_finishes(query, fs) when fs in [[], nil], do: query
+
+  defp has_finishes(query, [f | fs]) do
+    query |> where([p], ^f in p.finishes) |> has_finishes(fs)
+  end
+
+  defp sort(query, "brand_desc") do
+    query
+    |> join(:inner, [p], b in assoc(p, :brand))
+    |> order_by([p, b], desc: b.name, asc: p.name)
+  end
+
+  defp sort(query, "brand_asc") do
+    query
+    |> join(:inner, [p], b in assoc(p, :brand))
+    |> order_by([p, b], asc: b.name, asc: p.name)
+  end
+
+  defp sort(query, "name_desc"), do: query |> order_by(desc: :name)
+  defp sort(query, _name_asc), do: query |> order_by(asc: :name)
 
   @doc """
   Gets a single polish.
