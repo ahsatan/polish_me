@@ -34,6 +34,14 @@ defmodule PolishMe.TextHelpersTest do
   end
 
   describe "enums_to_string/2" do
+    test "handles nil" do
+      assert TextHelpers.enums_to_string(nil) == nil
+    end
+
+    test "handles empty list" do
+      assert TextHelpers.enums_to_string([]) == ""
+    end
+
     test "converts atoms to capitalized words" do
       assert TextHelpers.enums_to_string([:ab_cd]) == "Ab Cd"
     end
@@ -44,6 +52,20 @@ defmodule PolishMe.TextHelpersTest do
 
     test "converts enum list to string with given delimiter" do
       assert TextHelpers.enums_to_string([:a, :bc], "<br />") == "A<br />Bc"
+    end
+  end
+
+  describe "enums_to_string_map/1" do
+    test "handles nil" do
+      assert TextHelpers.enums_to_string_map(nil) == nil
+    end
+
+    test "handles empty list" do
+      assert TextHelpers.enums_to_string_map([]) == []
+    end
+
+    test "converts enum list to name-atom map" do
+      assert TextHelpers.enums_to_string_map([:a, :bc]) == [{"A", :a}, {"Bc", :bc}]
     end
   end
 end

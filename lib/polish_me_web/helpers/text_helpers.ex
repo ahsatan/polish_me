@@ -10,11 +10,16 @@ defmodule PolishMeWeb.Helpers.TextHelpers do
     |> String.trim("-")
   end
 
-  def enums_to_string(enum_list, delimiter \\ ", ") do
+  def enums_to_string(_, delimiter \\ ", ")
+  def enums_to_string(nil, _), do: nil
+
+  def enums_to_string(enum_list, delimiter) do
     enum_list
     |> Enum.map(&atom_to_string/1)
     |> Enum.join(delimiter)
   end
+
+  def enums_to_string_map(nil), do: nil
 
   def enums_to_string_map(enum_list) do
     enum_list |> Enum.map(&{atom_to_string(&1), &1})
