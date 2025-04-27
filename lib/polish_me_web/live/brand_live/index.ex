@@ -106,7 +106,7 @@ defmodule PolishMeWeb.BrandLive.Index do
      socket
      |> stream(
        :brands,
-       socket.assigns.form.params |> filter_params() |> Brands.filter_brands(),
+       Brands.filter_brands(socket.assigns.form.params |> filter_params()),
        reset: true
      )}
   end

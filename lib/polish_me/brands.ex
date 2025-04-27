@@ -68,17 +68,11 @@ defmodule PolishMe.Brands do
   defp query_search(query, q) when q in [nil, ""], do: query
 
   defp query_search(query, q) do
-    query
-    |> where([b], ilike(b.name, ^"%#{q}%") or ilike(b.description, ^"%#{q}%"))
+    query |> where([b], ilike(b.name, ^"%#{q}%") or ilike(b.description, ^"%#{q}%"))
   end
 
-  defp sort(query, "name_desc") do
-    query |> order_by(desc: :name)
-  end
-
-  defp sort(query, _name_asc) do
-    query |> order_by(:name)
-  end
+  defp sort(query, "name_desc"), do: query |> order_by(desc: :name)
+  defp sort(query, _name_asc), do: query |> order_by(asc: :name)
 
   @doc """
   Gets a single brand.
