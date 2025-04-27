@@ -43,7 +43,7 @@ defmodule PolishMeWeb.BrandLiveTest do
       refute has_element?(index_live, "#edit-brand-#{brand.slug}")
     end
 
-    test "filters brands based on query and sort order", %{conn: conn, brand: brand} do
+    test "filters brands on query and sort order", %{conn: conn, brand: brand} do
       {:ok, index_live, _html} = live(conn, ~p"/brands")
 
       matching_brand = brand_fixture(%{name: "match name"})
