@@ -30,10 +30,19 @@ defmodule PolishMe.PolishesTest do
     Map.put(attrs, :brand_id, brand.id)
   end
 
-  test "list_polishes/1 returns all  polishes" do
+  test "list_polishes/0 returns all polishes" do
     polish = polish_fixture()
     other_polish = polish_fixture()
     assert Polishes.list_polishes() == [polish, other_polish]
+  end
+
+  test "list_polishes/1 returns brand's polishes only" do
+    brand = brand_fixture()
+    polish = polish_fixture(%{brand_id: brand.id})
+    other_polish = polish_fixture(%{brand_id: brand.id})
+    polish_fixture()
+
+    assert Polishes.list_polishes(brand.id) == [polish, other_polish]
   end
 
   test "get_polish!/2 returns the polish with given slugs" do

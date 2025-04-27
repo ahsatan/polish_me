@@ -17,21 +17,24 @@ defmodule PolishMe.Brands do
     * {:updated, %Brand{}}
 
   """
-  def subscribe() do
-    Phoenix.PubSub.subscribe(PolishMe.PubSub, "brands")
+  def subscribe_all() do
+    Phoenix.PubSub.subscribe(PolishMe.PubSub, all_topic())
   end
 
-  def subscribe(id) do
-    Phoenix.PubSub.subscribe(PolishMe.PubSub, "brand:#{id}")
+  def subscribe_brand(id) do
+    Phoenix.PubSub.subscribe(PolishMe.PubSub, brand_topic(id))
   end
 
   defp broadcast(message) do
-    Phoenix.PubSub.broadcast(PolishMe.PubSub, "brands", message)
+    Phoenix.PubSub.broadcast(PolishMe.PubSub, all_topic(), message)
   end
 
-  defp broadcast(id, message) do
-    Phoenix.PubSub.broadcast(PolishMe.PubSub, "brand:#{id}", message)
+  defp broadcast_brand(id, message) do
+    Phoenix.PubSub.broadcast(PolishMe.PubSub, brand_topic(id), message)
   end
+
+  defp all_topic, do: "brands"
+  defp brand_topic(id), do: "brand:#{id}"
 
   @doc """
   Returns the list of brands.
@@ -135,7 +138,7 @@ defmodule PolishMe.Brands do
            |> Brand.changeset(attrs)
            |> Repo.update() do
       broadcast({:updated, brand})
-      broadcast(brand.id, {:updated, brand})
+      broadcast_brand(brand.id, {:updated, brand})
       {:ok, brand}
     end
   end

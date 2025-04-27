@@ -1,7 +1,9 @@
 defmodule PolishMeWeb.PolishLive.Index do
   use PolishMeWeb, :live_view
 
+  alias PolishMe.Brands
   alias PolishMe.Polishes
+  alias PolishMe.Polishes.Polish
   alias PolishMeWeb.Helpers.TextHelpers
 
   @impl true
@@ -9,9 +11,15 @@ defmodule PolishMeWeb.PolishLive.Index do
     ~H"""
     <Layouts.app flash={@flash} title={@page_title}>
       <:actions :if={@current_scope.user.is_admin}>
-        <.button variant="primary" navigate={~p"/polishes/new"}>
-          <.icon name="hero-plus" /> New Polish
-        </.button>
+        <%= if @brand do %>
+          <.button variant="primary" navigate={~p"/polishes/#{@brand.slug}/new"}>
+            <.icon name="hero-plus" /> New {@brand.name} Polish
+          </.button>
+        <% else %>
+          <.button variant="primary" navigate={~p"/polishes/new"}>
+            <.icon name="hero-plus" /> New Polish
+          </.button>
+        <% end %>
       </:actions>
 
       <.table
@@ -52,18 +60,40 @@ defmodule PolishMeWeb.PolishLive.Index do
   end
 
   @impl true
-  def mount(_params, _session, socket) do
-    Polishes.subscribe()
+  def mount(params, _session, socket) do
+    {:ok, socket |> apply_action(socket.assigns.live_action, params)}
+  end
 
-    {:ok,
-     socket
-     |> assign(:page_title, "Polishes")
-     |> stream(:polishes, Polishes.list_polishes())}
+  defp apply_action(socket, :index, _params) do
+    Polishes.subscribe_all()
+
+    socket
+    |> assign(:page_title, "Polishes")
+    |> assign(:brand, nil)
+    |> stream(:polishes, Polishes.list_polishes())
+  end
+
+  defp apply_action(socket, :index_by_brand, %{"brand_slug" => brand_slug}) do
+    brand = Brands.get_brand!(brand_slug)
+    Polishes.subscribe_brand_polishes(brand.id)
+
+    socket
+    |> assign(:page_title, "#{brand.name} Polishes")
+    |> assign(:brand, brand)
+    |> stream(:polishes, Polishes.list_polishes(brand.id))
   end
 
   @impl true
-  def handle_info({type, %PolishMe.Polishes.Polish{}}, socket)
+  def handle_info({type, %Polish{}}, socket)
       when type in [:created, :updated] do
+    update_polishes(socket, socket.assigns.brand)
+  end
+
+  defp update_polishes(socket, nil) do
     {:noreply, stream(socket, :polishes, Polishes.list_polishes(), reset: true)}
+  end
+
+  defp update_polishes(socket, brand) do
+    {:noreply, stream(socket, :polishes, Polishes.list_polishes(brand.id), reset: true)}
   end
 end

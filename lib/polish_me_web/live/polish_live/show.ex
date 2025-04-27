@@ -40,7 +40,7 @@ defmodule PolishMeWeb.PolishLive.Show do
   @impl true
   def mount(%{"brand_slug" => brand_slug, "polish_slug" => polish_slug}, _session, socket) do
     polish = Polishes.get_polish!(brand_slug, polish_slug)
-    Polishes.subscribe(polish.id)
+    Polishes.subscribe_polish(polish.id)
 
     {:ok, socket |> assign(page_title: "#{polish.brand.name}: #{polish.name}", polish: polish)}
   end

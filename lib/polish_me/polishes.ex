@@ -18,21 +18,33 @@ defmodule PolishMe.Polishes do
     * {:updated, %Polish{}}
 
   """
-  def subscribe() do
-    Phoenix.PubSub.subscribe(PolishMe.PubSub, "polishes")
+  def subscribe_all() do
+    Phoenix.PubSub.subscribe(PolishMe.PubSub, all_topic())
   end
 
-  def subscribe(id) do
-    Phoenix.PubSub.subscribe(PolishMe.PubSub, "polish:#{id}")
+  def subscribe_polish(id) do
+    Phoenix.PubSub.subscribe(PolishMe.PubSub, polish_topic(id))
+  end
+
+  def subscribe_brand_polishes(id) do
+    Phoenix.PubSub.subscribe(PolishMe.PubSub, brand_polishes_topic(id))
   end
 
   defp broadcast(message) do
-    Phoenix.PubSub.broadcast(PolishMe.PubSub, "polishes", message)
+    Phoenix.PubSub.broadcast(PolishMe.PubSub, all_topic(), message)
   end
 
-  defp broadcast(id, message) do
-    Phoenix.PubSub.broadcast(PolishMe.PubSub, "polish:#{id}", message)
+  defp broadcast_polish(id, message) do
+    Phoenix.PubSub.broadcast(PolishMe.PubSub, polish_topic(id), message)
   end
+
+  defp broadcast_brand_polish(id, message) do
+    Phoenix.PubSub.broadcast(PolishMe.PubSub, brand_polishes_topic(id), message)
+  end
+
+  defp all_topic, do: "polishes"
+  defp polish_topic(id), do: "polish:#{id}"
+  defp brand_polishes_topic(id), do: "brand-polishes:#{id}"
 
   @doc """
   Returns the list of polishes.
@@ -45,6 +57,21 @@ defmodule PolishMe.Polishes do
   """
   def list_polishes() do
     Polish
+    |> Repo.all()
+    |> preload_brand()
+  end
+
+  @doc """
+  Returns a brand's list of polishes.
+
+  ## Examples
+
+      iex> list_polishes(1)
+      [%Polish{}, ...]
+  """
+  def list_polishes(brand_id) do
+    Polish
+    |> where(brand_id: ^brand_id)
     |> Repo.all()
     |> preload_brand()
   end
@@ -89,6 +116,7 @@ defmodule PolishMe.Polishes do
            |> Polish.changeset(attrs)
            |> Repo.insert() do
       broadcast({:created, polish})
+      broadcast_brand_polish(polish.brand_id, {:created, polish})
       {:ok, polish |> preload_brand()}
     end
   end
@@ -111,7 +139,8 @@ defmodule PolishMe.Polishes do
            |> Polish.changeset(attrs)
            |> Repo.update() do
       broadcast({:updated, polish})
-      broadcast(polish.id, {:updated, polish})
+      broadcast_polish(polish.id, {:updated, polish})
+      broadcast_brand_polish(polish.brand_id, {:updated, polish})
       {:ok, polish |> preload_brand()}
     end
   end

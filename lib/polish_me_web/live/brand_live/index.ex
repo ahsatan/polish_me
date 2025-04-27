@@ -3,6 +3,7 @@ defmodule PolishMeWeb.BrandLive.Index do
 
   alias Phoenix.HTML.Form
   alias PolishMe.Brands
+  alias PolishMe.Brands.Brand
 
   @impl true
   def render(assigns) do
@@ -78,7 +79,7 @@ defmodule PolishMeWeb.BrandLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    Brands.subscribe()
+    Brands.subscribe_all()
 
     {:ok, socket |> assign(page_title: "Brands")}
   end
@@ -99,11 +100,13 @@ defmodule PolishMeWeb.BrandLive.Index do
   end
 
   @impl true
-  def handle_info({type, %PolishMe.Brands.Brand{}}, socket)
+  def handle_info({type, %Brand{}}, socket)
       when type in [:created, :updated] do
     {:noreply,
      socket
-     |> stream(:brands, socket.assigns.form.params |> filter_params() |> Brands.filter_brands(),
+     |> stream(
+       :brands,
+       socket.assigns.form.params |> filter_params() |> Brands.filter_brands(),
        reset: true
      )}
   end

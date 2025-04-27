@@ -25,6 +25,9 @@ defmodule PolishMeWeb.BrandLive.Show do
         >
           <.icon name="hero-plus" /> New Polish
         </.button>
+        <.button navigate={~p"/polishes/#{@brand.slug}"}>
+          All Polish <.icon name="hero-arrow-right" />
+        </.button>
       </:actions>
 
       <.list>
@@ -51,7 +54,7 @@ defmodule PolishMeWeb.BrandLive.Show do
   @impl true
   def mount(%{"slug" => slug}, _session, socket) do
     brand = Brands.get_brand!(slug)
-    Brands.subscribe(brand.id)
+    Brands.subscribe_brand(brand.id)
 
     {:ok, socket |> assign(page_title: brand.name, brand: brand)}
   end

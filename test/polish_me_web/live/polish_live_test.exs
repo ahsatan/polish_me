@@ -39,6 +39,16 @@ defmodule PolishMeWeb.PolishLiveTest do
       assert html =~ polish.name
     end
 
+    test "lists all brand's polishes", %{conn: conn, polish: polish} do
+      other_polish = polish_fixture()
+
+      {:ok, _index_live, html} = live(conn, ~p"/polishes/#{polish.brand.slug}")
+
+      assert html =~ "#{polish.brand.name} Polishes"
+      assert html =~ polish.name
+      refute html =~ other_polish.name
+    end
+
     test "loads without admin links", %{conn: conn, polish: polish} do
       {:ok, index_live, _html} = live(conn, ~p"/polishes")
 
