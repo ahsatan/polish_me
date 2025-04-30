@@ -8,6 +8,7 @@ defmodule PolishMe.Brands.Brand do
     field :description, :string
     field :website, :string
     field :contact_email, :string
+    field :image_url, :string
 
     has_many :polishes, PolishMe.Polishes.Polish
 
@@ -17,7 +18,7 @@ defmodule PolishMe.Brands.Brand do
   @doc false
   def changeset(brand, attrs) do
     brand
-    |> cast(attrs, [:name, :slug, :description, :website, :contact_email])
+    |> cast(attrs, [:name, :slug, :description, :website, :contact_email, :image_url])
     |> validate_required([:name, :slug])
     |> validate_name()
     |> validate_slug()

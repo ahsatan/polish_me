@@ -100,7 +100,6 @@ defmodule PolishMeWeb.BrandLive.Form do
     {:ok,
      socket
      |> assign(:return_to, return_to(params["return_to"]))
-     |> assign(:uploaded_images, [])
      |> allow_upload(:logo, accept: ~w(.jpg .jpeg .png .svg), max_entries: 1)
      |> apply_action(socket.assigns.live_action, params)}
   end
@@ -113,6 +112,7 @@ defmodule PolishMeWeb.BrandLive.Form do
 
     socket
     |> assign(:page_title, "Edit Brand")
+    |> assign(:uploaded_logo, brand.image_url)
     |> assign(:brand, brand)
     |> assign(:form, to_form(Brands.change_brand(brand)))
   end
@@ -122,6 +122,7 @@ defmodule PolishMeWeb.BrandLive.Form do
 
     socket
     |> assign(:page_title, "New Brand")
+    |> assign(:uploaded_logo, nil)
     |> assign(:brand, brand)
     |> assign(:form, to_form(Brands.change_brand(brand)))
   end
@@ -141,21 +142,31 @@ defmodule PolishMeWeb.BrandLive.Form do
   def handle_event("save", %{"brand" => brand_params}, socket) do
     slug = TextHelpers.name_to_slug(brand_params["name"])
 
-    uploaded_images =
-      consume_uploaded_entries(socket, :logo, fn %{path: path}, %{client_type: type} ->
-        dest =
-          Path.join(
-            Application.app_dir(:polish_me, "priv/static/uploads/brand/logos"),
-            slug <> type_to_extension(type)
-          )
+    {:noreply, socket} =
+      case uploaded_entries(socket, :logo) do
+        {[%{client_type: type} = entry | _], _} ->
+          image_url =
+            consume_uploaded_entry(socket, entry, fn %{path: path} ->
+              dest =
+                Path.join(
+                  Application.app_dir(:polish_me, "priv/static/uploads/brand/logo"),
+                  slug <> type_to_extension(type)
+                )
 
-        File.cp!(path, dest)
-        {:ok, ~p"/uploads/brand/logos/#{Path.basename(dest)}"}
-      end)
+              File.cp!(path, dest)
+              {:ok, ~p"/uploads/brand/logo/#{Path.basename(dest)}"}
+            end)
 
-    socket = socket |> update(:uploaded_images, &(&1 ++ uploaded_images))
+          {:noreply, socket |> assign(:uploaded_logo, image_url)}
 
-    save_brand(socket, socket.assigns.live_action, brand_params |> Map.put("slug", slug))
+        _ ->
+          {:noreply, socket}
+      end
+
+    brand_params =
+      brand_params |> Map.put("slug", slug) |> Map.put("image_url", socket.assigns.uploaded_logo)
+
+    save_brand(socket, socket.assigns.live_action, brand_params)
   end
 
   defp type_to_extension("image/jpeg"), do: ".jpg"
