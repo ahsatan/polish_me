@@ -44,6 +44,43 @@ defmodule PolishMeWeb.BrandLive.Form do
           placeholder="support@brand.com"
           maxlength="80"
         />
+        <fieldset class="fieldset mb-2">
+          <label class="fieldset-label">Logo Image</label>
+          <.live_file_input class="file-input" upload={@uploads.logo} />
+
+          <%!-- Modified from: https://hexdocs.pm/phoenix_live_view/uploads.html --%>
+          <%!-- phx-drop-target with the upload ref enables file drag and drop --%>
+          <section phx-drop-target={@uploads.logo.ref}>
+            <article :for={entry <- @uploads.logo.entries} class="upload-entry">
+              <div :if={@uploads.logo.errors == []}>
+                <figure>
+                  <.live_img_preview width="320" entry={entry} />
+                </figure>
+
+                <%!-- entry.progress updates automatically for in-flight entries --%>
+                <progress value={entry.progress} max="100" class="w-80">{entry.progress}%</progress>
+
+                <button
+                  type="button"
+                  phx-click="cancel-upload"
+                  phx-value-ref={entry.ref}
+                  aria-label="cancel"
+                >
+                  &times;
+                </button>
+              </div>
+
+              <p :for={err <- upload_errors(@uploads.logo, entry)} class="alert text-error">
+                {error_to_string(err)}
+              </p>
+            </article>
+
+            <p :for={err <- upload_errors(@uploads.logo)} class="alert text-error">
+              {error_to_string(err)}
+            </p>
+          </section>
+        </fieldset>
+
         <footer>
           <.button phx-disable-with="Saving..." variant="primary">Save</.button>
           <.button navigate={return_path(@return_to, @brand)}>Cancel</.button>
@@ -53,11 +90,18 @@ defmodule PolishMeWeb.BrandLive.Form do
     """
   end
 
+  defp error_to_string(:too_many_files), do: "You have selected too many files"
+  defp error_to_string(:not_accepted), do: "Accepts only .jpg, .jpeg, .png, and .svg filetypes"
+  defp error_to_string(:too_large), do: "The image is too large"
+  defp error_to_string(:external_client_failure), do: "Something went terribly wrong"
+
   @impl true
   def mount(params, _session, socket) do
     {:ok,
      socket
      |> assign(:return_to, return_to(params["return_to"]))
+     |> assign(:uploaded_images, [])
+     |> allow_upload(:logo, accept: ~w(.jpg .jpeg .png .svg), max_entries: 1)
      |> apply_action(socket.assigns.live_action, params)}
   end
 
@@ -83,6 +127,11 @@ defmodule PolishMeWeb.BrandLive.Form do
   end
 
   @impl true
+
+  def handle_event("cancel-upload", %{"ref" => ref}, socket) do
+    {:noreply, cancel_upload(socket, :logo, ref)}
+  end
+
   def handle_event("validate", %{"brand" => brand_params}, socket) do
     changeset = Brands.change_brand(socket.assigns.brand, brand_params)
 
@@ -90,12 +139,28 @@ defmodule PolishMeWeb.BrandLive.Form do
   end
 
   def handle_event("save", %{"brand" => brand_params}, socket) do
-    save_brand(
-      socket,
-      socket.assigns.live_action,
-      brand_params |> Map.put("slug", TextHelpers.name_to_slug(brand_params["name"]))
-    )
+    slug = TextHelpers.name_to_slug(brand_params["name"])
+
+    uploaded_images =
+      consume_uploaded_entries(socket, :logo, fn %{path: path}, %{client_type: type} ->
+        dest =
+          Path.join(
+            Application.app_dir(:polish_me, "priv/static/uploads/brand/logos"),
+            slug <> type_to_extension(type)
+          )
+
+        File.cp!(path, dest)
+        {:ok, ~p"/uploads/brand/logos/#{Path.basename(dest)}"}
+      end)
+
+    socket = socket |> update(:uploaded_images, &(&1 ++ uploaded_images))
+
+    save_brand(socket, socket.assigns.live_action, brand_params |> Map.put("slug", slug))
   end
+
+  defp type_to_extension("image/jpeg"), do: ".jpg"
+  defp type_to_extension("image/png"), do: ".png"
+  defp type_to_extension("image/svg+xml"), do: ".svg"
 
   defp save_brand(socket, :edit, brand_params) do
     case Brands.update_brand(socket.assigns.brand, brand_params) do
