@@ -8,7 +8,11 @@ defmodule PolishMeWeb.BrandLive.Form do
   @impl true
   def render(assigns) do
     ~H"""
-    <Layouts.app flash={@flash} title={@page_title}>
+    <Layouts.app
+      flash={@flash}
+      title={if @brand.image_url, do: nil, else: @page_title}
+      image={@brand.image_url}
+    >
       <.form for={@form} id="brand-form" phx-change="validate" phx-submit="save">
         <.input field={@form[:name]} id="name-input" type="text" label="Name" maxlength="60" required />
         <.input
@@ -111,7 +115,7 @@ defmodule PolishMeWeb.BrandLive.Form do
     brand = Brands.get_brand!(slug)
 
     socket
-    |> assign(:page_title, "Edit Brand")
+    |> assign(:page_title, "Edit #{brand.name}")
     |> assign(:uploaded_logo, brand.image_url)
     |> assign(:brand, brand)
     |> assign(:form, to_form(Brands.change_brand(brand)))

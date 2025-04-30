@@ -95,7 +95,7 @@ defmodule PolishMeWeb.BrandLiveTest do
                |> render_click()
                |> follow_redirect(conn, ~p"/brands/#{brand.slug}/edit")
 
-      assert html =~ "Edit Brand"
+      assert html =~ "Edit #{brand.name}"
 
       assert form_live
              |> form("#brand-form", brand: @invalid_attrs)
@@ -146,7 +146,7 @@ defmodule PolishMeWeb.BrandLiveTest do
                |> render_click()
                |> follow_redirect(conn, ~p"/brands/#{brand.slug}/edit?return_to=show")
 
-      assert html =~ "Edit Brand"
+      assert html =~ "Edit #{brand.name}"
 
       assert form_live
              |> form("#brand-form", brand: @invalid_attrs)

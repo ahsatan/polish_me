@@ -11,7 +11,8 @@ defmodule PolishMeWeb.Layouts do
 
   embed_templates "layouts/*"
 
-  attr :title, :string, required: true
+  attr :title, :string, default: nil
+  attr :image, :string, default: nil
   attr :subtitle, :string, default: nil
   attr :flash, :map, required: true, doc: "the map of flash messages"
 
@@ -20,7 +21,8 @@ defmodule PolishMeWeb.Layouts do
   def app(assigns) do
     ~H"""
     <.header class="navbar mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-      {@title}
+      <img :if={@image} src={@image} alt={"#{@title} image"} class="w-48 max-h-32" />
+      <span :if={@title}>{@title}</span>
       <:subtitle :if={@subtitle}>{@subtitle}</:subtitle>
       <:actions :if={@actions != []}>
         {render_slot(@actions)}
