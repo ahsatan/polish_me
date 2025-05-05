@@ -17,26 +17,68 @@ defmodule PolishMeWeb.BrandLive.Index do
 
       <.filter_form form={@form} />
 
-      <.table
-        id="brands"
-        rows={@streams.brands}
-        row_click={fn {_id, brand} -> JS.navigate(~p"/brands/#{brand.slug}") end}
-      >
-        <:col :let={{_id, brand}} label="Name">{brand.name}</:col>
-        <:col :let={{_id, brand}} label="Website">{uri_host(brand.website)}</:col>
-        <:action :let={{_id, brand}}>
-          <div class="sr-only">
-            <.link navigate={~p"/brands/#{brand.slug}"}>Show</.link>
-          </div>
-          <.link
-            :if={@current_scope.user.is_admin}
-            id={"edit-brand-#{brand.slug}"}
-            navigate={~p"/brands/#{brand.slug}/edit"}
-          >
-            <.icon name="hero-pencil" class="size-4 text-accent" />
-          </.link>
-        </:action>
-      </.table>
+      <%!-- Modified from: https://daisyui.com/components/list/ --%>
+      <div class="overflow-x-auto">
+        <table class="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th></th>
+              <th><span class="sr-only">{gettext("Actions")}</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr :for={{_dom_id, brand} <- @streams.brands}>
+              <td phx-click={JS.navigate(~p"/brands/#{brand.slug}")} class="hover:cursor-pointer">
+                <div class="logo">
+                  <div>
+                    <img
+                      :if={brand.logo_url}
+                      src={brand.logo_url}
+                      alt="#{brand.name} logo"
+                      class="max-w-32 max-h-16"
+                    />
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="flex items-center gap-3">
+                  <div>
+                    <div
+                      phx-click={JS.navigate(~p"/brands/#{brand.slug}")}
+                      class="font-bold hover:cursor-pointer"
+                    >
+                      {brand.name}
+                    </div>
+                    <div class="text-sm opacity-50">
+                      <.link href={brand.website}>{brand.website}</.link>
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="sr-only">
+                  <.link navigate={~p"/brands/#{brand.slug}"}>Show</.link>
+                </div>
+                <.link
+                  :if={@current_scope.user.is_admin}
+                  id={"edit-brand-#{brand.slug}"}
+                  navigate={~p"/brands/#{brand.slug}/edit"}
+                >
+                  <.icon name="hero-pencil" class="size-4 text-accent" />
+                </.link>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <th></th>
+              <th></th>
+              <th><span class="sr-only">{gettext("Actions")}</span></th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
     </Layouts.app>
     """
   end
@@ -67,14 +109,6 @@ defmodule PolishMeWeb.BrandLive.Index do
       </.link>
     </.form>
     """
-  end
-
-  defp uri_host(website) when website in [nil, ""], do: nil
-
-  defp uri_host(website) do
-    {:ok, %URI{host: host}} = URI.new(website)
-
-    host
   end
 
   @impl true

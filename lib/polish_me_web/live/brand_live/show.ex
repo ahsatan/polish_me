@@ -8,8 +8,8 @@ defmodule PolishMeWeb.BrandLive.Show do
     ~H"""
     <Layouts.app
       flash={@flash}
-      title={if @brand.image_url, do: nil, else: @page_title}
-      image={@brand.image_url}
+      title={if @brand.logo_url, do: nil, else: @page_title}
+      image={@brand.logo_url}
     >
       <:actions>
         <.button navigate={~p"/brands"}>

@@ -10,8 +10,8 @@ defmodule PolishMeWeb.BrandLive.Form do
     ~H"""
     <Layouts.app
       flash={@flash}
-      title={if @brand.image_url, do: nil, else: @page_title}
-      image={@brand.image_url}
+      title={if @brand.logo_url, do: nil, else: @page_title}
+      image={@brand.logo_url}
     >
       <.form for={@form} id="brand-form" phx-change="validate" phx-submit="save">
         <.input field={@form[:name]} id="name-input" type="text" label="Name" maxlength="60" required />
@@ -116,7 +116,7 @@ defmodule PolishMeWeb.BrandLive.Form do
 
     socket
     |> assign(:page_title, "Edit #{brand.name}")
-    |> assign(:uploaded_logo, brand.image_url)
+    |> assign(:uploaded_logo, brand.logo_url)
     |> assign(:brand, brand)
     |> assign(:form, to_form(Brands.change_brand(brand)))
   end
@@ -149,7 +149,7 @@ defmodule PolishMeWeb.BrandLive.Form do
     {:noreply, socket} =
       case uploaded_entries(socket, :logo) do
         {[%{client_type: type} = entry | _], _} ->
-          image_url =
+          logo_url =
             consume_uploaded_entry(socket, entry, fn %{path: path} ->
               dest =
                 Path.join(
@@ -161,14 +161,14 @@ defmodule PolishMeWeb.BrandLive.Form do
               {:ok, ~p"/uploads/brand/logo/#{Path.basename(dest)}"}
             end)
 
-          {:noreply, socket |> assign(:uploaded_logo, image_url)}
+          {:noreply, socket |> assign(:uploaded_logo, logo_url)}
 
         _ ->
           {:noreply, socket}
       end
 
     brand_params =
-      brand_params |> Map.put("slug", slug) |> Map.put("image_url", socket.assigns.uploaded_logo)
+      brand_params |> Map.put("slug", slug) |> Map.put("logo_url", socket.assigns.uploaded_logo)
 
     save_brand(socket, socket.assigns.live_action, brand_params)
   end

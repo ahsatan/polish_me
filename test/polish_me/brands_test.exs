@@ -11,7 +11,8 @@ defmodule PolishMe.BrandsTest do
     slug: "some-slug",
     description: "some description",
     website: "https://some.com",
-    contact_email: "some@email.com"
+    contact_email: "some@email.com",
+    logo_url: "/uploads/brand/logo/some.svg"
   }
   @invalid_attrs %{name: nil, description: nil, slug: nil, website: nil, contact_email: nil}
 
@@ -93,6 +94,7 @@ defmodule PolishMe.BrandsTest do
       assert brand.description == "some description"
       assert brand.website == "https://some.com"
       assert brand.contact_email == "some@email.com"
+      assert brand.logo_url == "/uploads/brand/logo/some.svg"
     end
 
     test "trims whitespace from name" do

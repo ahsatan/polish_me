@@ -3,7 +3,7 @@ defmodule PolishMe.Repo.Migrations.AddLogoUrlToBrand do
 
   def change do
     alter table(:brands) do
-      add :image_url, :string
+      add :logo_url, :string
     end
   end
 end

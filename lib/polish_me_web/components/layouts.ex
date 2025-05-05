@@ -21,7 +21,7 @@ defmodule PolishMeWeb.Layouts do
   def app(assigns) do
     ~H"""
     <.header class="navbar mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-      <img :if={@image} src={@image} alt={"#{@title} image"} class="w-48 max-h-32" />
+      <img :if={@image} src={@image} alt={"#{@title} image"} class="w-48 h-32 object-contain" />
       <span :if={@title}>{@title}</span>
       <:subtitle :if={@subtitle}>{@subtitle}</:subtitle>
       <:actions :if={@actions != []}>
