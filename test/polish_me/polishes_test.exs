@@ -277,6 +277,6 @@ defmodule PolishMe.PolishesTest do
   end
 
   test "get_finishes/0 returns array of accepted values" do
-    assert [:crelly | _] = Polishes.get_finishes()
+    assert [:blacklight | _] = Polishes.get_finishes()
   end
 end
