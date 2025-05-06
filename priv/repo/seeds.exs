@@ -142,7 +142,6 @@ starrily =
     "Ashes of Creation has a white crelly base with yellow/orange, orange/red, and bright red metallic flakes!\n\nThis polish is inspired by the rebirth of a Phoenix from the ashes, but also by the new life of a Phoenix from an egg.",
   colors: [:white, :red, :orange, :yellow],
   finishes: [:crelly, :flake],
-  five_free: true,
   brand: arcana
 }
 |> Repo.insert!()
@@ -154,7 +153,6 @@ starrily =
     "While touring the citrus grove, you may spot a rare Citracorn! Their brightly colored coats come from their exclusive diet of grapefruit.\n\nCitracorn has a coral crelly base with red to orange shimmer.",
   colors: [:pink],
   finishes: [:crelly, :shimmer],
-  five_free: true,
   brand: arcana
 }
 |> Repo.insert!()
@@ -166,7 +164,6 @@ starrily =
     "Emissary of Inari is a thermal polish that goes from red (cold) to light pink (warm) with a strong red to orange shimmer!\n\nEmissary of Inari is inspired by the wise Kitsune. Inari is said to be the diety of rice, agriculture, and good fortune. It is said that Kitsune are the messengers of Inari, bringing good fortune with them as they visit rice fields.\n\nInari is one of the most popular deities in Japan, with over a third of the shrines dedicated to them. You can identify an Inari shrine by its bright red color and multiple fox statues!",
   colors: [:purple, :pink, :red],
   finishes: [:thermal, :shimmer],
-  five_free: true,
   brand: arcana
 }
 |> Repo.insert!()
@@ -178,7 +175,6 @@ starrily =
     "Lost Hope is a darkish red jelly base with strong orange to yellow shimmer.\n\nIf you struck a deal with Raphael, or you just want to kill a devil, you'll find yourself at the House of Hope. The house is a beautiful prison adorned with red carpets and warm fires. Don't get too cozy; Hope is waiting.",
   colors: [:red, :orange, :yellow],
   finishes: [:jelly, :shimmer],
-  five_free: true,
   brand: arcana
 }
 |> Repo.insert!()
@@ -190,7 +186,6 @@ starrily =
     "In the distance you see a faint glow that grows as you approach. A dim cave gives way to an oasis of glowing blue mushrooms. Fae flit between the stalks as you take a seat on a moss-covered stone to admire the beauty. Mushroom-Lit Cavern is a thermal polish that goes from dark blue (cold) to light blue (warm) with a strong violet-blue shimmer. The shimmer alters the cold state to read more royal blue than pure black!",
   colors: [:blue],
   finishes: [:thermal, :shimmer],
-  five_free: true,
   brand: arcana
 }
 |> Repo.insert!()
@@ -202,7 +197,6 @@ starrily =
     "Shattered Remnants has a blueish-green jelly base with gold flakes and gold reflective glitter.",
   colors: [:green, :gold],
   finishes: [:jelly, :flake, :glitter],
-  five_free: true,
   brand: arcana
 }
 |> Repo.insert!()
@@ -214,7 +208,6 @@ starrily =
     "Within an active volcano reside the fiery Volcanicorn! With their black coats and red mane, they blend in with their surroundings.\n\nVolcanicorn has a dark red base with a red pearlescent shimmer!",
   colors: [:red],
   finishes: [:shimmer],
-  five_free: true,
   brand: arcana
 }
 |> Repo.insert!()
@@ -225,7 +218,6 @@ starrily =
   description: "HORIZON is a pumpkin orange linear holographic.",
   colors: [:orange, :rainbow],
   finishes: [:holo],
-  five_free: true,
   brand: colores_de_carol
 }
 |> Repo.insert!()
@@ -236,7 +228,6 @@ starrily =
   description: "Deep Turquoise linear holographic.",
   colors: [:green, :blue, :rainbow],
   finishes: [:holo],
-  five_free: true,
   brand: colores_de_carol
 }
 |> Repo.insert!()
@@ -248,7 +239,6 @@ starrily =
     "Intense sapphire blue linear holographic.\n\n**NOTE: I highly recommend you use a base coat as you may experience staining.",
   colors: [:blue, :rainbow],
   finishes: [:holo],
-  five_free: true,
   brand: colores_de_carol
 }
 |> Repo.insert!()
@@ -260,7 +250,6 @@ starrily =
     "Slappy's Tie is a deep oxblood red linear holographic.\n\n**NOTE: I highly recommend you use a base coat as you may experience staining.",
   colors: [:red, :rainbow],
   finishes: [:holo],
-  five_free: true,
   brand: colores_de_carol
 }
 |> Repo.insert!()
@@ -272,7 +261,6 @@ starrily =
     "The Scarecrow Walks At Midnight is an intense burnt orange linear holographic with iridescent orange flakes.\n\n**NOTE: I highly recommend you use a base coat as you may experience staining.",
   colors: [:orange, :red, :rainbow],
   finishes: [:holo],
-  five_free: true,
   brand: colores_de_carol
 }
 |> Repo.insert!()
@@ -284,7 +272,6 @@ starrily =
     "Introducing Berried Juniper, a stunning mid-toned green inspired by the resilient juniper plant commonly found in the Pacific Northwest. Part of our Plant trio, this shade captures the essence of nature's beauty with its rich, verdant hue. Its super shiny, full-coverage formula is self-leveling, providing a smooth, flawless finish every time. Nurture yourself and your nails with this nature-inspired green that’s perfect for any season. Embrace the outdoors and freshen up your look with Berried Juniper!\n\nFun Fact - Inspired by my love of green colors in home decor and wall paint. I saw it as a sign from the universe to create some muted greens because I kept falling in love with green house accents.\n\nPro Tip - Take to the nearest home decor place and I bet you will spot so many things in this shade hahaha.\n\nFull coverage in 2-3 coats.",
   colors: [:green],
   finishes: [:creme],
-  five_free: true,
   brand: cracked
 }
 |> Repo.insert!()
@@ -296,7 +283,6 @@ starrily =
     "Meet Black Jade, the sophisticated dark green cream polish inspired by its namesake plant's rich, timeless beauty. This deep, cool-toned green wraps your nails in an elegant, polished, bold, and refined look. With its smooth, creamy formula, Black Jade glides on effortlessly, giving you a sleek, luxe finish that feels grounded yet elevated. Part of our Plant Trio.\n\nPerfect for those who crave something dark but with a natural edge, Black Jade is that understated yet eye-catching green that adds just the right amount of relaxed sophistication to your manicure.\n\nPro Tip - Wear as a French tip manicure for a fun spin.\n\nFull coverage in 2-3 coats.",
   colors: [:green],
   finishes: [:creme],
-  five_free: true,
   brand: cracked
 }
 |> Repo.insert!()
@@ -308,7 +294,6 @@ starrily =
     "Spice up your nails with Calabrian Pepper. This trendy fiery red cream is perfect for adding a little sizzle to your nails.\n\nFun Fact - Inspired by a type of red chili pepper that are native to the Calabria region of Southern Italy.\n\nPro Tip - Wear your favorite matte top coat for a classic manicure.\n\nFull coverage in 2-3 coats.",
   colors: [:red],
   finishes: [:creme],
-  five_free: true,
   brand: cracked
 }
 |> Repo.insert!()
@@ -320,7 +305,6 @@ starrily =
     "Experience the rich elegance of Chinotto. This unique warm dark brown jelly brings a touch of the Mediterranean. Perfect for those who appreciate subtlety and depth.\n\nFun Fact - Inspired by an Italian Drink.\n\nPro Tip - Wear with you favorite matte or glossy top coat.\n\nFull coverage in 2-3 coats.",
   colors: [:brown],
   finishes: [:jelly],
-  five_free: true,
   brand: cracked
 }
 |> Repo.insert!()
@@ -332,7 +316,6 @@ starrily =
     "Savor the rich Delicacy in Sardinia. Our burnt orange cream has luscious hues of orange and burnt red. I would only produce the finest tomato red cream for my cronies.\n\nFun Fact - Inspired by the sauces used in pasta dishes.\n\nPro Tip - Wear with your favorite matte or glossy top coat.\n\nFull coverage in 2-3 coats.",
   colors: [:orange, :red],
   finishes: [:creme],
-  five_free: true,
   brand: cracked
 }
 |> Repo.insert!()
@@ -344,7 +327,6 @@ starrily =
     "Sing into the season with Dough-re-mi, a sophisticated nude polish with a hint of peach shimmer, a part of our Food Coma collection that’s as smooth and warm as your favorite holiday melodies. Inspired by the joy of festive caroling, this soft, glowing shade brings a subtle radiance to your nails, perfect for any occasion. Whether you're singing along to carols or cozying up by the fire, Dough-re-mi adds a touch of understated elegance with a dash of shimmer. Let your nails hum in harmony with the spirit of the season!\n\nFun Fact - Inspired by comforting Christmas carols. It's like your go-to neutral shade.\n\nPro Tip - Paint Broken Ornaments on top for a festive look.",
   colors: [:nude, :orange, :pink],
   finishes: [:shimmer],
-  five_free: true,
   brand: cracked
 }
 |> Repo.insert!()
@@ -356,7 +338,6 @@ starrily =
     "Meet I'm Jaded a luscious deep jade crelly polish that’s super juicy and the perfect way to transition into warmer days ahead. Our crelly formulas are self leveling and gives your nails that effortlessly smooth, squishy finish. A special St. Patrick’s Day release, this stunning green is a continuation of my unwavering love for all things green because let’s be real, you can never have too many!\n\nJade is a stone of good luck, harmony, and balance, making this shade perfect. It's a little moment of self-care, a touch of inner peace, and maybe even a lucky charm for 2025. Working on growth, alignment, and self-love? I'm Jaded is here for the journey. And let’s be honest, who couldn’t use a little extra luck nowadays.",
   colors: [:green],
   finishes: [:crelly],
-  five_free: true,
   brand: cracked
 }
 |> Repo.insert!()
@@ -367,8 +348,7 @@ starrily =
   description:
     "Our duochrome shade, Leather Bound, is going to hold your attention. This dark metallic mahogany with a slight green gold shift is rich in tone and allure like a leather book cover. Elevate your basics with the timeless look of aged leather on your nails.\n\nFun Fact - Inspired by leather book covers.\n\nPro Tip - Try in various lighting to see the really cool shifts pull through.",
   colors: [:brown, :gold, :green],
-  finishes: [:chrome, :metallic],
-  five_free: true,
+  finishes: [:duochrome, :metallic],
   brand: cracked
 }
 |> Repo.insert!()
@@ -380,7 +360,6 @@ starrily =
     "There is just something so indulgent about a rich Read (red). This sophisticated dark merlot cream embodies the depth of a cherished book. Your new favorite fall shade has entered the room like a bold new character in a story.\n\nFun Fact - Naming was inspired by reading at its a red. Get it? Read pronounced red, lol.\n\nPro Tip - Try it with your favorite matte topcoat.\n\nFull coverage in 2-3 coats.",
   colors: [:red],
   finishes: [:creme],
-  five_free: true,
   brand: cracked
 }
 |> Repo.insert!()
@@ -392,7 +371,6 @@ starrily =
     "Inspiration: Tim Burtons Mars Attacks\n\nDescription: Sound the alarms—Red Planet Panic has landed, and it's out-of-this-world stunning! This warm red jelly polish is packed with multichrome flakes that shift like a UFO in the night sky, flashing hints of green, gold, and magenta. It’s chaos, it’s beauty, it’s a red lover’s dream come true.\n\nInspired by Tim Burton’s cult classic Mars Attacks!, this shade is pure retro sci-fi magic—bold, eye-catching, and just a little bit dangerous. The squishy red base glows like a planetary invasion, while the shifting flakes create an intergalactic spectacle at your fingertips.",
   colors: [:red],
   finishes: [:jelly, :flake],
-  five_free: true,
   brand: cracked
 }
 |> Repo.insert!()
@@ -403,8 +381,7 @@ starrily =
   description:
     "Navigate the complexities of love with Situationship, our dark maroon duochrome with black to red shifting shimmers will command your attention all day long. Be prepared to be entangled with this beauty.\n\nFun Fact - This is one of the most expensive colors I have created thus far.\n\nPro Tip - Use with caution, this shade causes a major distraction. You won't be able stop looking at your nails in all the different lighting.",
   colors: [:red, :black],
-  finishes: [:chrome, :shimmer],
-  five_free: true,
+  finishes: [:duochrome, :shimmer],
   brand: cracked
 }
 |> Repo.insert!()
@@ -416,7 +393,6 @@ starrily =
     "This nature inspired leafy green cream Stem provides a lush charm to your nails. It's almost like you applied a plant leaf straight on to your nail bed.\n\nFun Fact - Stems are the main transportation routes of water from the roots to the leaves.\n\nPro Tip - Wear underneath Boujee Emerald for a shimmering deep green.\n\nFull coverage in 2-3 coats.",
   colors: [:green],
   finishes: [:creme],
-  five_free: true,
   brand: cracked
 }
 |> Repo.insert!()
@@ -428,7 +404,6 @@ starrily =
     "Embrace the depth and disdain for the start of the week with Stuck On Monday Blues, our blackened navy with blue shimmers is perfect for starting the week with a whole moody vibe.\n\nFun Fact - This shade was my fun take on those who want to try black nails but don’t want to fully commit. In the dark people may see this as black but once a little light hits, it transforms into magical blue dancing shimmers on your nails.\n\nPro Tip - Wear Lazy Like Lilac on top for an ethereal glow.",
   colors: [:blue],
   finishes: [:shimmer],
-  five_free: true,
   brand: cracked
 }
 |> Repo.insert!()
@@ -440,7 +415,6 @@ starrily =
     "The Shag is a soft hunter green with micro blue and green shimmers and a gold sheen. This green will surprise you. It transforms in the sunlight but looks absolutely stunning on cloudy days.\n\nFun Fact - The Shag is inspired by my grandparents green carpet. Back in their day every carpet was green and so were the appliances.\n\nPro Tip - This green was formulated to suit all skin tones if you are skeptical of trying green I dare you to give this one a chance.",
   colors: [:green, :blue, :gold],
   finishes: [:shimmer],
-  five_free: true,
   brand: cracked
 }
 |> Repo.insert!()
@@ -452,7 +426,6 @@ starrily =
     "Where’s My Bliss? is described as a sea foam teal crelly. This shade was inspired by the stained glass nail trend. Any sea foam shade instantly makes me feel calm. This lovely shade is apart of our Beach collection.\n\nFun Fact - This is up there as one of my highest number of prototypes to nail the undertones of this one. I think it's going to be hard to dupe.\n\nPro Tip - Wear one coat with your favorite matte top coat on for a stained glass look.",
   colors: [:green, :blue],
   finishes: [:crelly],
-  five_free: true,
   brand: cracked
 }
 |> Repo.insert!()
@@ -463,8 +436,7 @@ starrily =
   description:
     "Step into the nostalgia of entering an old library and seeing green lamps everywhere. The iconic Vintage Lampshade is a rich pine with a slight blue-purple shift bound to capture green lovers' hearts.\n\nFun Fact - Inspired by green library lamps.\n\nPro Tip - Try in various lighting to see the cool shifts pull through.",
   colors: [:green, :blue],
-  finishes: [:chrome],
-  five_free: true,
+  finishes: [:multichrome],
   brand: cracked
 }
 |> Repo.insert!()
@@ -476,7 +448,6 @@ starrily =
     "Step into a storybook with Once Upon A Trail, our warm brown crelly creation for this month’s Hella Handmade Creations! Continuing our Down The Indie Rabbit Hole theme, this shade is a captivating blend of softness and elegance, inspired by the mesmerizing beauty of tiger’s eye stones.\n\nOnce Upon a Trail features a warm, earthy brown base with stunning gold magnetic pigments that shimmer and shift like the bands of light on polished tiger’s eye. Soft, wearable, and endlessly enchanting, it’s the perfect polish for those who love understated yet magical shades.",
   colors: [:brown, :gold],
   finishes: [:crelly, :magnetic],
-  five_free: true,
   brand: cracked
 }
 |> Repo.insert!()
@@ -488,7 +459,6 @@ starrily =
     "This polish was inspired by the August birthstone, Carnelian. This orange polish has a strong holographic effect and is ready to go in about 1-2 coats. The carnelian stone is known to restore vitality and motivation, and also foster creativity. It gives courage and promotes positive life choices.",
   colors: [:orange, :rainbow],
   finishes: [:holo],
-  five_free: true,
   brand: dam
 }
 |> Repo.insert!()
@@ -499,7 +469,6 @@ starrily =
   description: "Metallic copper linear holographic polish inspired by the jewelry metal copper.",
   colors: [:gold, :rainbow],
   finishes: [:holo],
-  five_free: true,
   brand: dam
 }
 |> Repo.insert!()
@@ -511,7 +480,6 @@ starrily =
     "Red base with gold flakes.\n\nThe dragon is a powerful symbol in astrology and a symbol of power and grandeur. Dragons tend to be charming and popular and are generally honest and authentic. They are not skilled at faking their feelings. Red and gold are lucky colors for the dragon zodiac.",
   colors: [:red, :gold],
   finishes: [:jelly, :flake],
-  five_free: true,
   brand: dam
 }
 |> Repo.insert!()
@@ -523,7 +491,6 @@ starrily =
     "This emerald green nail polish was inspired by the May birthstone, Emerald. This rich green polish has a strong holographic effect and is ready to go in about 1-2 coats. The word Emerald comes from a Latin term “smaragdus,” signifying green gem. Emeralds were once Cleopatra's favorite gems and are thought to symbolize wisdom, growth, and patience.",
   colors: [:green, :rainbow],
   finishes: [:holo],
-  five_free: true,
   brand: dam
 }
 |> Repo.insert!()
@@ -535,7 +502,6 @@ starrily =
     "White base with pink and gold shifting shimmer.\n\nRabbits are very witty, quick minded, compassionate and charming people. Pink is considered to be lucky for those born in the year of the Rabbit. The rabbit in the Chinese zodiac are synonymous with the cat in the Vietnamese zodiac.",
   colors: [:white, :pink, :gold],
   finishes: [:shimmer],
-  five_free: true,
   brand: dam
 }
 |> Repo.insert!()
@@ -547,7 +513,6 @@ starrily =
     "This polish was inspired by the July birthstone, Ruby. This vivid red polish has a strong holographic effect. It is ready to go in about 1-2 coats. The gemstone Ruby represents love, health, and wisdom. It's believed to bring good fortune on anyone wearing the gemstone.",
   colors: [:pink, :red, :rainbow],
   finishes: [:holo],
-  five_free: true,
   brand: dam
 }
 |> Repo.insert!()
@@ -559,7 +524,6 @@ starrily =
     "Orange base with orange and gold shifting shimmer. Tigers usually have an overall down to earth personality who are confident and can be great leaders. Orange is considered to be a lucky color for the tiger.",
   colors: [:orange, :gold],
   finishes: [:shimmer],
-  five_free: true,
   brand: dam
 }
 |> Repo.insert!()
@@ -571,7 +535,6 @@ starrily =
     "Blue-Banded Brown Pelican is a rich medium tone blue creme.\n\nBrown Pelicans are brought to International Bird Rescue for care for a variety of reasons, from oil spills and food shortages to fishing gear-related injuries.\n\nSince 2009, Bird Rescue has been equipping rehabilitated Brown Pelicans with special blue bands before their release. These bands have large white lettering that makes them easy to spot and read out in the wild.\n\nReports on these blue-banded pelicans have provided them with important information on post-release survival and the pelicans’ movements up and down the coast.\n\nYou can help International Bird Rescue and other conservation organizations by keeping an eye out for banded birds and reporting any that you see to reportband.gov.",
   colors: [:blue],
   finishes: [:creme],
-  five_free: true,
   brand: dimension
 }
 |> Repo.insert!()
@@ -582,7 +545,6 @@ starrily =
   description: "",
   colors: [:red],
   finishes: [:creme],
-  five_free: true,
   brand: dimension
 }
 |> Repo.insert!()
@@ -594,7 +556,6 @@ starrily =
     "Great Indian Hornbill is a vibrant yellow with gold shimmers throughout.\n\n1. The Great Indian Hornbill (Buceros bicornis) is one of the largest hornbill species found in the Indian subcontinent. They measure approximately 95 to 130 cm (37 to 51 inches) in length, with a wingspan of about 150 cm (59 inches).\n\n2. Known for their distinct appearance, Great Indian Hornbills have a large yellowish casque, which is a hollow structure on the upper beak. The casque acts as a resonating chamber, enhancing the bird's calls. Males usually have larger casques than females.\n\n3. Habitat destruction and hunting have led to the decline of Great Indian Hornbill populations. They primarily inhabit the canopy levels of evergreen and mixed deciduous forests, as well as hilly and mountainous regions. These birds are found in India, Bhutan, Nepal, and parts of Southeast Asia.",
   colors: [:yellow, :gold],
   finishes: [:shimmer],
-  five_free: true,
   brand: dimension
 }
 |> Repo.insert!()
@@ -606,7 +567,6 @@ starrily =
     "Halloween Hermit Crab is a rich metallic like orange.\n\nThe Halloween hermit crab gets their name from their striking coloration, which resembles Halloween decorations.",
   colors: [:orange],
   finishes: [:shimmer],
-  five_free: true,
   brand: dimension
 }
 |> Repo.insert!()
@@ -618,7 +578,6 @@ starrily =
     "Orange Pecan Milk is a creamy, tropical light orange.\n\nOur plant based milk lacquer collection has a milky jelly formula. It is somewhat sheer but can be built up for richer color and coverage! A pop of color with a visible nail line can be achieved with this collection.",
   colors: [:orange],
   finishes: [:jelly],
-  five_free: true,
   brand: dimension
 }
 |> Repo.insert!()
@@ -630,7 +589,6 @@ starrily =
     "Vanilla Almond Milk is a milky white jelly.\n\nOur plant based milk lacquer collection has a milky jelly formula. It is somewhat sheer but can be built up for richer color and coverage! A pop of color with a visible nail line can be achieved with this collection.",
   colors: [:white],
   finishes: [:jelly],
-  five_free: true,
   brand: dimension
 }
 |> Repo.insert!()
@@ -641,7 +599,6 @@ starrily =
   description: "",
   colors: [:yellow, :orange],
   finishes: [:creme],
-  five_free: true,
   brand: dimension
 }
 |> Repo.insert!()
@@ -653,7 +610,6 @@ starrily =
     "Western Grebe is a bright red sheer jelly.\n\nWestern Grebes are diving birds with striking bright red eyes. They spend almost their entire lives on the water, building floating nests and carrying their young on their backs.\n\nThese grebes are common patients at the International Bird Rescue and come into care due to oil spills, starvation, and a wide range of injuries. They were the favorite species of Bird Rescue’s founder, Alice Berkner.\n\nOne of the best ways to help protect these birds is to help keep our waterways clean.",
   colors: [:red],
   finishes: [:jelly],
-  five_free: true,
   brand: dimension
 }
 |> Repo.insert!()
@@ -664,8 +620,7 @@ starrily =
   description:
     "A multichrome nail polish that shifts from a dark grey to a deep red.\n\nOpaque in 2 - 3 coats depending on your application, top coat recommended for a glossy finish.",
   colors: [:gray, :black, :red],
-  finishes: [:chrome],
-  five_free: true,
+  finishes: [:multichrome],
   brand: emily_de_molly
 }
 |> Repo.insert!()
@@ -677,7 +632,6 @@ starrily =
     "A brown nail polish with a large particle aurora shimmer that has a subtle shift from green to blue.\n\nOpaque in 2-3 coats depending on your application, top coat recommended for a glossy finish.",
   colors: [:green, :blue, :brown],
   finishes: [:shimmer],
-  five_free: true,
   brand: emily_de_molly
 }
 |> Repo.insert!()
@@ -689,7 +643,6 @@ starrily =
     "A deep red nail polish with a red to orange shifting magnetic effect.\n\nOpaque in 2 - 3 coats depending on your application, top coat recommended for a glossy finish.",
   colors: [:red, :orange],
   finishes: [:magnetic],
-  five_free: true,
   brand: emily_de_molly
 }
 |> Repo.insert!()
@@ -701,7 +654,6 @@ starrily =
 Opaque in 2 - 3 coats depending on your application, top coat recommended for a glossy finish.",
   colors: [:red],
   finishes: [:shimmer],
-  five_free: true,
   brand: emily_de_molly
 }
 |> Repo.insert!()
@@ -712,8 +664,7 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
   description:
     "A multichrome nail polish that shifts through shades of greens and blues.\n\nOpaque in 2 - 3 coats depending on your application, top coat recommended for a glossy finish.",
   colors: [:blue, :green, :purple],
-  finishes: [:chrome],
-  five_free: true,
+  finishes: [:multichrome],
   brand: emily_de_molly
 }
 |> Repo.insert!()
@@ -725,7 +676,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
     "A deep brick red creme nail polish.\n\nOpaque in 1 - 2 coats depending on your application, top coat recommended for a glossy finish.",
   colors: [:pink, :red],
   finishes: [:creme],
-  five_free: true,
   brand: emily_de_molly
 }
 |> Repo.insert!()
@@ -737,7 +687,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
     "A bright red holographic nail polish.\n\nOpaque in 2 - 3 coats depending on your application, top coat recommended for a glossy finish.\n\nThis colour has the potential for staining.",
   colors: [:red, :rainbow],
   finishes: [:holo],
-  five_free: true,
   brand: emily_de_molly
 }
 |> Repo.insert!()
@@ -749,7 +698,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
     "A rich oxblood red base with an aurora shimmer that shifts from red to orange.\n\nPlease note that this polish is very pigmented and may stain. Please wear a good base coat!\n\nOctober is Bleeding Disorder Awareness Month. $1 from every bottle sold of Blood Bag will be donated to the National Organization for Rare Disorders.",
   colors: [:red],
   finishes: [:shimmer],
-  five_free: true,
   brand: lurid
 }
 |> Repo.insert!()
@@ -761,7 +709,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
     "Faded Flannel features a cool-toned brick red jelly base with warm red-to-orange aurora shimmer and a mix of bronze and silver light reflective glitter.\n\nFaded Flannel is part of the Midwestern Winters Collection (these polishes were given as gifts with purchase at random at our November 2024 launch).",
   colors: [:red, :orange],
   finishes: [:jelly, :shimmer, :glitter],
-  five_free: true,
   brand: lurid
 }
 |> Repo.insert!()
@@ -773,7 +720,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
     "Fireside features an orange jelly base with vibrant orange to gold aurora shimmer that shifts to green at extremes.\n\nFireside is part of the Midwestern Winters Collection (these polishes were given as gifts with purchase at random at our November 2024 launch).\n\n$1 per bottle will be donated to Baby2Baby's Disaster Relief and Emergency Response Program.",
   colors: [:orange, :gold],
   finishes: [:jelly, :shimmer],
-  five_free: true,
   brand: lurid
 }
 |> Repo.insert!()
@@ -785,7 +731,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
     "A rich cobalt base with a warm blue aurora shimmer that shifts to purple and bronze light reflective glitter.\n\nI Await Your Arrival is part of the Waiting for Someone Who Never Comes Collection.",
   colors: [:blue],
   finishes: [:shimmer, :glitter],
-  five_free: true,
   brand: lurid
 }
 |> Repo.insert!()
@@ -797,7 +742,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
     "A violet-leaning purple base with a vibrant purple to pink to red shimmer.\n\n(This product is very pigmented and may stain your nail bed. Please wear a base coat to prevent staining.)\n\nFrom the Thistle and Thorn Collection.",
   colors: [:purple, :pink],
   finishes: [:shimmer],
-  five_free: true,
   brand: lurid
 }
 |> Repo.insert!()
@@ -809,7 +753,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
     "A cerulean crelly base with glowy green shimmer that shifts subtly to teal at extremes.\n\nPotholes Trail is part of the Summers With My Siblings Collection.",
   colors: [:blue, :green],
   finishes: [:crelly, :shimmer],
-  five_free: true,
   brand: lurid
 }
 |> Repo.insert!()
@@ -821,7 +764,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
     "A pinky coral jelly base with large particle shimmer that shifts from pink to orange to gold.\n\nSaturday Morning Cartoons is part of the Summers With My Siblings Collection.",
   colors: [:pink, :orange],
   finishes: [:jelly, :shimmer],
-  five_free: true,
   brand: lurid
 }
 |> Repo.insert!()
@@ -833,7 +775,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
     "A pinky coral base with aurora shimmer that shifts from red to orange to gold.\n\nSure, Bert is part of the Summers With My Siblings Collection.",
   colors: [:pink, :orange, :gold],
   finishes: [:shimmer],
-  five_free: true,
   brand: lurid
 }
 |> Repo.insert!()
@@ -845,7 +786,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
     "A coral red base with vibrant orange to gold to green shimmer (the shimmer gives this polish an overall orange appearance).\n\nTomate de Árbol is part of the Cartagena Querida Collection.",
   colors: [:orange, :red, :gold],
   finishes: [:shimmer],
-  five_free: true,
   brand: lurid
 }
 |> Repo.insert!()
@@ -857,7 +797,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
     "Vixen features a blackened maroon base with fine particle aurora shimmer that shifts from purple to pink to red. (This is the same beautiful shimmer that is in Indomitable and A Rose Amongst the Weeds.)\n\nThe base is pigmented and may stain. Please wear a good base coat!",
   colors: [:purple, :red],
   finishes: [:shimmer],
-  five_free: true,
   brand: lurid
 }
 |> Repo.insert!()
@@ -869,7 +808,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
     "A cherry pinkish-red jelly base with vibrant red to orange shimmer (in some lighting, the base color appears a vibrant deep pink and in other lighting, it appears red).\n\nPlease note that this polish is very pigmented and may stain. As always, please wear a good base coat.\n\nWhy Would I Wear Lipstick? is part of the Forever Weird Collection.",
   colors: [:pink, :red],
   finishes: [:jelly, :shimmer],
-  five_free: true,
   brand: lurid
 }
 |> Repo.insert!()
@@ -881,7 +819,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
     "A blue jelly base with vibrant blue to purple shimmer.\n\nYou Are the Only Safe Harbor is part of the A Taurus Born in the Year of the Ox Collection.",
   colors: [:blue, :purple],
   finishes: [:jelly, :shimmer],
-  five_free: true,
   brand: lurid
 }
 |> Repo.insert!()
@@ -893,7 +830,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
     "A red base with fiery red to orange shimmer.\n\nYou, of Unbreakable Will is part of A Taurus Born in the Year of the Ox Collection.",
   colors: [:red],
   finishes: [:shimmer],
-  five_free: true,
   brand: lurid
 }
 |> Repo.insert!()
@@ -904,7 +840,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
   description: "A Little Azure - deep denim blue creme that watermarbles!!",
   colors: [:blue],
   finishes: [:creme],
-  five_free: true,
   brand: lynb
 }
 |> Repo.insert!()
@@ -916,7 +851,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
     "A Peach of My Heart - pastel coral neon creme that glows under blacklight and watermarbles!!",
   colors: [:pink],
   finishes: [:creme, :blacklight],
-  five_free: true,
   brand: lynb
 }
 |> Repo.insert!()
@@ -927,7 +861,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
   description: "Always Well Red - deep Victorian red creme that watermarbles - May stain.",
   colors: [:red],
   finishes: [:creme],
-  five_free: true,
   brand: lynb
 }
 |> Repo.insert!()
@@ -939,7 +872,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
     "Cancer (the crab) - juicy red base with red to orange to gold shifting micro flakie shimmer.\n\nMay cause staining.",
   colors: [:red, :orange],
   finishes: [:shimmer],
-  five_free: true,
   brand: lynb
 }
 |> Repo.insert!()
@@ -950,7 +882,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
   description: "Citrus Got Real - pastel neon true orange creme that watermarbles.",
   colors: [:orange],
   finishes: [:creme],
-  five_free: true,
   brand: lynb
 }
 |> Repo.insert!()
@@ -961,7 +892,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
   description: "If You Musk - dark blue base with copper to gold shifting shimmer.",
   colors: [:blue, :gold],
   finishes: [:shimmer],
-  five_free: true,
   brand: lynb
 }
 |> Repo.insert!()
@@ -973,7 +903,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
     "It’s Fall Coming Back to Me Now - forest green with copper to green shifting shimmer and a touch of added holo sparkle.",
   colors: [:green, :gold],
   finishes: [:shimmer, :holo],
-  five_free: true,
   brand: lynb
 }
 |> Repo.insert!()
@@ -985,7 +914,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
     "Luminous Dream - pale peach base with orange to gold to green shifting shimmer and added holo flakies.",
   colors: [:orange, :gold],
   finishes: [:shimmer, :flake],
-  five_free: true,
   brand: lynb
 }
 |> Repo.insert!()
@@ -997,7 +925,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
     "Old Lady Energy - creamy pink base with pink to gold shifting micro flakie shimmer.",
   colors: [:pink, :gold],
   finishes: [:shimmer],
-  five_free: true,
   brand: lynb
 }
 |> Repo.insert!()
@@ -1009,7 +936,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
     "Orange You Appealing - pastel yellow orange neon creme that glows under blacklight and watermarbles!!",
   colors: [:orange, :yellow],
   finishes: [:creme, :blacklight],
-  five_free: true,
   brand: lynb
 }
 |> Repo.insert!()
@@ -1020,7 +946,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
   description: "Orpiment - warm yellow with intense red to orange to gold shifting shimmer.",
   colors: [:yellow, :orange, :red],
   finishes: [:shimmer],
-  five_free: true,
   brand: lynb
 }
 |> Repo.insert!()
@@ -1032,7 +957,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
     "Pere Cheney - copper/brown base with a hint of plum filled with copper to gold shifting shimmer.",
   colors: [:brown, :gold],
   finishes: [:shimmer],
-  five_free: true,
   brand: lynb
 }
 |> Repo.insert!()
@@ -1044,7 +968,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
     "Reddy or Not - a neon red creme that glows red under blacklight and that watermarbles!!",
   colors: [:red],
   finishes: [:creme, :blacklight],
-  five_free: true,
   brand: lynb
 }
 |> Repo.insert!()
@@ -1055,7 +978,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
   description: "Snake Goddess of Belle Isle - emerald green base with copper shimmer.",
   colors: [:green, :gold],
   finishes: [:shimmer],
-  five_free: true,
   brand: lynb
 }
 |> Repo.insert!()
@@ -1067,7 +989,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
     "Spill the Teal - a neon teal creme that glows green-blue under blacklight and that watermarbles!!",
   colors: [:blue, :green],
   finishes: [:creme, :blacklight],
-  five_free: true,
   brand: lynb
 }
 |> Repo.insert!()
@@ -1078,7 +999,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
   description: "Stay Topaz-itive - a terracotta creme that watermarbles!!",
   colors: [:orange, :brown, :red],
   finishes: [:creme],
-  five_free: true,
   brand: lynb
 }
 |> Repo.insert!()
@@ -1090,7 +1010,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
     "The Cherry Best - pastel red-toned pink neon creme that glows under blacklight and watermarbles!!",
   colors: [:pink],
   finishes: [:creme, :blacklight],
-  five_free: true,
   brand: lynb
 }
 |> Repo.insert!()
@@ -1102,7 +1021,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
     "Toucha Touch Me - a peachy orange to white thermal with a touch of holo shimmer, orange to gold shifting crystal micro flakies, and pink to green shifting crystal flakies.",
   colors: [:orange, :pink, :white],
   finishes: [:thermal, :shimmer, :flake],
-  five_free: true,
   brand: lynb
 }
 |> Repo.insert!()
@@ -1114,7 +1032,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
     "Vermillion - bright warm red to white thermal base with red to orange to gold shifting shimmer.",
   colors: [:pink, :white, :red],
   finishes: [:thermal, :shimmer, :flake],
-  five_free: true,
   brand: lynb
 }
 |> Repo.insert!()
@@ -1125,7 +1042,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
   description: "Petal pink with a strong gold contrasting shimmer.",
   colors: [:pink, :gold],
   finishes: [:shimmer],
-  five_free: true,
   brand: olive_ave
 }
 |> Repo.insert!()
@@ -1136,7 +1052,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
   description: "A spicy orange scattered holographic.",
   colors: [:orange, :brown],
   finishes: [:holo],
-  five_free: true,
   brand: olive_ave
 }
 |> Repo.insert!()
@@ -1147,7 +1062,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
   description: "A bold summer yellow cream that evokes the sun's most golden rays.",
   colors: [:yellow],
   finishes: [:creme],
-  five_free: true,
   brand: olive_ave
 }
 |> Repo.insert!()
@@ -1159,7 +1073,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
     "Brilliant golden micro flakie foil nail polish.\n\nUse in 1-3 thin coats to create a stunning foil-like reflective finish.\n\nDescription: Au is a beautiful reflective foil effect nail polish consisting of micro flake particles. It's best applied in 2 thin coats to create a brilliant luster.",
   colors: [:gold],
   finishes: [:metallic],
-  five_free: true,
   brand: starrily
 }
 |> Repo.insert!()
@@ -1172,7 +1085,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
   colors: [:gold, :red],
   finishes: [:magnetic, :shimmer],
   topper: true,
-  five_free: true,
   brand: starrily
 }
 |> Repo.insert!()
@@ -1184,7 +1096,6 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
     "Description: Queen Bee is a highly pigmented bright and creamy mustard yellow nail polish, formulated to be long lasting and high quality. Wear alone or use under our glitter toppers for unique looks! Opaque in 1-2 coats.",
   colors: [:yellow],
   finishes: [:creme],
-  five_free: true,
   brand: starrily
 }
 |> Repo.insert!()

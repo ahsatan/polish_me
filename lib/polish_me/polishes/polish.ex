@@ -29,6 +29,7 @@ defmodule PolishMe.Polishes.Polish do
 
     field :finishes, {:array, Ecto.Enum},
       values: [
+        :blacklight,
         :crelly,
         :creme,
         :duochrome,
