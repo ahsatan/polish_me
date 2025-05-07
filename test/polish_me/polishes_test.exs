@@ -182,13 +182,16 @@ defmodule PolishMe.PolishesTest do
 
     test "with same name and slug in same brand returns error changeset" do
       brand = brand_fixture()
-      Polishes.create_polish(@valid_attrs |> Map.put(:brand_id, brand.id))
+      attrs = @valid_attrs |> Map.put(:brand_id, brand.id)
+      Polishes.create_polish(attrs)
 
       assert {:error,
               %Ecto.Changeset{
-                errors: [slug: {"has already been taken", _}, name: {"has already been taken", _}]
-              }} =
-               Polishes.create_polish(@valid_attrs |> Map.put(:brand_id, brand.id))
+                errors: [
+                  slug: {"must be unique within brand", _},
+                  name: {"must be unique within brand", _}
+                ]
+              }} = Polishes.create_polish(attrs)
     end
 
     test "without slug returns error changeset" do
@@ -221,6 +224,15 @@ defmodule PolishMe.PolishesTest do
       assert polish.description == "whitespace description"
     end
 
+    test "with too long description returns error changeset" do
+      invalid_attrs = %{@valid_attrs | description: String.duplicate("a", 1025)} |> add_brand()
+
+      assert {:error,
+              %Ecto.Changeset{
+                errors: [description: {"should be at most %{count} character(s)", _}]
+              }} = Polishes.create_polish(invalid_attrs)
+    end
+
     test "without brand returns error changeset" do
       invalid_attrs = @valid_attrs
 
@@ -246,7 +258,7 @@ defmodule PolishMe.PolishesTest do
       assert polish.name == "update name"
       assert polish.slug == "update-slug"
       assert polish.description == "update description"
-      refute polish.topper
+      assert polish.topper == false
       assert polish.colors == [:yellow]
       assert polish.finishes == [:shimmer]
     end
@@ -262,6 +274,7 @@ defmodule PolishMe.PolishesTest do
 
     test "with invalid data returns error changeset" do
       polish = polish_fixture()
+
       assert {:error, %Ecto.Changeset{}} = Polishes.update_polish(polish, @invalid_attrs)
       assert polish == Polishes.get_polish!(polish.brand.slug, polish.slug)
     end
@@ -269,6 +282,7 @@ defmodule PolishMe.PolishesTest do
 
   test "change_polish/2 returns a polish changeset" do
     polish = polish_fixture()
+
     assert %Ecto.Changeset{} = Polishes.change_polish(polish)
   end
 

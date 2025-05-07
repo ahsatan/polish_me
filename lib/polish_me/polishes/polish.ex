@@ -63,8 +63,12 @@ defmodule PolishMe.Polishes.Polish do
     |> validate_name()
     |> validate_slug()
     |> validate_description()
-    |> unsafe_validate_unique([:name, :brand_id], PolishMe.Repo)
-    |> unsafe_validate_unique([:slug, :brand_id], PolishMe.Repo)
+    |> unsafe_validate_unique([:name, :brand_id], PolishMe.Repo,
+      message: "must be unique within brand"
+    )
+    |> unsafe_validate_unique([:slug, :brand_id], PolishMe.Repo,
+      message: "must be unique within brand"
+    )
     |> unique_constraint([:name, :brand_id])
     |> unique_constraint([:slug, :brand_id])
   end
