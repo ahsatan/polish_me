@@ -184,7 +184,7 @@ defmodule PolishMe.Polishes do
       broadcast({:updated, polish})
       broadcast_polish(polish.id, {:updated, polish})
       broadcast_brand_polish(polish.brand_id, {:updated, polish})
-      {:ok, polish |> preload_brand()}
+      {:ok, polish}
     end
   end
 
@@ -202,7 +202,8 @@ defmodule PolishMe.Polishes do
   end
 
   defp preload_brand(polish) do
-    polish |> Repo.preload(brand: select(Brand, [:name, :slug]))
+    query = Brand |> select([:name, :slug])
+    polish |> Repo.preload(brand: query)
   end
 
   def get_colors() do
