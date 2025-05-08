@@ -65,6 +65,10 @@ config :tailwind,
     cd: Path.expand("..", __DIR__)
   ]
 
+# Configure Money's default currency
+config :money,
+  default_currency: :USD
+
 # Configures Elixir's Logger
 config :logger, :default_formatter,
   format: "$time $metadata[$level] $message\n",
