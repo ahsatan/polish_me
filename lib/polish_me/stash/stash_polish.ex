@@ -9,7 +9,7 @@ defmodule PolishMe.Stash.StashPolish do
 
     field :thoughts, :string
     field :fill_percent, :integer, default: 100
-    field :purchase_price, :integer
+    field :purchase_price, Money.Ecto.Amount.Type
     field :purchase_date, :date
     field :swatched, :boolean, default: false
 

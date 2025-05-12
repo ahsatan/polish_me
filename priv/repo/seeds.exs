@@ -14,6 +14,7 @@ alias PolishMe.Repo
 alias PolishMe.Accounts.User
 alias PolishMe.Brands.Brand
 alias PolishMe.Polishes.Polish
+alias PolishMe.Stash.StashPolish
 
 alpha = %User{email: "alpha@test.com", is_admin: true} |> Repo.insert!()
 _beta = %User{email: "beta@test.com"} |> Repo.insert!()
@@ -1149,426 +1150,469 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
   thoughts: "Beautiful in bottle and swatch.",
   fill_percent: 99,
   purchase_price: Money.new(1200),
-  purchase_date: ~D"03-14-2025",
+  purchase_date: ~D[2025-03-14],
   swatched: true,
   user: alpha,
   polish: ashes_of_creation
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Definitely pink side of coral.",
   fill_percent: 99,
   purchase_price: Money.new(1200),
-  purchase_date: ~D"03-14-2025",
+  purchase_date: ~D[2025-03-14],
   swatched: true,
   user: alpha,
   polish: citracorn
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts:
     "Very reactive thermal - a bit more purple than description indicates but close to photos.",
   fill_percent: 90,
   purchase_price: Money.new(1200),
-  purchase_date: ~D"02-14-2025",
+  purchase_date: ~D[2025-02-14],
   swatched: true,
   user: alpha,
   polish: emissary_of_inari
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Looks perfect for fall.",
   fill_percent: 99,
   purchase_price: Money.new(1200),
-  purchase_date: ~D"03-14-2025",
+  purchase_date: ~D[2025-03-14],
   swatched: true,
   user: alpha,
   polish: lost_hope
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Sadly teal instead of light blue for warm phase.",
   fill_percent: 95,
   purchase_price: Money.new(1200),
-  purchase_date: ~D"02-14-2025",
+  purchase_date: ~D[2025-02-14],
   swatched: true,
   user: alpha,
   polish: mushroom_lit_cavern
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Great for St. Patrick's or Xmas.",
   fill_percent: 95,
   purchase_price: Money.new(1200),
-  purchase_date: ~D"02-14-2025",
+  purchase_date: ~D[2025-02-14],
   swatched: true,
   user: alpha,
   polish: shattered_remnants
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Not sure how vampy - will be fun to try!",
   fill_percent: 99,
   purchase_price: Money.new(1200),
-  purchase_date: ~D"03-14-2025",
+  purchase_date: ~D[2025-03-14],
   swatched: true,
   user: alpha,
   polish: volcanicorn
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Unflattering on me.",
   fill_percent: 98,
   purchase_price: Money.new(1125),
-  purchase_date: ~D"03-02-2025",
+  purchase_date: ~D[2025-03-02],
   swatched: true,
   user: alpha,
   polish: horizon
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Hm, not as unique as I hoped.",
   fill_percent: 98,
   purchase_price: Money.new(1125),
-  purchase_date: ~D"03-02-2025",
+  purchase_date: ~D[2025-03-02],
   swatched: true,
   user: alpha,
   polish: malachite
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Gorgeous dark blue but not very distinct from Cupcake's. Could destash one.",
   fill_percent: 98,
   purchase_price: Money.new(1125),
-  purchase_date: ~D"03-02-2025",
+  purchase_date: ~D[2025-03-02],
   swatched: true,
   user: alpha,
   polish: sapphire_princess
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Excellent vampy color. Not as much rainbow comes through the holo in red however.",
   fill_percent: 98,
   purchase_price: Money.new(1125),
-  purchase_date: ~D"03-02-2025",
+  purchase_date: ~D[2025-03-02],
   swatched: true,
   user: alpha,
   polish: slappys_tie
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Love it, flakies don't detract from holo.",
   fill_percent: 98,
   purchase_price: Money.new(1125),
-  purchase_date: ~D"03-02-2025",
+  purchase_date: ~D[2025-03-02],
   swatched: true,
   user: alpha,
   polish: the_scarecrow_walks_at_midnight
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Gorgeous orange but somehow not as flattering on me. Still worth wearing.",
   fill_percent: 95,
   purchase_price: Money.new(900),
-  purchase_date: ~D"02-09-2025",
+  purchase_date: ~D[2025-02-09],
   swatched: true,
   user: alpha,
   polish: delicacy_in_sardinia
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Unfortunately streaky - user error?",
   fill_percent: 98,
   purchase_price: Money.new(1170),
-  purchase_date: ~D"02-09-2025",
+  purchase_date: ~D[2025-02-09],
   swatched: true,
   user: alpha,
   polish: stuck_on_monday_blues
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts:
     "Peachy color is really only visible in macro photos - still a nice neutral but not as interesting as I hoped.",
   fill_percent: 99,
   purchase_price: Money.new(1170),
-  purchase_date: ~D"02-09-2025",
+  purchase_date: ~D[2025-02-09],
   swatched: true,
   user: alpha,
   polish: dough_re_mi
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Hopefully good fall neutral.",
   purchase_price: Money.new(1300),
-  purchase_date: ~D"03-13-2025",
+  purchase_date: ~D[2025-03-13],
   user: alpha,
   polish: once_upon_a_trail
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Hopefully good for nail art and base for flowers!",
   fill_percent: 99,
   purchase_price: Money.new(675),
-  purchase_date: ~D"03-17-2025",
+  purchase_date: ~D[2025-03-17],
   swatched: true,
   user: alpha,
   polish: black_jade
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Love me a bold red!",
   fill_percent: 99,
   purchase_price: Money.new(900),
-  purchase_date: ~D"03-17-2025",
+  purchase_date: ~D[2025-03-17],
   swatched: true,
   user: alpha,
   polish: calabrian_pepper
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Chocolatey.",
   fill_percent: 99,
   purchase_price: Money.new(900),
-  purchase_date: ~D"03-17-2025",
+  purchase_date: ~D[2025-03-17],
   swatched: true,
   user: alpha,
   polish: chinotto
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Mmmm interesting shine - almost a reddish tone?",
   fill_percent: 99,
   purchase_price: Money.new(1170),
-  purchase_date: ~D"03-17-2025",
+  purchase_date: ~D[2025-03-17],
   swatched: true,
   user: alpha,
   polish: leather_bound
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Deep, vampy red.",
   fill_percent: 99,
   purchase_price: Money.new(900),
-  purchase_date: ~D"03-17-2025",
+  purchase_date: ~D[2025-03-17],
   swatched: true,
   user: alpha,
   polish: read
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Eeeh maybe prettier on nails?",
   fill_percent: 99,
   purchase_price: Money.new(1170),
-  purchase_date: ~D"03-17-2025",
+  purchase_date: ~D[2025-03-17],
   swatched: true,
   user: alpha,
   polish: situationship
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Surprisingly gorgeous - I'm impressed.",
   fill_percent: 99,
   purchase_price: Money.new(878),
-  purchase_date: ~D"03-17-2025",
+  purchase_date: ~D[2025-03-17],
   swatched: true,
   user: alpha,
   polish: the_shag
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Has fun blue angles but green may be a tinge too yellow-toned for me?",
   fill_percent: 99,
   purchase_price: Money.new(878),
-  purchase_date: ~D"03-17-2025",
+  purchase_date: ~D[2025-03-17],
   swatched: true,
   user: alpha,
   polish: vintage_lampshade
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Love it! Super tropical waters.",
   fill_percent: 99,
   purchase_price: Money.new(675),
-  purchase_date: ~D"03-17-2025",
+  purchase_date: ~D[2025-03-17],
   swatched: true,
   user: alpha,
   polish: wheres_my_bliss
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Gray-green that surprisingly I think looks quite nice on me.",
   fill_percent: 99,
   purchase_price: Money.new(675),
-  purchase_date: ~D"03-17-2025",
+  purchase_date: ~D[2025-03-17],
   swatched: true,
   user: alpha,
   polish: berried_juniper
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts:
     "Love jade stones but this color is meh on me at first glance. Maybe try wearing with complementary colors.",
   fill_percent: 99,
   purchase_price: Money.new(675),
-  purchase_date: ~D"03-17-2025",
+  purchase_date: ~D[2025-03-17],
   swatched: true,
   user: alpha,
   polish: im_jaded
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Darker than it looked online - love it.",
   fill_percent: 99,
   purchase_price: Money.new(675),
-  purchase_date: ~D"03-17-2025",
+  purchase_date: ~D[2025-03-17],
   swatched: true,
   user: alpha,
   polish: stem
 }
+|> Repo.insert!()
 
 %StashPolish{
   purchase_price: Money.new(1300),
-  purchase_date: ~D"03-22-2025",
+  purchase_date: ~D[2025-03-22],
   user: alpha,
   polish: red_planet_panic
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Pretty in bottle but not great on me ;_;",
   fill_percent: 98,
   purchase_price: Money.new(1215),
-  purchase_date: ~D"03-03-2025",
+  purchase_date: ~D[2025-03-03],
   swatched: true,
   user: alpha,
   polish: carnelian
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Ok on me - better alone as a holiday neutral than in a skittle.",
   fill_percent: 98,
   purchase_price: Money.new(1215),
-  purchase_date: ~D"03-03-2025",
+  purchase_date: ~D[2025-03-03],
   swatched: true,
   user: alpha,
   polish: copper
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "LOVE",
   fill_percent: 98,
   purchase_price: Money.new(1215),
-  purchase_date: ~D"03-03-2025",
+  purchase_date: ~D[2025-03-03],
   swatched: true,
   user: alpha,
   polish: dragon
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Eh, so close to CdC.",
   fill_percent: 99,
   purchase_price: Money.new(1215),
-  purchase_date: ~D"03-03-2025",
+  purchase_date: ~D[2025-03-03],
   swatched: true,
   user: alpha,
   polish: emerald
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Ooooh shiny white! Pink shine - valentine's?",
   fill_percent: 99,
   purchase_price: Money.new(1215),
-  purchase_date: ~D"03-03-2025",
+  purchase_date: ~D[2025-03-03],
   swatched: true,
   user: alpha,
   polish: rabbit
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Definitely heavily pink-tinted (not apparent from swatches or description).",
   fill_percent: 99,
   purchase_price: Money.new(1215),
-  purchase_date: ~D"03-03-2025",
+  purchase_date: ~D[2025-03-03],
   swatched: true,
   user: alpha,
   polish: ruby
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Very sheer, hopefully suitable for a your-nails-but-better.",
   fill_percent: 99,
   purchase_price: Money.new(1125),
-  purchase_date: ~D"03-03-2025",
+  purchase_date: ~D[2025-01-17],
   swatched: true,
   user: alpha,
   polish: orange_pecan_milk
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Sheer, hopefully suitable for a your-nails-but-better french.",
   fill_percent: 99,
   purchase_price: Money.new(1125),
-  purchase_date: ~D"03-03-2025",
+  purchase_date: ~D[2025-01-17],
   swatched: true,
   user: alpha,
   polish: vanilla_almond_milk
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Like but a bit plain on its own.",
   fill_percent: 98,
   purchase_price: Money.new(875),
-  purchase_date: ~D"03-03-2025",
+  purchase_date: ~D[2025-02-14],
   swatched: true,
   user: alpha,
   polish: blue_banded_pelican
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Perfect true, bold red. Slightly less bright than Western Grebe.",
   fill_percent: 98,
   purchase_price: Money.new(875),
-  purchase_date: ~D"03-03-2025",
+  purchase_date: ~D[2025-02-14],
   swatched: true,
   user: alpha,
   polish: go_vegan
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Gorgeous but incompatible with skin tone ;_;",
   fill_percent: 98,
   purchase_price: Money.new(875),
-  purchase_date: ~D"03-03-2025",
+  purchase_date: ~D[2025-02-14],
   swatched: true,
   user: alpha,
   polish: great_indian_hornbill
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Stunning in bottle and on me.",
   fill_percent: 99,
   purchase_price: Money.new(875),
-  purchase_date: ~D"03-03-2025",
+  purchase_date: ~D[2025-02-14],
   swatched: true,
   user: alpha,
   polish: halloween_hermit_crab
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Just slightly more orange than Olive's Sunburst.",
   fill_percent: 99,
   purchase_price: Money.new(875),
-  purchase_date: ~D"03-03-2025",
+  purchase_date: ~D[2025-02-14],
   swatched: true,
   user: alpha,
   polish: vitamin_d
 }
+|> Repo.insert!()
 
 %StashPolish{
   thoughts: "Amazing jelly. Super bold and transformed a purple thermal to a red!",
   fill_percent: 95,
   purchase_price: Money.new(875),
-  purchase_date: ~D"03-03-2025",
+  purchase_date: ~D[2025-02-14],
   swatched: true,
   user: alpha,
   polish: western_grebe
 }
+|> Repo.insert!()
