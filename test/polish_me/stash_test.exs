@@ -71,7 +71,7 @@ defmodule PolishMe.StashTest do
       assert stash_polish.status == :panned
       assert stash_polish.thoughts == "some thoughts"
       assert stash_polish.fill_percent == 42
-      assert stash_polish.purchase_price == 42
+      assert %Money{amount: 42} == stash_polish.purchase_price
       assert stash_polish.purchase_date == ~D[2025-05-02]
       assert stash_polish.swatched == true
       assert stash_polish.user_id == scope.user.id
@@ -184,7 +184,7 @@ defmodule PolishMe.StashTest do
       assert stash_polish.status == :destashed
       assert stash_polish.thoughts == "update thoughts"
       assert stash_polish.fill_percent == 43
-      assert stash_polish.purchase_price == 43
+      assert assert %Money{amount: 43} == stash_polish.purchase_price
       assert stash_polish.purchase_date == ~D[2025-05-04]
       assert stash_polish.swatched == false
     end

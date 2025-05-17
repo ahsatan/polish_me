@@ -4,7 +4,7 @@ defmodule PolishMe.Stash.StashPolish do
 
   schema "stash_polishes" do
     field :status, Ecto.Enum,
-      values: [:in_stash, :panned, :to_destash, :destashed, :broken, :lost],
+      values: [:in_stash, :panned, :destash, :destashed, :broken, :lost],
       default: :in_stash
 
     field :thoughts, :string
