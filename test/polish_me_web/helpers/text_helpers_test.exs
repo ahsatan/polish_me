@@ -68,4 +68,14 @@ defmodule PolishMe.TextHelpersTest do
       assert TextHelpers.enums_to_string_map([:a, :bc]) == [{"A", :a}, {"Bc", :bc}]
     end
   end
+
+  describe "atom_to_string/1" do
+    test "handles nil" do
+      assert TextHelpers.atom_to_string(nil) == nil
+    end
+
+    test "converts atom to formatted string" do
+      assert TextHelpers.atom_to_string(:ab_cd) == "Ab Cd"
+    end
+  end
 end
