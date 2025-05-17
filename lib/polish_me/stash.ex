@@ -12,7 +12,7 @@ defmodule PolishMe.Stash do
   alias PolishMe.Accounts.Scope
 
   @doc """
-  Subscribes to scoped notifications about any stash_polish changes.
+  Subscribes to scoped notifications about any stashed polish's changes.
 
   The broadcasted messages match the pattern:
 
@@ -21,13 +21,24 @@ defmodule PolishMe.Stash do
     * {:deleted, %StashPolish{}}
 
   """
-  def subscribe_stash_polishes(%Scope{} = scope) do
-    Phoenix.PubSub.subscribe(PolishMe.PubSub, "user:#{scope.user.id}:stash_polishes")
+  def subscribe_all(%Scope{} = scope) do
+    Phoenix.PubSub.subscribe(PolishMe.PubSub, all_topic(scope))
+  end
+
+  def subscribe_polish(%Scope{} = scope, id) do
+    Phoenix.PubSub.subscribe(PolishMe.PubSub, polish_topic(scope, id))
   end
 
   defp broadcast(%Scope{} = scope, message) do
-    Phoenix.PubSub.broadcast(PolishMe.PubSub, "user:#{scope.user.id}:stash_polishes", message)
+    Phoenix.PubSub.broadcast(PolishMe.PubSub, all_topic(scope), message)
   end
+
+  defp broadcast_polish(scope, id, message) do
+    Phoenix.PubSub.broadcast(PolishMe.PubSub, polish_topic(scope, id), message)
+  end
+
+  defp all_topic(scope), do: "user:#{scope.user.id}:stash_polishes"
+  defp polish_topic(scope, id), do: "user:#{scope.user.id}:stash_polish:#{id}"
 
   @doc """
   Returns the list of stash_polishes.
@@ -112,6 +123,7 @@ defmodule PolishMe.Stash do
            |> StashPolish.changeset(attrs, scope)
            |> Repo.update() do
       broadcast(scope, {:updated, stash_polish})
+      broadcast_polish(scope, stash_polish.id, {:updated, stash_polish})
       {:ok, stash_polish}
     end
   end
@@ -134,6 +146,7 @@ defmodule PolishMe.Stash do
     with {:ok, stash_polish = %StashPolish{}} <-
            Repo.delete(stash_polish) do
       broadcast(scope, {:deleted, stash_polish})
+      broadcast_polish(scope, stash_polish.id, {:deleted, stash_polish})
       {:ok, stash_polish}
     end
   end
@@ -157,5 +170,9 @@ defmodule PolishMe.Stash do
     b_query = Brand |> select([:name, :slug])
     p_query = Polish |> select([:name, :slug, :brand_id])
     stash_polish |> Repo.preload(polish: {p_query, [brand: b_query]})
+  end
+
+  def get_statuses() do
+    StashPolish |> Ecto.Enum.values(:status)
   end
 end

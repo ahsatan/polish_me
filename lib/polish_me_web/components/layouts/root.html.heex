@@ -71,24 +71,34 @@
           <li class="menu-title text-lg">Navigation</li>
           <!-- Sidebar content here -->
           <li>
-            <a href={~p"/"} class="active">
+            <a href={~p"/"}>
               <.icon name="hero-home" /> Home
             </a>
           </li>
           <%= if @current_scope do %>
             <li>
-              <a href={~p"/brands"} class="active">
+              <a href={~p"/brands"}>
                 <.icon name="hero-building-storefront" /> Brands
               </a>
             </li>
             <li>
-              <a href={~p"/polishes"} class="active">
-                <.icon name="hero-sparkles" /> Polishes
+              <a href={~p"/polishes"}>
+                <.icon name="hero-paint-brush" /> Polishes
               </a>
+            </li>
+            <li>
+              <span><.icon name="hero-folder-open" /> Stash</span>
+              <ul>
+                <li>
+                  <a href={~p"/stash/polishes"}>
+                    <.icon name="hero-sparkles" /> My Polishes
+                  </a>
+                </li>
+              </ul>
             </li>
           <% else %>
             <li>
-              <a href={~p"/users/log-in"} class="active">
+              <a href={~p"/users/log-in"}>
                 <.icon name="hero-arrow-right" />Log in to browse!
               </a>
             </li>

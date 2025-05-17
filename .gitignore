@@ -40,3 +40,5 @@ npm-debug.log
 
 /.lexical
 /.elixir-tools
+
+.DS_store

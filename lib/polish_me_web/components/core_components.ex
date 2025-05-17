@@ -236,6 +236,25 @@ defmodule PolishMeWeb.CoreComponents do
     """
   end
 
+  def input(%{type: "range"} = assigns) do
+    ~H"""
+    <fieldset class="fieldset mb-2">
+      <label>
+        <span :if={@label} class="fieldset-label mb-1">{@label}</span>
+        <input
+          type={@type}
+          name={@name}
+          id={@id}
+          value={Phoenix.HTML.Form.normalize_value(@type, @value)}
+          class={["w-full #{@rest[:class]}", @errors != [] && "input-error"]}
+          {@rest}
+        />
+      </label>
+      <.error :for={msg <- @errors}>{msg}</.error>
+    </fieldset>
+    """
+  end
+
   # All other inputs text, datetime-local, url, password, etc. are handled here...
   def input(assigns) do
     ~H"""

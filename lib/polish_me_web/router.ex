@@ -32,9 +32,6 @@ defmodule PolishMeWeb.Router do
   if Application.compile_env(:polish_me, :dev_routes) do
     # If you want to use the LiveDashboard in production, you should put
     # it behind authentication and allow only admins to access it.
-    # If your application does not have an admins-only section yet,
-    # you can use Plug.BasicAuth to set up some basic authentication
-    # as long as you are also using SSL (which you should anyway).
     import Phoenix.LiveDashboard.Router
 
     scope "/dev" do
@@ -71,9 +68,15 @@ defmodule PolishMeWeb.Router do
 
       live "/brands", BrandLive.Index, :index
       live "/brands/:slug", BrandLive.Show, :show
+
       live "/polishes", PolishLive.Index, :index
       live "/polishes/:brand_slug/", PolishLive.Index, :index_by_brand
       live "/polishes/:brand_slug/:polish_slug", PolishLive.Show, :show
+
+      live "/stash/polishes", StashPolishLive.Index, :index
+      live "/stash/polishes/:brand_slug/:polish_slug/new", StashPolishLive.Form, :new
+      live "/stash/polishes/:brand_slug/:polish_slug", StashPolishLive.Show, :show
+      live "/stash/polishes/:brand_slug/:polish_slug/edit", StashPolishLive.Form, :edit
     end
 
     post "/users/update-password", UserSessionController, :update_password
