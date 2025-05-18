@@ -19,6 +19,12 @@ defmodule PolishMeWeb.PolishLive.Show do
         >
           <.icon name="hero-pencil-square" /> Edit
         </.button>
+        <.button
+          variant="primary"
+          navigate={~p"/stash/polishes/#{@polish.brand.slug}/#{@polish.slug}/new"}
+        >
+          <.icon name="hero-plus" /> Stash it!
+        </.button>
       </:actions>
 
       <.list>

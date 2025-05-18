@@ -2,8 +2,17 @@ defmodule PolishMeWeb.StashPolishLiveTest do
   use PolishMeWeb.ConnCase
 
   import Phoenix.LiveViewTest
+  import PolishMe.PolishesFixtures
   import PolishMe.StashFixtures
 
+  @create_attrs %{
+    status: :destash,
+    thoughts: "some thoughts",
+    fill_percent: 42,
+    purchase_price: 842,
+    purchase_date: "2025-05-04",
+    swatched: true
+  }
   @update_attrs %{
     status: :panned,
     thoughts: "update thoughts",
@@ -127,5 +136,31 @@ defmodule PolishMeWeb.StashPolishLiveTest do
       assert html =~ "Stash #{stash_polish.polish.name} updated successfully"
       assert html =~ "update thoughts"
     end
+  end
+
+  test "create from polish", %{conn: conn} do
+    polish = polish_fixture()
+    {:ok, index_live, _html} = live(conn, ~p"/polishes/#{polish.brand.slug}/#{polish.slug}")
+
+    assert {:ok, form_live, _} =
+             index_live
+             |> element(".btn", "Stash it!")
+             |> render_click()
+             |> follow_redirect(conn, ~p"/stash/polishes/#{polish.brand.slug}/#{polish.slug}/new")
+
+    assert render(form_live) =~ "New #{polish.name} Stash"
+
+    assert form_live
+           |> form("#stash-polish-form", stash_polish: @invalid_attrs)
+           |> render_change() =~ "must be greater than or equal to 0"
+
+    assert {:ok, _index_live, html} =
+             form_live
+             |> form("#stash-polish-form", stash_polish: @create_attrs)
+             |> render_submit()
+             |> follow_redirect(conn, ~p"/stash/polishes")
+
+    assert html =~ "Stash #{polish.name} created successfully"
+    assert html =~ "Destash"
   end
 end

@@ -117,7 +117,10 @@ defmodule PolishMeWeb.StashPolishLive.Form do
   end
 
   defp save_stash_polish(socket, :new, stash_polish_params) do
-    case Stash.create_stash_polish(socket.assigns.current_scope, stash_polish_params) do
+    case Stash.create_stash_polish(
+           socket.assigns.current_scope,
+           stash_polish_params |> Map.put("polish_id", socket.assigns.stash_polish.polish_id)
+         ) do
       {:ok, stash_polish} ->
         {:noreply,
          socket
