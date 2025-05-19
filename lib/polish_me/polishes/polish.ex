@@ -52,6 +52,8 @@ defmodule PolishMe.Polishes.Polish do
     field :brand_id, :integer, writable: :insert
     belongs_to :brand, PolishMe.Brands.Brand, define_field: false
 
+    has_many :stash_polishes, PolishMe.Stash.StashPolish
+
     timestamps(type: :utc_datetime)
   end
 

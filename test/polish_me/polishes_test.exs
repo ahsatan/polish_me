@@ -1,8 +1,10 @@
 defmodule PolishMe.PolishesTest do
   use PolishMe.DataCase
 
+  import PolishMe.AccountsFixtures
   import PolishMe.BrandsFixtures
   import PolishMe.PolishesFixtures
+  import PolishMe.StashFixtures
 
   alias PolishMe.Polishes
   alias PolishMe.Polishes.Polish
@@ -107,6 +109,26 @@ defmodule PolishMe.PolishesTest do
                other_polish,
                another_polish,
                polish
+             ]
+    end
+
+    test "returns polishes sorted by popularity" do
+      first_user_scope = PolishMe.Accounts.Scope.for_user(user_fixture())
+      second_user_scope = PolishMe.Accounts.Scope.for_user(user_fixture())
+      first_polish = polish_fixture()
+      second_polish = polish_fixture()
+      stash_polish_fixture(first_user_scope, %{polish_id: first_polish.id})
+      stash_polish_fixture(second_user_scope, %{polish_id: first_polish.id})
+      stash_polish_fixture(first_user_scope, %{polish_id: second_polish.id})
+
+      assert Polishes.filter_polishes(%{"sort" => "popularity_asc"}) == [
+               second_polish,
+               first_polish
+             ]
+
+      assert Polishes.filter_polishes(%{"sort" => "popularity_desc"}) == [
+               first_polish,
+               second_polish
              ]
     end
 

@@ -116,6 +116,22 @@ defmodule PolishMe.Polishes do
     |> order_by([p, b], asc: b.name, asc: p.name)
   end
 
+  defp sort(query, "popularity_desc") do
+    query
+    |> join(:inner, [p], b in assoc(p, :brand))
+    |> join(:left, [p], sp in assoc(p, :stash_polishes))
+    |> group_by([p, ..., b, _sp], [b.id, p.id])
+    |> order_by([p, ..., b, sp], desc: count(sp), asc: b.name, asc: p.name)
+  end
+
+  defp sort(query, "popularity_asc") do
+    query
+    |> join(:inner, [p], b in assoc(p, :brand))
+    |> join(:left, [p], sp in assoc(p, :stash_polishes))
+    |> group_by([p, ..., b, _sp], [b.id, p.id])
+    |> order_by([p, ..., b, sp], asc: count(sp), asc: b.name, asc: p.name)
+  end
+
   defp sort(query, "name_desc"), do: query |> order_by(desc: :name)
   defp sort(query, _name_asc), do: query |> order_by(asc: :name)
 

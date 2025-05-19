@@ -17,7 +17,7 @@ alias PolishMe.Polishes.Polish
 alias PolishMe.Stash.StashPolish
 
 alpha = %User{email: "alpha@test.com", is_admin: true} |> Repo.insert!()
-_beta = %User{email: "beta@test.com"} |> Repo.insert!()
+beta = %User{email: "beta@test.com"} |> Repo.insert!()
 
 arcana =
   %Brand{
@@ -1613,6 +1613,39 @@ Opaque in 2 - 3 coats depending on your application, top coat recommended for a 
   purchase_date: ~D[2025-02-14],
   swatched: true,
   user: alpha,
+  polish: western_grebe
+}
+|> Repo.insert!()
+
+%StashPolish{
+  thoughts: "Shiny!",
+  fill_percent: 50,
+  purchase_price: Money.new(900),
+  purchase_date: ~D[2025-04-02],
+  swatched: true,
+  user: beta,
+  polish: slappys_tie
+}
+|> Repo.insert!()
+
+%StashPolish{
+  thoughts: "STUNNING.",
+  fill_percent: 72,
+  purchase_price: Money.new(1200),
+  purchase_date: ~D[2025-03-14],
+  swatched: true,
+  user: beta,
+  polish: halloween_hermit_crab
+}
+|> Repo.insert!()
+
+%StashPolish{
+  thoughts: "My favorite bright red.",
+  fill_percent: 24,
+  purchase_price: Money.new(1200),
+  purchase_date: ~D[2025-03-14],
+  swatched: true,
+  user: beta,
   polish: western_grebe
 }
 |> Repo.insert!()

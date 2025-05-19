@@ -104,7 +104,8 @@ defmodule PolishMeWeb.PolishLive.Index do
             "Name: A-Z": "name_asc",
             "Name: Z-A": "name_desc"
           ] ++
-            if @brand, do: [], else: ["Brand: A-Z": "brand_asc", "Brand: Z-A": "brand_desc"]
+            if(@brand, do: [], else: ["Brand: A-Z": "brand_asc", "Brand: Z-A": "brand_desc"]) ++
+            [Popularity: "popularity_desc", "Popularity: Reverse": "popularity_asc"]
         }
       />
       <.link
