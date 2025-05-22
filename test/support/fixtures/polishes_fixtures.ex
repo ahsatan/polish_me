@@ -14,8 +14,9 @@ defmodule PolishMe.PolishesFixtures do
   @doc """
   Generate a polish.
   """
-  def polish_fixture(attrs \\ %{}) do
-    brand = PolishMe.BrandsFixtures.brand_fixture()
+  def polish_fixture(attrs \\ %{})
+
+  def polish_fixture(%{brand_id: brand_id} = attrs) do
     name = unique_polish_name()
 
     attrs =
@@ -26,10 +27,16 @@ defmodule PolishMe.PolishesFixtures do
         topper: false,
         colors: [:red, :gold],
         finishes: [:magnetic, :shimmer],
-        brand_id: brand.id
+        brand_id: brand_id
       })
 
     {:ok, polish} = PolishMe.Polishes.create_polish(attrs)
     polish
+  end
+
+  def polish_fixture(attrs) do
+    brand = PolishMe.BrandsFixtures.brand_fixture()
+
+    polish_fixture(Map.put(attrs, :brand_id, brand.id))
   end
 end

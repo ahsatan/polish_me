@@ -1,6 +1,8 @@
 defmodule PolishMeWeb.StashPolishLive.Index do
   use PolishMeWeb, :live_view
 
+  alias Phoenix.HTML.Form
+  alias PolishMe.Polishes
   alias PolishMe.Stash
   alias PolishMe.Stash.StashPolish
   alias PolishMeWeb.Helpers.TextHelpers
@@ -9,6 +11,8 @@ defmodule PolishMeWeb.StashPolishLive.Index do
   def render(assigns) do
     ~H"""
     <Layouts.app flash={@flash} title={@page_title}>
+      <.filter_form form={@form} />
+
       <div id="stash-polishes" phx-update="stream" class="mt-6 grid grid-cols-2 md:grid-cols-3 gap-6">
         <.stash_polish_card
           :for={{dom_id, stash_polish} <- @streams.stash_polishes}
@@ -23,6 +27,59 @@ defmodule PolishMeWeb.StashPolishLive.Index do
         </div>
       </div>
     </Layouts.app>
+    """
+  end
+
+  attr :form, Form, required: true
+
+  def filter_form(assigns) do
+    ~H"""
+    <.form
+      for={@form}
+      id="filter-form"
+      phx-change="filter"
+      phx-submit="filter"
+      class="sm:flex scale-90 justify-center gap-4 items-center"
+    >
+      <.input field={@form[:q]} id="q-input" placeholder="Search..." autocomplete="off" phx-debounce />
+      <.input
+        field={@form[:colors]}
+        id="colors-input"
+        type="select"
+        multiple
+        label="Colors"
+        class="h-18"
+        options={Polishes.get_colors() |> TextHelpers.enums_to_string_map()}
+      />
+      <.input
+        field={@form[:finishes]}
+        id="finishes-input"
+        type="select"
+        multiple
+        label="Finishes"
+        class="h-18"
+        options={Polishes.get_finishes() |> TextHelpers.enums_to_string_map()}
+      />
+      <.input
+        field={@form[:sort]}
+        id="sort-input"
+        type="select"
+        prompt="Sort"
+        options={[
+          "Name: A-Z": "name_asc",
+          "Name: Z-A": "name_desc",
+          "Brand: A-Z": "brand_asc",
+          "Brand: Z-A": "brand_desc",
+          "Purchase Date: Newest First": "date_desc",
+          "Purchase Date: Oldest First": "date_asc",
+          "Fill %: High-Low": "fill_desc",
+          "Fill %: Low-High": "fill_asc"
+        ]}
+      />
+      <.link patch={~p"/stash/polishes/"} class="text-sm underline">
+        Reset
+      </.link>
+    </.form>
     """
   end
 
@@ -54,7 +111,7 @@ defmodule PolishMeWeb.StashPolishLive.Index do
                 </div>
                 <div
                   :if={@stash_polish.status == :in_stash}
-                  class="radial-progress text-info"
+                  class="text-xs radial-progress text-info"
                   style={"--value:#{@stash_polish.fill_percent}; --size:2rem;"}
                   aria-valuenow={"#{@stash_polish.fill_percent}"}
                   role="fillpercentbar"
@@ -109,32 +166,52 @@ defmodule PolishMeWeb.StashPolishLive.Index do
   def mount(_params, _session, socket) do
     Stash.subscribe_all(socket.assigns.current_scope)
 
-    {:ok,
+    {:ok, socket |> assign(:page_title, "My Polish Stash")}
+  end
+
+  @impl true
+  def handle_params(params, _uri, socket) do
+    params = params |> filter_params()
+
+    {:noreply,
      socket
-     |> assign(:page_title, "My Polish Stash")
-     |> stream(:stash_polishes, Stash.list_stash_polishes(socket.assigns.current_scope),
+     |> assign(:form, to_form(params))
+     |> stream(:stash_polishes, Stash.filter_stash_polishes(socket.assigns.current_scope, params),
        reset: true
      )}
   end
 
   @impl true
+  def handle_event("filter", params, socket) do
+    {:noreply, socket |> push_patch(to: ~p"/stash/polishes?#{params |> filter_params()}")}
+  end
+
   def handle_event("delete", %{"brand_slug" => brand_slug, "polish_slug" => polish_slug}, socket) do
     stash_polish = Stash.get_stash_polish!(socket.assigns.current_scope, brand_slug, polish_slug)
     {:ok, _} = Stash.delete_stash_polish(socket.assigns.current_scope, stash_polish)
 
-    {:noreply, stream_delete(socket, :stash_polishes, stash_polish)}
+    {:noreply, socket |> stream_delete(:stash_polishes, stash_polish)}
   end
 
   @impl true
   def handle_info({type, %StashPolish{}}, socket)
       when type in [:created, :updated] do
+    params = socket.assigns.form.params |> filter_params()
+
     {:noreply,
-     stream(socket, :stash_polishes, Stash.list_stash_polishes(socket.assigns.current_scope),
+     socket
+     |> stream(:stash_polishes, Stash.filter_stash_polishes(socket.assigns.current_scope, params),
        reset: true
      )}
   end
 
   def handle_info({:deleted, %StashPolish{} = stash_polish}, socket) do
-    {:noreply, stream_delete(socket, :stash_polishes, stash_polish)}
+    {:noreply, socket |> stream_delete(:stash_polishes, stash_polish)}
+  end
+
+  defp filter_params(params) do
+    params
+    |> Map.take(~w(q colors finishes sort))
+    |> Map.reject(fn {_k, v} -> v == "" end)
   end
 end

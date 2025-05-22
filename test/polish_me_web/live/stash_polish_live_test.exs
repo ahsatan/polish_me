@@ -48,6 +48,27 @@ defmodule PolishMeWeb.StashPolishLiveTest do
       assert html =~ stash_polish.polish.name
     end
 
+    test "filters stash polishes on multiple values", %{
+      conn: conn,
+      scope: scope,
+      stash_polish: stash_polish
+    } do
+      other_polish = polish_fixture(%{name: "First name", colors: [:yellow, :black]})
+      another_polish = polish_fixture(%{name: "Second name", colors: [:yellow]})
+      stash_polish_fixture(scope, %{polish_id: other_polish.id})
+      stash_polish_fixture(scope, %{polish_id: another_polish.id})
+
+      {:ok, index_live, _html} = live(conn, ~p"/stash/polishes")
+
+      html =
+        index_live
+        |> form("#filter-form", %{colors: [:yellow], sort: "name_desc"})
+        |> render_change()
+
+      refute html =~ stash_polish.polish.name
+      assert html =~ ~r/#{another_polish.name}.*#{other_polish.name}/s
+    end
+
     test "updates stash polish in listing", %{conn: conn, stash_polish: stash_polish} do
       {:ok, index_live, _html} = live(conn, ~p"/stash/polishes")
 

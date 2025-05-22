@@ -41,7 +41,7 @@ defmodule PolishMe.Stash do
   defp polish_topic(scope, id), do: "user:#{scope.user.id}:stash_polish:#{id}"
 
   @doc """
-  Returns the list of stash_polishes.
+  Returns the list of stash polishes.
 
   ## Examples
 
@@ -57,7 +57,105 @@ defmodule PolishMe.Stash do
   end
 
   @doc """
-  Gets a single stash_polish.
+  Filters the list of stash polishes.
+
+  ## Examples
+
+      iex> filter_polishes(scope, %{"q" => "query"})
+      [%StashPolish{}, ...]
+  """
+  def filter_stash_polishes(%Scope{} = scope, filters) do
+    StashPolish
+    |> where(user_id: ^scope.user.id)
+    |> query_search(filters["q"])
+    |> has_colors(filters["colors"])
+    |> has_finishes(filters["finishes"])
+    |> sort(filters["sort"])
+    |> Repo.all()
+    |> preload_polish_and_brand()
+  end
+
+  defp query_search(query, q) when q in [nil, ""], do: query
+
+  defp query_search(query, q) do
+    query
+    |> join_polish_and_brand()
+    |> where(
+      [sp, ..., p, b],
+      ilike(sp.thoughts, ^"%#{q}%") or ilike(p.name, ^"%#{q}%") or ilike(b.name, ^"%#{q}%")
+    )
+  end
+
+  defp has_colors(query, cs) when cs in [[], nil], do: query
+
+  defp has_colors(query, [c | cs]) do
+    query
+    |> join(:inner, [sp], p in assoc(sp, :polish))
+    |> where([_sp, ..., p], ^c in p.colors)
+    |> has_colors(cs)
+  end
+
+  defp has_finishes(query, fs) when fs in [[], nil], do: query
+
+  defp has_finishes(query, [f | fs]) do
+    query
+    |> join(:inner, [sp], p in assoc(sp, :polish))
+    |> where([_sp, ..., p], ^f in p.finishes)
+    |> has_finishes(fs)
+  end
+
+  defp sort(query, "date_desc") do
+    query
+    |> join_polish_and_brand()
+    |> order_by([sp, ..., p, b], desc: sp.purchase_date, asc: b.name, asc: p.name)
+  end
+
+  defp sort(query, "date_asc") do
+    query
+    |> join_polish_and_brand()
+    |> order_by([sp, ..., p, b], asc: sp.purchase_date, asc: b.name, asc: p.name)
+  end
+
+  defp sort(query, "fill_desc") do
+    query
+    |> join_polish_and_brand()
+    |> order_by([sp, ..., p, b], desc: sp.fill_percent, asc: b.name, asc: p.name)
+  end
+
+  defp sort(query, "fill_asc") do
+    query
+    |> join_polish_and_brand()
+    |> order_by([sp, ..., p, b], asc: sp.fill_percent, asc: b.name, asc: p.name)
+  end
+
+  defp sort(query, "name_desc") do
+    query |> join(:inner, [sp], p in assoc(sp, :polish)) |> order_by([sp, ..., p], desc: p.name)
+  end
+
+  defp sort(query, "name_asc") do
+    query |> join(:inner, [sp], p in assoc(sp, :polish)) |> order_by([sp, ..., p], asc: p.name)
+  end
+
+  defp sort(query, "brand_desc") do
+    query
+    |> join_polish_and_brand()
+    |> order_by([_sp, ..., p, b], desc: b.name, asc: p.name)
+  end
+
+  defp sort(query, _brand_asc) do
+    query
+    |> join_polish_and_brand()
+    |> order_by([_sp, ..., p, b], asc: b.name, asc: p.name)
+  end
+
+  defp join_polish_and_brand(query) do
+    query
+    |> join(:inner, [sp], p in assoc(sp, :polish))
+    |> join(:inner, [_sp, ..., p], b in assoc(p, :brand))
+  end
+
+  @doc """
+  Gets a single stash polish.
 
   Raises `Ecto.NoResultsError` if the Stashed Polish does not exist.
 
@@ -81,7 +179,7 @@ defmodule PolishMe.Stash do
   end
 
   @doc """
-  Creates a stash_polish.
+  Creates a stash polish.
 
   ## Examples
 
@@ -104,7 +202,7 @@ defmodule PolishMe.Stash do
   end
 
   @doc """
-  Updates a stash_polish.
+  Updates a stash polish.
 
   ## Examples
 
@@ -129,7 +227,7 @@ defmodule PolishMe.Stash do
   end
 
   @doc """
-  Deletes a stash_polish.
+  Deletes a stash polish.
 
   ## Examples
 
@@ -152,7 +250,7 @@ defmodule PolishMe.Stash do
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking stash_polish changes.
+  Returns an `%Ecto.Changeset{}` for tracking stash polish changes.
 
   ## Examples
 

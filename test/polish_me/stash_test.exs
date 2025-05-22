@@ -2,6 +2,7 @@ defmodule PolishMe.StashTest do
   use PolishMe.DataCase
 
   import PolishMe.AccountsFixtures, only: [user_scope_fixture: 0]
+  import PolishMe.BrandsFixtures
   import PolishMe.PolishesFixtures
   import PolishMe.StashFixtures
 
@@ -39,6 +40,184 @@ defmodule PolishMe.StashTest do
 
     assert Stash.list_stash_polishes(scope) == [stash_polish]
     assert Stash.list_stash_polishes(other_scope) == [other_stash_polish]
+  end
+
+  describe "filter_polishes/1" do
+    test "returns stash polishes with thoughts that match query" do
+      scope = user_scope_fixture()
+      stash_polish = stash_polish_fixture(scope, %{thoughts: "Match thoughts"})
+      stash_polish_fixture(scope, %{thoughts: "Not thoughts"})
+      other_stash_polish = stash_polish_fixture(scope, %{thoughts: "Other match thoughts"})
+
+      assert Stash.filter_stash_polishes(scope, %{"q" => "match"}) == [
+               stash_polish,
+               other_stash_polish
+             ]
+    end
+
+    test "returns stash polishes with polish name that match query" do
+      scope = user_scope_fixture()
+      polish = polish_fixture(%{name: "Match name"})
+      stash_polish = stash_polish_fixture(scope, %{polish_id: polish.id})
+      stash_polish_fixture(scope)
+
+      assert Stash.filter_stash_polishes(scope, %{"q" => "match"}) == [stash_polish]
+    end
+
+    test "returns stash polishes with brand name that match query" do
+      scope = user_scope_fixture()
+      brand = brand_fixture(%{name: "Match name"})
+      polish = polish_fixture(%{brand_id: brand.id})
+      stash_polish = stash_polish_fixture(scope, %{polish_id: polish.id})
+      stash_polish_fixture(scope)
+
+      assert Stash.filter_stash_polishes(scope, %{"q" => "match"}) == [stash_polish]
+    end
+
+    test "returns stash polishes filtered by color" do
+      scope = user_scope_fixture()
+      not_polish = polish_fixture(%{colors: [:blue]})
+      polish = polish_fixture(%{name: "First name", colors: [:red, :gold]})
+      other_polish = polish_fixture(%{name: "Second name", colors: [:gold, :green]})
+      stash_polish_fixture(scope, %{polish_id: not_polish.id})
+      stash_polish = stash_polish_fixture(scope, %{polish_id: polish.id})
+      other_stash_polish = stash_polish_fixture(scope, %{polish_id: other_polish.id})
+
+      assert Stash.filter_stash_polishes(scope, %{"colors" => ["gold"]}) == [
+               stash_polish,
+               other_stash_polish
+             ]
+
+      assert Stash.filter_stash_polishes(scope, %{"colors" => ["gold", "green"]}) == [
+               other_stash_polish
+             ]
+    end
+
+    test "returns stash polishes filtered by finish" do
+      scope = user_scope_fixture()
+      not_polish = polish_fixture(%{finishes: [:creme]})
+      polish = polish_fixture(%{name: "First name", finishes: [:jelly, :flake]})
+      other_polish = polish_fixture(%{name: "Second name", finishes: [:shimmer, :flake]})
+      stash_polish_fixture(scope, %{polish_id: not_polish.id})
+      stash_polish = stash_polish_fixture(scope, %{polish_id: polish.id})
+      other_stash_polish = stash_polish_fixture(scope, %{polish_id: other_polish.id})
+
+      assert Stash.filter_stash_polishes(scope, %{"finishes" => ["flake"]}) == [
+               stash_polish,
+               other_stash_polish
+             ]
+
+      assert Stash.filter_stash_polishes(scope, %{"finishes" => ["shimmer", "flake"]}) == [
+               other_stash_polish
+             ]
+    end
+
+    test "returns stash polishes sorted by brand name" do
+      scope = user_scope_fixture()
+      first_brand = brand_fixture(%{name: "First brand"})
+      second_brand = brand_fixture(%{name: "Second brand"})
+      fb_polish = polish_fixture(%{name: "First name", brand_id: first_brand.id})
+      fb_other_polish = polish_fixture(%{name: "Second name", brand_id: first_brand.id})
+      sb_polish = polish_fixture(%{brand_id: second_brand.id})
+      fb_stash_polish = stash_polish_fixture(scope, %{polish_id: fb_polish.id})
+      fb_other_stash_polish = stash_polish_fixture(scope, %{polish_id: fb_other_polish.id})
+      sb_stash_polish = stash_polish_fixture(scope, %{polish_id: sb_polish.id})
+
+      assert Stash.filter_stash_polishes(scope, %{"sort" => "brand_asc"}) == [
+               fb_stash_polish,
+               fb_other_stash_polish,
+               sb_stash_polish
+             ]
+
+      assert Stash.filter_stash_polishes(scope, %{"sort" => "brand_desc"}) == [
+               sb_stash_polish,
+               fb_stash_polish,
+               fb_other_stash_polish
+             ]
+    end
+
+    test "returns stash polishes sorted by name" do
+      scope = user_scope_fixture()
+      polish = polish_fixture(%{name: "First name"})
+      other_polish = polish_fixture(%{name: "Second name"})
+      another_polish = polish_fixture(%{name: "Middle name"})
+      stash_polish = stash_polish_fixture(scope, %{polish_id: polish.id})
+      other_stash_polish = stash_polish_fixture(scope, %{polish_id: other_polish.id})
+      another_stash_polish = stash_polish_fixture(scope, %{polish_id: another_polish.id})
+
+      assert Stash.filter_stash_polishes(scope, %{"sort" => "name_asc"}) == [
+               stash_polish,
+               another_stash_polish,
+               other_stash_polish
+             ]
+
+      assert Stash.filter_stash_polishes(scope, %{"sort" => "name_desc"}) == [
+               other_stash_polish,
+               another_stash_polish,
+               stash_polish
+             ]
+    end
+
+    test "returns stash polishes sorted by purchase date" do
+      scope = user_scope_fixture()
+      polish = polish_fixture()
+      other_polish = polish_fixture()
+
+      stash_polish =
+        stash_polish_fixture(scope, %{purchase_date: ~D[2025-02-14], polish_id: polish.id})
+
+      other_stash_polish =
+        stash_polish_fixture(scope, %{purchase_date: ~D[2025-02-10], polish_id: other_polish.id})
+
+      assert Stash.filter_stash_polishes(scope, %{"sort" => "date_asc"}) == [
+               other_stash_polish,
+               stash_polish
+             ]
+
+      assert Stash.filter_stash_polishes(scope, %{"sort" => "date_desc"}) == [
+               stash_polish,
+               other_stash_polish
+             ]
+    end
+
+    test "returns stash polishes sorted by fill percent" do
+      scope = user_scope_fixture()
+      polish = polish_fixture()
+      other_polish = polish_fixture()
+
+      stash_polish =
+        stash_polish_fixture(scope, %{fill_percent: 40, polish_id: polish.id})
+
+      other_stash_polish =
+        stash_polish_fixture(scope, %{fill_percent: 50, polish_id: other_polish.id})
+
+      assert Stash.filter_stash_polishes(scope, %{"sort" => "fill_asc"}) == [
+               stash_polish,
+               other_stash_polish
+             ]
+
+      assert Stash.filter_stash_polishes(scope, %{"sort" => "fill_desc"}) == [
+               other_stash_polish,
+               stash_polish
+             ]
+    end
+
+    test "filters on multiple inputs" do
+      scope = user_scope_fixture()
+      first_brand = brand_fixture(%{name: "First brand"})
+      second_brand = brand_fixture(%{name: "Second brand"})
+      fb_polish = polish_fixture(%{name: "First name", brand_id: first_brand.id})
+      sb_polish = polish_fixture(%{name: "First name", brand_id: second_brand.id})
+      sb_other_polish = polish_fixture(%{name: "Second name", brand_id: second_brand.id})
+      fb_stash_polish = stash_polish_fixture(scope, %{polish_id: fb_polish.id})
+      sb_stash_polish = stash_polish_fixture(scope, %{polish_id: sb_polish.id})
+      stash_polish_fixture(scope, %{polish_id: sb_other_polish.id})
+
+      assert Stash.filter_stash_polishes(scope, %{"q" => "first", "sort" => "brand_desc"}) == [
+               sb_stash_polish,
+               fb_stash_polish
+             ]
+    end
   end
 
   test "get_stash_polish!/2 returns the stash_polish with given slugs" do
