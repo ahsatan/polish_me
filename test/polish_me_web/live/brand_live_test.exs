@@ -4,6 +4,8 @@ defmodule PolishMeWeb.BrandLiveTest do
   import Phoenix.LiveViewTest
   import PolishMe.BrandsFixtures
 
+  alias PolishMe.Brands
+
   @create_attrs %{
     name: "some name",
     description: "some description",
@@ -34,6 +36,24 @@ defmodule PolishMeWeb.BrandLiveTest do
 
       assert html =~ "Brands"
       assert html =~ brand.name
+    end
+
+    test "updates when brand is created", %{conn: conn} do
+      {:ok, index_live, _html} = live(conn, ~p"/brands")
+
+      brand_fixture(%{name: "New name"})
+      html = index_live |> render()
+
+      assert html =~ "New name"
+    end
+
+    test "updates when brand is updated", %{conn: conn, brand: brand} do
+      {:ok, index_live, _html} = live(conn, ~p"/brands")
+
+      Brands.update_brand(brand, %{name: "New name"})
+      html = index_live |> render()
+
+      assert html =~ "New name"
     end
 
     test "loads without admin links", %{conn: conn, brand: brand} do
@@ -118,6 +138,16 @@ defmodule PolishMeWeb.BrandLiveTest do
       {:ok, _show_live, html} = live(conn, ~p"/brands/#{brand.slug}")
 
       assert html =~ brand.name
+      assert html =~ brand.description
+    end
+
+    test "updates when brand is updated", %{conn: conn, brand: brand} do
+      {:ok, show_live, _html} = live(conn, ~p"/brands/#{brand.slug}")
+
+      Brands.update_brand(brand, %{name: "New name"})
+      html = show_live |> render()
+
+      assert html =~ "New name"
       assert html =~ brand.description
     end
 

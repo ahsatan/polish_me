@@ -5,6 +5,8 @@ defmodule PolishMeWeb.PolishLiveTest do
   import PolishMe.PolishesFixtures
   import PolishMe.BrandsFixtures
 
+  alias PolishMe.Polishes
+
   @create_attrs %{
     name: "some name",
     description: "some description",
@@ -37,6 +39,24 @@ defmodule PolishMeWeb.PolishLiveTest do
 
       assert html =~ "Polishes"
       assert html =~ polish.name
+    end
+
+    test "updates when polish is created", %{conn: conn} do
+      {:ok, index_live, _html} = live(conn, ~p"/polishes")
+
+      polish_fixture(%{name: "New name"})
+      html = index_live |> render()
+
+      assert html =~ "New name"
+    end
+
+    test "updates when polish is updated", %{conn: conn, polish: polish} do
+      {:ok, index_live, _html} = live(conn, ~p"/polishes")
+
+      Polishes.update_polish(polish, %{name: "New name"})
+      html = index_live |> render()
+
+      assert html =~ "New name"
     end
 
     test "lists all brand's polishes", %{conn: conn, polish: polish} do
@@ -136,6 +156,16 @@ defmodule PolishMeWeb.PolishLiveTest do
       {:ok, _show_live, html} = live(conn, ~p"/polishes/#{polish.brand.slug}/#{polish.slug}")
 
       assert html =~ polish.name
+      assert html =~ polish.description
+    end
+
+    test "updates when polish is updated", %{conn: conn, polish: polish} do
+      {:ok, show_live, _html} = live(conn, ~p"/polishes/#{polish.brand.slug}/#{polish.slug}")
+
+      Polishes.update_polish(polish, %{name: "New name"})
+      html = show_live |> render()
+
+      assert html =~ "New name"
       assert html =~ polish.description
     end
 

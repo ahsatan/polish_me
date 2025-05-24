@@ -5,6 +5,8 @@ defmodule PolishMeWeb.StashPolishLiveTest do
   import PolishMe.PolishesFixtures
   import PolishMe.StashFixtures
 
+  alias PolishMe.Stash
+
   @create_attrs %{
     status: :destash,
     thoughts: "some thoughts",
@@ -46,6 +48,46 @@ defmodule PolishMeWeb.StashPolishLiveTest do
 
       assert html =~ "My Polish Stash"
       assert html =~ stash_polish.polish.name
+    end
+
+    test "updates when stash polish is created", %{conn: conn, scope: scope} do
+      {:ok, index_live, _html} = live(conn, ~p"/stash/polishes")
+
+      polish = polish_fixture(%{name: "New name"})
+      stash_polish_fixture(scope, %{polish_id: polish.id})
+      html = index_live |> render()
+
+      assert html =~ "New name"
+    end
+
+    test "updates when stash polish is updated", %{
+      conn: conn,
+      scope: scope,
+      stash_polish: stash_polish
+    } do
+      {:ok, index_live, html} = live(conn, ~p"/stash/polishes")
+
+      refute html =~ "72"
+
+      Stash.update_stash_polish(scope, stash_polish, %{fill_percent: 72})
+      html = index_live |> render()
+
+      assert html =~ "72"
+    end
+
+    test "updates when stash polish is deleted", %{
+      conn: conn,
+      scope: scope,
+      stash_polish: stash_polish
+    } do
+      {:ok, index_live, html} = live(conn, ~p"/stash/polishes")
+
+      assert html =~ stash_polish.polish.name
+
+      Stash.delete_stash_polish(scope, stash_polish)
+      html = index_live |> render()
+
+      refute html =~ stash_polish.polish.name
     end
 
     test "filters stash polishes on multiple values", %{
@@ -124,6 +166,23 @@ defmodule PolishMeWeb.StashPolishLiveTest do
 
       assert html =~ "My #{stash_polish.polish.name}"
       assert html =~ stash_polish.thoughts
+    end
+
+    test "updates when stash polish is updated", %{
+      conn: conn,
+      scope: scope,
+      stash_polish: stash_polish
+    } do
+      {:ok, show_live, _html} =
+        live(
+          conn,
+          ~p"/stash/polishes/#{stash_polish.polish.brand.slug}/#{stash_polish.polish.slug}"
+        )
+
+      Stash.update_stash_polish(scope, stash_polish, %{fill_percent: 72})
+      html = show_live |> render()
+
+      assert html =~ "72"
     end
 
     test "updates stash polish and returns to show", %{conn: conn, stash_polish: stash_polish} do
