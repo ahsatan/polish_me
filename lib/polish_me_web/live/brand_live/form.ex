@@ -104,7 +104,7 @@ defmodule PolishMeWeb.BrandLive.Form do
     {:ok,
      socket
      |> assign(:return_to, return_to(params["return_to"]))
-     |> allow_upload(:logo, accept: ~w(.jpg .jpeg .png .svg), max_entries: 1)
+     |> allow_upload(:logo, accept: ~w(.jpg .jpeg .png .svg .webp), max_entries: 1)
      |> apply_action(socket.assigns.live_action, params)}
   end
 
