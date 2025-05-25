@@ -89,7 +89,14 @@ defmodule PolishMe.Brands do
 
   """
   def get_brand!(slug) do
-    Brand |> Repo.get_by!(slug: slug)
+    {brand, count} =
+      Brand
+      |> join(:left, [b], p in assoc(b, :polishes))
+      |> group_by([b, p], [b.id, p.brand_id])
+      |> select([b, p], {b, count(p.brand_id)})
+      |> Repo.get_by!(slug: slug)
+
+    Map.put(brand, :polish_count, count)
   end
 
   @doc """

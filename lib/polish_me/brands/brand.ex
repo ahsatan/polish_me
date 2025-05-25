@@ -11,6 +11,7 @@ defmodule PolishMe.Brands.Brand do
     field :logo_url, :string
 
     has_many :polishes, PolishMe.Polishes.Polish
+    field :polish_count, :integer, virtual: true
 
     timestamps(type: :utc_datetime)
   end

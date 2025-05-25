@@ -2,6 +2,7 @@ defmodule PolishMe.BrandsTest do
   use PolishMe.DataCase
 
   import PolishMe.BrandsFixtures
+  import PolishMe.PolishesFixtures
 
   alias PolishMe.Brands
   alias PolishMe.Brands.Brand
@@ -15,6 +16,11 @@ defmodule PolishMe.BrandsTest do
     logo_url: "/uploads/brand/logo/some.svg"
   }
   @invalid_attrs %{name: nil, description: nil, slug: nil, website: nil, contact_email: nil}
+
+  defp assert_equal(%Brand{} = a, %Brand{} = b) do
+    attrs = [:name, :slug, :description, :website, :contact_email, :logo_url]
+    assert Map.take(a, attrs) == Map.take(b, attrs)
+  end
 
   test "list_brands/0 returns all brands" do
     brand = brand_fixture(%{name: "First name"})
@@ -80,10 +86,24 @@ defmodule PolishMe.BrandsTest do
     end
   end
 
-  test "get_brand!/1 returns the brand with given slug" do
-    brand = brand_fixture()
-    assert Brands.get_brand!(brand.slug) == brand
-    assert_raise Ecto.NoResultsError, fn -> Brands.get_brand!("!" <> brand.slug) end
+  describe "get_brand!/1" do
+    test "returns the brand with given slug" do
+      brand = brand_fixture()
+      assert_equal(Brands.get_brand!(brand.slug), brand)
+      assert_raise Ecto.NoResultsError, fn -> Brands.get_brand!("!" <> brand.slug) end
+    end
+
+    test "counts brand's polishes" do
+      brand = brand_fixture()
+
+      assert Brands.get_brand!(brand.slug).polish_count == 0
+
+      polish_fixture(%{brand_id: brand.id})
+      assert Brands.get_brand!(brand.slug).polish_count == 1
+
+      polish_fixture(%{brand_id: brand.id})
+      assert Brands.get_brand!(brand.slug).polish_count == 2
+    end
   end
 
   describe "create_brand/1" do
@@ -255,7 +275,7 @@ defmodule PolishMe.BrandsTest do
     test "with invalid data returns error changeset" do
       brand = brand_fixture()
       assert {:error, %Ecto.Changeset{}} = Brands.update_brand(brand, @invalid_attrs)
-      assert brand == Brands.get_brand!(brand.slug)
+      assert_equal(brand, Brands.get_brand!(brand.slug))
     end
   end
 

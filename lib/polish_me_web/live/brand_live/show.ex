@@ -2,6 +2,7 @@ defmodule PolishMeWeb.BrandLive.Show do
   use PolishMeWeb, :live_view
 
   alias PolishMe.Brands
+  alias PolishMe.Polishes
 
   @impl true
   def render(assigns) do
@@ -9,6 +10,7 @@ defmodule PolishMeWeb.BrandLive.Show do
     <Layouts.app
       flash={@flash}
       title={if @brand.logo_url, do: nil, else: @page_title}
+      subtitle={polish_count_text(@brand.polish_count)}
       image={@brand.logo_url}
     >
       <:actions>
@@ -55,10 +57,14 @@ defmodule PolishMeWeb.BrandLive.Show do
     """
   end
 
+  defp polish_count_text(1), do: "1 Polish"
+  defp polish_count_text(x), do: "#{x} Polishes"
+
   @impl true
   def mount(%{"slug" => slug}, _session, socket) do
     brand = Brands.get_brand!(slug)
     Brands.subscribe_brand(brand.id)
+    Polishes.subscribe_brand_polishes(brand.id)
 
     {:ok, socket |> assign(page_title: brand.name, brand: brand)}
   end
@@ -66,5 +72,9 @@ defmodule PolishMeWeb.BrandLive.Show do
   @impl true
   def handle_info({:updated, brand}, socket) do
     {:noreply, socket |> assign(brand: brand)}
+  end
+
+  def handle_info({:created, _polish}, socket) do
+    {:noreply, socket |> update(:brand, fn b -> Map.update!(b, :polish_count, &(&1 + 1)) end)}
   end
 end

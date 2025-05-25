@@ -3,6 +3,7 @@ defmodule PolishMeWeb.BrandLiveTest do
 
   import Phoenix.LiveViewTest
   import PolishMe.BrandsFixtures
+  import PolishMe.PolishesFixtures
 
   alias PolishMe.Brands
 
@@ -141,6 +142,15 @@ defmodule PolishMeWeb.BrandLiveTest do
       assert html =~ brand.description
     end
 
+    test "displays polish count", %{conn: conn, brand: brand} do
+      polish_fixture(%{brand_id: brand.id})
+      polish_fixture(%{brand_id: brand.id})
+
+      {:ok, _show_live, html} = live(conn, ~p"/brands/#{brand.slug}")
+
+      assert html =~ "2 Polishes"
+    end
+
     test "updates when brand is updated", %{conn: conn, brand: brand} do
       {:ok, show_live, _html} = live(conn, ~p"/brands/#{brand.slug}")
 
@@ -149,6 +159,17 @@ defmodule PolishMeWeb.BrandLiveTest do
 
       assert html =~ "New name"
       assert html =~ brand.description
+    end
+
+    test "updates when a polish is added to the brand", %{conn: conn, brand: brand} do
+      {:ok, show_live, html} = live(conn, ~p"/brands/#{brand.slug}")
+
+      assert html =~ "0 Polishes"
+
+      polish_fixture(%{brand_id: brand.id})
+      html = show_live |> render()
+
+      assert html =~ "1 Polish"
     end
 
     test "loads without admin link", %{conn: conn, brand: brand} do
