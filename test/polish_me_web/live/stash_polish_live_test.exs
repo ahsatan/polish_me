@@ -67,12 +67,12 @@ defmodule PolishMeWeb.StashPolishLiveTest do
     } do
       {:ok, index_live, html} = live(conn, ~p"/stash/polishes")
 
-      refute html =~ "72"
+      refute html =~ "Broken"
 
-      Stash.update_stash_polish(scope, stash_polish, %{fill_percent: 72})
+      Stash.update_stash_polish(scope, stash_polish, %{status: :broken})
       html = index_live |> render()
 
-      assert html =~ "72"
+      assert html =~ "Broken"
     end
 
     test "updates when stash polish is deleted", %{
