@@ -104,18 +104,6 @@ defmodule PolishMe.Polishes do
     query |> where([p], ^f in p.finishes) |> has_finishes(fs)
   end
 
-  defp sort(query, "brand_desc") do
-    query
-    |> join(:inner, [p], b in assoc(p, :brand))
-    |> order_by([p, b], desc: b.name, asc: p.name)
-  end
-
-  defp sort(query, "brand_asc") do
-    query
-    |> join(:inner, [p], b in assoc(p, :brand))
-    |> order_by([p, b], asc: b.name, asc: p.name)
-  end
-
   defp sort(query, "popularity_desc") do
     query
     |> join(:inner, [p], b in assoc(p, :brand))
@@ -133,7 +121,19 @@ defmodule PolishMe.Polishes do
   end
 
   defp sort(query, "name_desc"), do: query |> order_by(desc: :name)
-  defp sort(query, _name_asc), do: query |> order_by(asc: :name)
+  defp sort(query, "name_asc"), do: query |> order_by(asc: :name)
+
+  defp sort(query, "brand_desc") do
+    query
+    |> join(:inner, [p], b in assoc(p, :brand))
+    |> order_by([p, b], desc: b.name, asc: p.name)
+  end
+
+  defp sort(query, _brand_asc) do
+    query
+    |> join(:inner, [p], b in assoc(p, :brand))
+    |> order_by([p, b], asc: b.name, asc: p.name)
+  end
 
   @doc """
   Gets a single polish.
