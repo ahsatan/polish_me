@@ -57,9 +57,11 @@ defmodule PolishMe.PolishesTest do
     end
 
     test "returns polishes filtered by color" do
+      brand = brand_fixture(%{name: "First name"})
+      other_brand = brand_fixture(%{name: "Second name"})
       polish_fixture(%{colors: [:blue]})
-      polish = polish_fixture(%{name: "First name", colors: [:red, :gold]})
-      other_polish = polish_fixture(%{name: "Second name", colors: [:gold, :green]})
+      polish = polish_fixture(%{colors: [:red, :gold], brand_id: brand.id})
+      other_polish = polish_fixture(%{colors: [:gold, :green], brand_id: other_brand.id})
 
       assert Polishes.filter_polishes(%{"colors" => ["gold"]}) == [polish, other_polish]
       assert Polishes.filter_polishes(%{"colors" => ["gold", "green"]}) == [other_polish]

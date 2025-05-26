@@ -45,9 +45,18 @@ defmodule PolishMe.StashTest do
   describe "filter_polishes/1" do
     test "returns stash polishes with thoughts that match query" do
       scope = user_scope_fixture()
-      stash_polish = stash_polish_fixture(scope, %{thoughts: "Match thoughts"})
+      polish = polish_fixture(%{name: "First name"})
+      other_polish = polish_fixture(%{name: "Second name"})
       stash_polish_fixture(scope, %{thoughts: "Not thoughts"})
-      other_stash_polish = stash_polish_fixture(scope, %{thoughts: "Other match thoughts"})
+
+      stash_polish =
+        stash_polish_fixture(scope, %{thoughts: "Match thoughts", polish_id: polish.id})
+
+      other_stash_polish =
+        stash_polish_fixture(scope, %{
+          thoughts: "Other match thoughts",
+          polish_id: other_polish.id
+        })
 
       assert Stash.filter_stash_polishes(scope, %{"q" => "match"}) == [
                stash_polish,
