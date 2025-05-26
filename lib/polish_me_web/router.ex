@@ -23,10 +23,11 @@ defmodule PolishMeWeb.Router do
     get "/", PageController, :home
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", PolishMeWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", PolishMeWeb.API do
+    pipe_through :api
+
+    get "/brands", BrandController, :index
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:polish_me, :dev_routes) do
