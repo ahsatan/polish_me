@@ -5,6 +5,10 @@ defmodule PolishMeWeb.API.BrandJSON do
     %{brands: Enum.map(brands, &to_json/1)}
   end
 
+  def show(%{brand: brand}) do
+    %{brand: to_json(brand)}
+  end
+
   defp to_json(%Brand{} = brand) do
     %{
       name: brand.name,

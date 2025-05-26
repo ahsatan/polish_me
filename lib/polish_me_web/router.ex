@@ -27,6 +27,7 @@ defmodule PolishMeWeb.Router do
     pipe_through :api
 
     get "/brands", BrandController, :index
+    get "/brands/:slug", BrandController, :show
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

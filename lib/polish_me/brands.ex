@@ -100,6 +100,27 @@ defmodule PolishMe.Brands do
   end
 
   @doc """
+  Gets a single brand.
+
+  Returns error tuple if the Brand does not exist.
+
+  ## Examples
+
+      iex> get_brand!("brand-slug")
+      %Brand{}
+
+      iex> get_brand!("no-such-slug")
+      ** {:error, :not_found}
+
+  """
+  def get_brand(slug) do
+    case Repo.get_by(Brand, slug: slug) do
+      nil -> {:error, :not_found}
+      brand -> {:ok, brand}
+    end
+  end
+
+  @doc """
   Creates a brand.
 
   ## Examples
