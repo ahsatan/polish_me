@@ -89,7 +89,13 @@ defmodule PolishMe.BrandsTest do
   describe "get_brand!/1" do
     test "returns the brand with given slug" do
       brand = brand_fixture()
+
       assert_equal(Brands.get_brand!(brand.slug), brand)
+    end
+
+    test "errors when the brand does not exist" do
+      brand = brand_fixture()
+
       assert_raise Ecto.NoResultsError, fn -> Brands.get_brand!("!" <> brand.slug) end
     end
 
@@ -103,6 +109,20 @@ defmodule PolishMe.BrandsTest do
 
       polish_fixture(%{brand_id: brand.id})
       assert Brands.get_brand!(brand.slug).polish_count == 2
+    end
+  end
+
+  describe "get_brand/1" do
+    test "returns the brand with given slug" do
+      brand = brand_fixture()
+
+      assert {:ok, ^brand} = Brands.get_brand(brand.slug)
+    end
+
+    test "returns an error tuple when the brand does not exist" do
+      brand = brand_fixture()
+
+      assert {:error, :not_found} = Brands.get_brand("!" <> brand.slug)
     end
   end
 
