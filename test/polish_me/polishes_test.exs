@@ -49,9 +49,10 @@ defmodule PolishMe.PolishesTest do
     end
 
     test "returns polishes with name and descriptions that match query" do
+      brand = brand_fixture()
       polish_fixture(%{name: "Not name", description: "Not description"})
-      polish = polish_fixture(%{name: "Match name"})
-      other_polish = polish_fixture(%{description: "Description match"})
+      polish = polish_fixture(%{name: "Match name", brand_id: brand.id})
+      other_polish = polish_fixture(%{description: "Description match", brand_id: brand.id})
 
       assert Polishes.filter_polishes(%{"q" => "match"}) == [polish, other_polish]
     end
@@ -68,9 +69,14 @@ defmodule PolishMe.PolishesTest do
     end
 
     test "returns polishes filtered by finish" do
+      brand = brand_fixture()
       polish_fixture(%{finishes: [:creme]})
-      polish = polish_fixture(%{name: "First name", finishes: [:jelly, :flake]})
-      other_polish = polish_fixture(%{name: "Second name", finishes: [:shimmer, :flake]})
+
+      polish =
+        polish_fixture(%{name: "First name", finishes: [:jelly, :flake], brand_id: brand.id})
+
+      other_polish =
+        polish_fixture(%{name: "Second name", finishes: [:shimmer, :flake], brand_id: brand.id})
 
       assert Polishes.filter_polishes(%{"finishes" => ["flake"]}) == [polish, other_polish]
       assert Polishes.filter_polishes(%{"finishes" => ["shimmer", "flake"]}) == [other_polish]
