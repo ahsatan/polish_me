@@ -15,6 +15,9 @@ defmodule PolishMeWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
+    plug :fetch_live_flash
+    plug :fetch_current_scope_for_user
   end
 
   scope "/", PolishMeWeb do
@@ -31,6 +34,12 @@ defmodule PolishMeWeb.Router do
     get "/polishes", PolishController, :index
     get "/polishes/:brand_slug", PolishController, :index_by_brand
     get "/polishes/:brand_slug/:polish_slug", PolishController, :show
+  end
+
+  scope "/api", PolishMeWeb.API do
+    pipe_through [:api, :require_authenticated_user]
+
+    get "/stash", StashController, :index
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

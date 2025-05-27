@@ -6,8 +6,6 @@ defmodule PolishMe.Stash do
   import Ecto.Query, warn: false
 
   alias PolishMe.Repo
-  alias PolishMe.Brands.Brand
-  alias PolishMe.Polishes.Polish
   alias PolishMe.Stash.StashPolish
   alias PolishMe.Accounts.Scope
 
@@ -265,9 +263,7 @@ defmodule PolishMe.Stash do
   end
 
   defp preload_polish_and_brand(stash_polish) do
-    b_query = Brand |> select([:name, :slug])
-    p_query = Polish |> select([:name, :slug, :brand_id])
-    stash_polish |> Repo.preload(polish: {p_query, [brand: b_query]})
+    stash_polish |> Repo.preload(polish: [:brand])
   end
 
   def get_statuses() do
