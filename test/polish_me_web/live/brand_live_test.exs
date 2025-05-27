@@ -261,5 +261,22 @@ defmodule PolishMeWeb.BrandLiveTest do
 
       assert html =~ "value=\"someones-n-me-n-co\""
     end
+
+    test "displays uploaded image preview", %{conn: conn} do
+      {:ok, form_live, _html} = live(conn, ~p"/brands/new")
+
+      logo =
+        file_input(form_live, "#brand-form", :logo, [
+          %{
+            last_modified: 1_594_171_879_000,
+            name: "logo.svg",
+            content: File.read!("./test/static/cracked.svg"),
+            size: 7_641,
+            type: "image/svg+xml"
+          }
+        ])
+
+      assert render_upload(logo, "logo.svg") =~ "100%"
+    end
   end
 end
