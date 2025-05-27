@@ -6,7 +6,6 @@ defmodule PolishMe.Polishes do
   import Ecto.Query, warn: false
 
   alias PolishMe.Repo
-  alias PolishMe.Brands.Brand
   alias PolishMe.Polishes.Polish
 
   @doc """
@@ -158,6 +157,31 @@ defmodule PolishMe.Polishes do
   end
 
   @doc """
+  Gets a single polish.
+
+  Returns error tuple if the Polish does not exist.
+
+  ## Examples
+
+      iex> get_polish!("brand-slug", "polish-slug")
+      %Brand{}
+
+      iex> get_polish!("bad-slug", "no-such-slug")
+      ** {:error, :not_found}
+
+  """
+  def get_polish(brand_slug, polish_slug) do
+    Polish
+    |> join(:inner, [p], b in assoc(p, :brand))
+    |> where([p, b], b.slug == ^brand_slug and p.slug == ^polish_slug)
+    |> Repo.one()
+    |> case do
+      nil -> {:error, :not_found}
+      polish -> {:ok, polish |> preload_brand()}
+    end
+  end
+
+  @doc """
   Creates a polish.
 
   ## Examples
@@ -218,8 +242,7 @@ defmodule PolishMe.Polishes do
   end
 
   defp preload_brand(polish) do
-    query = Brand |> select([:name, :slug])
-    polish |> Repo.preload(brand: query)
+    polish |> Repo.preload(:brand)
   end
 
   def get_colors() do

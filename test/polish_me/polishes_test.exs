@@ -154,16 +154,38 @@ defmodule PolishMe.PolishesTest do
     end
   end
 
-  test "get_polish!/2 returns the polish with given slugs" do
-    polish = polish_fixture()
-    assert Polishes.get_polish!(polish.brand.slug, polish.slug) == polish
+  describe "get_polish!/2" do
+    test "returns the polish with given slugs" do
+      polish = polish_fixture()
 
-    assert_raise Ecto.NoResultsError, fn ->
-      Polishes.get_polish!("!" <> polish.brand.slug, polish.slug)
+      assert Polishes.get_polish!(polish.brand.slug, polish.slug) == polish
     end
 
-    assert_raise Ecto.NoResultsError, fn ->
-      Polishes.get_polish!(polish.brand.slug, "!" <> polish.slug)
+    test "errors when the polish does not exist" do
+      polish = polish_fixture()
+
+      assert_raise Ecto.NoResultsError, fn ->
+        Polishes.get_polish!("!" <> polish.brand.slug, polish.slug)
+      end
+
+      assert_raise Ecto.NoResultsError, fn ->
+        Polishes.get_polish!(polish.brand.slug, "!" <> polish.slug)
+      end
+    end
+  end
+
+  describe "get_polish/2" do
+    test "returns the polish with given slugs" do
+      polish = polish_fixture()
+
+      assert {:ok, ^polish} = Polishes.get_polish(polish.brand.slug, polish.slug)
+    end
+
+    test "returns an error tuple when the polish does not exist" do
+      polish = polish_fixture()
+
+      assert {:error, :not_found} = Polishes.get_polish("!" <> polish.brand.slug, polish.slug)
+      assert {:error, :not_found} = Polishes.get_polish(polish.brand.slug, "!" <> polish.slug)
     end
   end
 

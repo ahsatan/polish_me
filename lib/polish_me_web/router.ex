@@ -28,6 +28,8 @@ defmodule PolishMeWeb.Router do
 
     get "/brands", BrandController, :index
     get "/brands/:slug", BrandController, :show
+    get "/polishes", PolishController, :index
+    get "/polishes/:brand_slug/:polish_slug", PolishController, :show
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
