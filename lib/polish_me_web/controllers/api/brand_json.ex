@@ -2,14 +2,14 @@ defmodule PolishMeWeb.API.BrandJSON do
   alias PolishMe.Brands.Brand
 
   def index(%{brands: brands}) do
-    %{brands: Enum.map(brands, &to_json/1)}
+    %{brands: Enum.map(brands, &data/1)}
   end
 
   def show(%{brand: brand}) do
-    %{brand: to_json(brand)}
+    %{brand: data(brand)}
   end
 
-  defp to_json(%Brand{} = brand) do
+  defp data(%Brand{} = brand) do
     %{
       name: brand.name,
       description: brand.description,

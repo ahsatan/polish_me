@@ -22,7 +22,7 @@ defmodule PolishMeWeb.API.BrandControllerTest do
       assert b["name"] == brand.name
     end
 
-    test "returns well-formatted error message when brand doesn't exist", %{conn: conn} do
+    test "returns well-formatted error message when brand does not exist", %{conn: conn} do
       conn = get(conn, ~p"/api/brands/slug")
 
       assert %{"errors" => %{"detail" => "Not Found"}} = json_response(conn, 404)

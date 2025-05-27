@@ -14,9 +14,9 @@ defmodule PolishMeWeb.API.BrandJSONTest do
     end
 
     test "gracefully handles empty case" do
-      brands = %{brands: []}
+      params = %{brands: []}
 
-      assert %{brands: []} = BrandJSON.index(brands)
+      assert %{brands: []} = BrandJSON.index(params)
     end
   end
 
