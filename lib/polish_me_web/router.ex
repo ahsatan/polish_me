@@ -29,6 +29,7 @@ defmodule PolishMeWeb.Router do
     get "/brands", BrandController, :index
     get "/brands/:slug", BrandController, :show
     get "/polishes", PolishController, :index
+    get "/polishes/:brand_slug", PolishController, :index_by_brand
     get "/polishes/:brand_slug/:polish_slug", PolishController, :show
   end
 
@@ -74,7 +75,7 @@ defmodule PolishMeWeb.Router do
       live "/brands/:slug", BrandLive.Show, :show
 
       live "/polishes", PolishLive.Index, :index
-      live "/polishes/:brand_slug/", PolishLive.Index, :index_by_brand
+      live "/polishes/:brand_slug", PolishLive.Index, :index_by_brand
       live "/polishes/:brand_slug/:polish_slug", PolishLive.Show, :show
 
       live "/stash/polishes", StashPolishLive.Index, :index
