@@ -94,7 +94,14 @@ defmodule PolishMeWeb.StashPolishLive.Index do
       }>
         <div class="card bg-base-100 w-64 rounded-2xl shadow-md overflow-hidden border border-gray-200">
           <figure>
-            <img src={~p"/uploads/stash/polish/emily_de_molly__bullseye.webp"} alt="Polish" />
+            <img
+              src={
+                if @stash_polish.polish.image_url,
+                  do: @stash_polish.polish.image_url,
+                  else: ~p"/uploads/polish/emily-de-molly__bullseye.webp"
+              }
+              alt="Polish"
+            />
           </figure>
           <div class="card-body">
             <div>

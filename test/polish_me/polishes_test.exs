@@ -15,7 +15,8 @@ defmodule PolishMe.PolishesTest do
     description: "some description",
     topper: true,
     colors: [:red, :gold],
-    finishes: [:flake, :shimmer]
+    finishes: [:flake, :shimmer],
+    image_url: "/uploads/polish/some-brand__some-name"
   }
 
   @invalid_attrs %{
@@ -24,7 +25,8 @@ defmodule PolishMe.PolishesTest do
     description: nil,
     topper: nil,
     colors: nil,
-    finishes: nil
+    finishes: nil,
+    image_url: nil
   }
 
   defp add_brand(attrs) do
@@ -198,6 +200,7 @@ defmodule PolishMe.PolishesTest do
       assert polish.topper
       assert polish.colors == [:red, :gold]
       assert polish.finishes == [:flake, :shimmer]
+      assert polish.image_url == "/uploads/polish/some-brand__some-name"
       assert polish.brand_id
     end
 
@@ -303,7 +306,8 @@ defmodule PolishMe.PolishesTest do
         description: "update description",
         topper: false,
         colors: [:yellow],
-        finishes: [:shimmer]
+        finishes: [:shimmer],
+        image_url: "/uploads/polish/some-brand__update-name"
       }
 
       assert {:ok, %Polish{} = polish} = Polishes.update_polish(polish, update_attrs)

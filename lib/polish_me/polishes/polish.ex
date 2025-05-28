@@ -7,6 +7,7 @@ defmodule PolishMe.Polishes.Polish do
     field :slug, :string
     field :description, :string
     field :topper, :boolean, default: false
+    field :image_url, :string
 
     field :colors, {:array, Ecto.Enum},
       values: [
@@ -60,7 +61,16 @@ defmodule PolishMe.Polishes.Polish do
   @doc false
   def changeset(polish, attrs) do
     polish
-    |> cast(attrs, [:name, :slug, :description, :colors, :finishes, :topper, :brand_id])
+    |> cast(attrs, [
+      :name,
+      :slug,
+      :description,
+      :colors,
+      :finishes,
+      :topper,
+      :image_url,
+      :brand_id
+    ])
     |> validate_required([:name, :slug, :topper, :brand_id])
     |> validate_name()
     |> validate_slug()

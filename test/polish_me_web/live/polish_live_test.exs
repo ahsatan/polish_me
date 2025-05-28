@@ -244,6 +244,22 @@ defmodule PolishMeWeb.PolishLiveTest do
       assert html =~ "value=\"someones-n-me-n-co\""
     end
 
+    test "displays uploaded image preview", %{conn: conn} do
+      {:ok, form_live, _html} = live(conn, ~p"/polishes/new")
+
+      image =
+        file_input(form_live, "#polish-form", :image, [
+          %{
+            name: "image.webp",
+            content: File.read!("./test/static/emily-de-molly__bullseye.webp"),
+            size: 42_502,
+            type: "image/webp"
+          }
+        ])
+
+      assert render_upload(image, "image.webp") =~ "100%"
+    end
+
     test "brand is disabled for existing polish", %{conn: conn, polish: polish} do
       {:ok, form_live, _html} = live(conn, ~p"/polishes/#{polish.brand.slug}/#{polish.slug}/edit")
 
