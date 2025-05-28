@@ -104,9 +104,15 @@ defmodule PolishMe.StashTest do
 
     test "returns stash polishes filtered by finish" do
       scope = user_scope_fixture()
+      brand = brand_fixture()
       not_polish = polish_fixture(%{finishes: [:creme]})
-      polish = polish_fixture(%{name: "First name", finishes: [:jelly, :flake]})
-      other_polish = polish_fixture(%{name: "Second name", finishes: [:shimmer, :flake]})
+
+      polish =
+        polish_fixture(%{name: "First name", finishes: [:jelly, :flake], brand_id: brand.id})
+
+      other_polish =
+        polish_fixture(%{name: "Second name", finishes: [:shimmer, :flake], brand_id: brand.id})
+
       stash_polish_fixture(scope, %{polish_id: not_polish.id})
       stash_polish = stash_polish_fixture(scope, %{polish_id: polish.id})
       other_stash_polish = stash_polish_fixture(scope, %{polish_id: other_polish.id})
