@@ -126,6 +126,20 @@ defmodule PolishMe.BrandsTest do
     end
   end
 
+  describe "get_brand_by_id!/1" do
+    test "returns the brand with the given id" do
+      brand = brand_fixture()
+
+      assert ^brand = Brands.get_brand_by_id!(brand.id)
+    end
+
+    test "errors when the brand does not exist" do
+      brand = brand_fixture()
+
+      assert_raise Ecto.NoResultsError, fn -> Brands.get_brand_by_id!(brand.id + 1000) end
+    end
+  end
+
   describe "create_brand/1" do
     test "with valid data creates a brand" do
       assert {:ok, %Brand{} = brand} = Brands.create_brand(@valid_attrs)

@@ -121,6 +121,24 @@ defmodule PolishMe.Brands do
   end
 
   @doc """
+  Gets a single brand by its id.
+
+    Raises `Ecto.NoResultsError` if the Brand does not exist.
+
+  ## Examples
+
+      iex> get_brand!(123)
+      %Brand{}
+
+      iex> get_brand!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_brand_by_id!(id) do
+    Brand |> Repo.get!(id)
+  end
+
+  @doc """
   Creates a brand.
 
   ## Examples
