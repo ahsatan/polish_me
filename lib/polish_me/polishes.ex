@@ -193,7 +193,7 @@ defmodule PolishMe.Polishes do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_polish(attrs \\ %{}) do
+  def create_polish(attrs) do
     with {:ok, polish = %Polish{}} <-
            %Polish{}
            |> Polish.changeset(attrs)

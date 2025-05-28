@@ -150,7 +150,7 @@ defmodule PolishMe.Brands do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_brand(attrs \\ %{}) do
+  def create_brand(attrs) do
     with {:ok, brand = %Brand{}} <-
            %Brand{}
            |> Brand.changeset(attrs)
