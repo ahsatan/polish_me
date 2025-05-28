@@ -94,8 +94,10 @@ defmodule PolishMeWeb.BrandLive.Form do
     """
   end
 
+  defp error_to_string(:not_accepted),
+    do: "Accepts only .jpg, .jpeg, .png, .svg, and .webp filetypes"
+
   defp error_to_string(:too_many_files), do: "You have selected too many files"
-  defp error_to_string(:not_accepted), do: "Accepts only .jpg, .jpeg, .png, and .svg filetypes"
   defp error_to_string(:too_large), do: "The image is too large"
   defp error_to_string(:external_client_failure), do: "Something went terribly wrong"
 
@@ -143,8 +145,8 @@ defmodule PolishMeWeb.BrandLive.Form do
     {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
   end
 
-  def handle_event("save", %{"brand" => brand_params}, socket) do
-    slug = TextHelpers.name_to_slug(brand_params["name"])
+  def handle_event("save", %{"brand" => %{"name" => name} = brand_params}, socket) do
+    slug = TextHelpers.name_to_slug(name)
 
     {:noreply, socket} =
       case uploaded_entries(socket, :logo) do
@@ -176,6 +178,7 @@ defmodule PolishMeWeb.BrandLive.Form do
   defp type_to_extension("image/jpeg"), do: ".jpg"
   defp type_to_extension("image/png"), do: ".png"
   defp type_to_extension("image/svg+xml"), do: ".svg"
+  defp type_to_extension("image/webp"), do: ".webp"
 
   defp save_brand(socket, :edit, brand_params) do
     case Brands.update_brand(socket.assigns.brand, brand_params) do
