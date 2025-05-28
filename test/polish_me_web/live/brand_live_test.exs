@@ -268,7 +268,6 @@ defmodule PolishMeWeb.BrandLiveTest do
       logo =
         file_input(form_live, "#brand-form", :logo, [
           %{
-            last_modified: 1_594_171_879_000,
             name: "logo.svg",
             content: File.read!("./test/static/cracked.svg"),
             size: 7_641,
