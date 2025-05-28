@@ -11,8 +11,8 @@ defmodule PolishMeWeb.API.PolishControllerTest do
     assert %{"polishes" => [p]} = json_response(conn, 200)
     assert p["name"] == polish.name
     assert p["brand"]["name"] == polish.brand.name
-    assert p["colors"] == ["red", "gold"]
-    assert p["finishes"] == ["shimmer", "flake"]
+    assert p["colors"] == ~w(red gold)
+    assert p["finishes"] == ~w(shimmer flake)
   end
 
   describe "GET /api/polishes/:brand_slug" do
@@ -25,8 +25,8 @@ defmodule PolishMeWeb.API.PolishControllerTest do
       assert %{"brand" => b, "polishes" => [p]} = json_response(conn, 200)
       assert b["name"] == polish.brand.name
       assert p["name"] == polish.name
-      assert p["colors"] == ["red", "gold"]
-      assert p["finishes"] == ["shimmer", "flake"]
+      assert p["colors"] == ~w(red gold)
+      assert p["finishes"] == ~w(shimmer flake)
     end
 
     test "returns well-formatted error message when brand does not exist", %{conn: conn} do
@@ -45,8 +45,8 @@ defmodule PolishMeWeb.API.PolishControllerTest do
       assert %{"polish" => p} = json_response(conn, 200)
       assert p["name"] == polish.name
       assert p["brand"]["name"] == polish.brand.name
-      assert p["colors"] == ["red", "gold"]
-      assert p["finishes"] == ["shimmer", "flake"]
+      assert p["colors"] == ~w(red gold)
+      assert p["finishes"] == ~w(shimmer flake)
     end
 
     test "returns well-formatted error message when polish does not exist", %{conn: conn} do
